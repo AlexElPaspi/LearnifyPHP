@@ -17,12 +17,13 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('welcome'); // Vista de inicio para usuarios no loggeados
+})->middleware('guest');
 
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'login']);
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register')->middleware('guest');
+Route::post('register', [RegisterController::class, 'register'])->middleware('guest');
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest');
+Route::post('login', [LoginController::class, 'login'])->middleware('guest');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
+
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home'); // Vista de inicio para usuarios ya loggeados
