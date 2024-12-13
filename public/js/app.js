@@ -2341,16 +2341,38 @@ __webpack_require__.r(__webpack_exports__);
 
 var NavBar = function NavBar() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("nav", {
+    className: "bg-blue-500 text-white xl:px-3 xl:py-7",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ul", {
+      className: "flex text-center justify-end xl:space-x-3 xl:text-lg",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
-          href: "/login",
-          children: "Login"
+          href: "/benefits",
+          className: "hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
+          children: "Beneficios"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+          href: "/aboutus",
+          className: "hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
+          children: "Sobre Nosotros"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+          href: "/contact",
+          className: "hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
+          children: "Contacto"
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
           href: "/register",
-          children: "Register"
+          className: "hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
+          children: "Registrarse"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+          href: "/login",
+          className: "hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
+          children: "Iniciar Sesi\xF3n"
         })
       })]
     })
