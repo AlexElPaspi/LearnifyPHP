@@ -2340,42 +2340,50 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var NavBar = function NavBar() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("nav", {
-    className: "bg-blue-500 text-white xl:px-3 xl:py-7",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ul", {
-      className: "flex text-center justify-end xl:space-x-3 xl:text-lg",
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("nav", {
+    className: "text-white flex justify-between",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+      href: "/",
+      className: "flex",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+        src: "/images/logo-learnify.jpeg",
+        alt: "Learnify",
+        className: "w-20"
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ul", {
+      className: "flex text-center justify-end xl:space-x-3 xl:text-lg xl:px-3 xl:py-7",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
           href: "/benefits",
-          className: "hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
+          className: "transition-all hover:transition-all hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
           children: "Beneficios"
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
           href: "/aboutus",
-          className: "hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
+          className: "transition-all hover:transition-all hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
           children: "Sobre Nosotros"
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
           href: "/contact",
-          className: "hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
+          className: "transition-all hover:transition-all hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
           children: "Contacto"
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
           href: "/register",
-          className: "hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
+          className: "transition-all hover:transition-all hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
           children: "Registrarse"
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
           href: "/login",
-          className: "hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
+          className: "transition-all hover:transition-all hover:bg-white hover:bg-opacity-50 hover:text-black xl:py-1 xl:px-3 rounded",
           children: "Iniciar Sesi\xF3n"
         })
       })]
-    })
+    })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavBar);
@@ -2467,11 +2475,65 @@ __webpack_require__.r(__webpack_exports__);
 
 var WelcomeComponent = function WelcomeComponent() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
-      children: "Welcome"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-      children: "This is the welcome page content for non-logged in users."
-    })]
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "welcome-banner",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "bg-black bg-opacity-70 flex flex-col justify-center items-center xl:p-20 text-white",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
+            className: "xl:text-6xl xl:pb-5",
+            children: "\xA1Bienvenido a Learnify!"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+            className: "xl:text-4xl",
+            children: "La plataforma donde puedes ense\xF1ar, aprender y crecer."
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+            className: "italic xl:text-xl",
+            children: "Crea y vende tu contenido o accede a un mundo de conocimiento"
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "flex justify-center xl:space-x-20 xl:p-14",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "w-5/12 flex flex-col justify-center items-center text-center bg-gray-200 xl:py-6 xl:rounded-2xl shadow-md shadow-gray-300 xl:space-y-6",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+            className: "xl:text-2xl xl:w-8/12",
+            children: "\xA1Inscr\xEDbete ahora y descubre nuevas oportunidades!"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+            src: "/images/welcome-card-1.png",
+            alt: "welcome-card",
+            className: "xl:w-40"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("a", {
+            href: "/register",
+            className: "welcome-card-button relative text-white xl:text-xl xl:py-1 xl:px-5 rounded-xl overflow-hidden group",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+              className: "relative z-10",
+              children: "Empieza ahora!"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "absolute inset-0 bg-black opacity-0 transition-all duration-300 transform -translate-x-full group-hover:translate-x-0 group-hover:opacity-100"
+            })]
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "w-5/12 flex flex-col justify-center items-center text-center bg-gray-200 xl:py-6 xl:rounded-2xl shadow-md shadow-gray-300 xl:space-y-6",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+            className: "xl:text-2xl xl:w-8/12",
+            children: "Reanuda tu viaje de aprendizaje."
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+            src: "/images/welcome-card-2.png",
+            alt: "welcome-card",
+            className: "xl:w-36"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("a", {
+            href: "/login",
+            className: "welcome-card-button relative text-white xl:text-xl xl:py-1 xl:px-5 rounded-xl overflow-hidden group",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+              className: "relative z-10",
+              children: "\xA1Entra ya!"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "absolute inset-0 bg-black opacity-0 transition-all duration-300 transform -translate-x-full group-hover:translate-x-0 group-hover:opacity-100"
+            })]
+          })]
+        })]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {})]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WelcomeComponent);

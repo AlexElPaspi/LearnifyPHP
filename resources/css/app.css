@@ -2,3 +2,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    font-family: "Poppins", serif;
+}
+
+nav, .welcome-card-button{
+    background: rgb(52,173,218);
+    background: linear-gradient(90deg, rgba(52,173,218,1) 0%, rgba(30,136,198,1) 30%, rgba(14,68,114,1) 100%);
+}
+
+.welcome-banner{
+    background: url('/images/welcome-banner.png');
+    background-size: cover;
+}
