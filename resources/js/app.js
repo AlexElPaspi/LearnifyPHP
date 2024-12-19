@@ -6,6 +6,7 @@ import HomeComponent from './components/HomeComponent.js';
 import WelcomeComponent from './components/WelcomeComponent.js';
 import LoginComponent from './components/LoginComponent.js';
 import RegisterComponent from './components/RegisterComponent.js';
+import Footer from './components/Footer.js';
 
 axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -32,6 +33,7 @@ function App() {
         <div>
             <NavBar />
             <Component />
+            <Footer />
         </div>
     );
 }

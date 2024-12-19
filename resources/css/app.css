@@ -16,3 +16,12 @@ nav, .welcome-card-button{
     background: url('/images/welcome-banner.png');
     background-size: cover;
 }
+
+.welcome-two{
+    background: rgb(52,173,218);
+    background: linear-gradient(270deg, rgba(52,173,218,1) 0%, rgba(30,136,198,1) 30%, rgba(14,68,114,1) 100%);
+}
+
+.welcome-paragraph{
+    line-height: 2;
+}
