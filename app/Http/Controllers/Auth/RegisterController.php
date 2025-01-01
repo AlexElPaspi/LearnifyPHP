@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -17,14 +18,23 @@ class RegisterController extends Controller
 
     protected function register(Request $request)
     {
-        $this->validator($request->all())->validate();
+        try {
+            Log::info('Iniciando registro de usuario:', $request->all());
+            $this->validator($request->all())->validate();
 
-        $user = $this->create($request->all());
+            $user = $this->create($request->all());
+            Log::info('Usuario creado:', ['user_id' => $user->id]);
 
-        // Autenticar al usuario una vez registrado
-        auth()->login($user);
+            // Autenticar al usuario una vez registrado
+            auth()->login($user);
 
-        return redirect()->route('home');
+            Log::info('Usuario autenticado:', ['user_id' => $user->id]);
+
+            return redirect()->route('home');
+        } catch (\Exception $e) {
+            Log::error('Error registrando el usuario:', ['error' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Error registrando el usuario. Por favor, inténtelo de nuevo.');
+        }
     }
 
     protected function validator(array $data)
@@ -40,13 +50,21 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
+        // Obtener el primer nombre y la primera letra del primer apellido
+        $firstName = explode(' ', $data['first_name'])[0];
+        $firstLastNameLetter = substr(explode(' ', $data['last_name'])[0], 0, 1);
+
+        // Generar el nickname
+        $nickname = "{$firstName} {$firstLastNameLetter}.";
+
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'birth_date' => $data['birth_date'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role' => $data['role'],
+            'role' => 'user', // Asigna el rol "user" automáticamente
+            'nickname' => $nickname, // Asigna el nickname generado automáticamente
         ]);
     }
 }

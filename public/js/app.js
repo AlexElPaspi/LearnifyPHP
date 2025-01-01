@@ -2167,13 +2167,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var _components_NavBar_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/NavBar.js */ "./resources/js/components/NavBar.js");
-/* harmony import */ var _components_HomeComponent_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/HomeComponent.js */ "./resources/js/components/HomeComponent.js");
-/* harmony import */ var _components_WelcomeComponent_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/WelcomeComponent.js */ "./resources/js/components/WelcomeComponent.js");
-/* harmony import */ var _components_LoginComponent_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/LoginComponent.js */ "./resources/js/components/LoginComponent.js");
-/* harmony import */ var _components_RegisterComponent_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/RegisterComponent.js */ "./resources/js/components/RegisterComponent.js");
-/* harmony import */ var _components_Footer_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Footer.js */ "./resources/js/components/Footer.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-K6AXKMTT.mjs");
+/* harmony import */ var _context_AuthContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./context/AuthContext */ "./resources/js/context/AuthContext.js");
+/* harmony import */ var _components_NavBar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/NavBar.js */ "./resources/js/components/NavBar.js");
+/* harmony import */ var _components_LoggedNav_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/LoggedNav.js */ "./resources/js/components/LoggedNav.js");
+/* harmony import */ var _components_HomeComponent_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/HomeComponent.js */ "./resources/js/components/HomeComponent.js");
+/* harmony import */ var _components_WelcomeComponent_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/WelcomeComponent.js */ "./resources/js/components/WelcomeComponent.js");
+/* harmony import */ var _components_LoginComponent_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/LoginComponent.js */ "./resources/js/components/LoginComponent.js");
+/* harmony import */ var _components_RegisterComponent_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/RegisterComponent.js */ "./resources/js/components/RegisterComponent.js");
+/* harmony import */ var _components_Footer_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Footer.js */ "./resources/js/components/Footer.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
@@ -2184,32 +2189,60 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-function App() {
-  var path = window.location.pathname;
-  var Component;
-  switch (path) {
-    case '/home':
-      Component = _components_HomeComponent_js__WEBPACK_IMPORTED_MODULE_3__["default"];
-      break;
-    case '/login':
-      Component = _components_LoginComponent_js__WEBPACK_IMPORTED_MODULE_5__["default"];
-      break;
-    case '/register':
-      Component = _components_RegisterComponent_js__WEBPACK_IMPORTED_MODULE_6__["default"];
-      break;
-    default:
-      // Cuando la ruta es "/" (Usuario no loggeado)
-      Component = _components_WelcomeComponent_js__WEBPACK_IMPORTED_MODULE_4__["default"];
-      break;
+
+
+
+
+// Configurar Axios para enviar cookies de sesión y CSRF token con las solicitudes API
+
+(axios__WEBPACK_IMPORTED_MODULE_10___default().defaults).withCredentials = true;
+
+// Agregar un interceptor para configurar el token CSRF en cada solicitud
+axios__WEBPACK_IMPORTED_MODULE_10___default().interceptors.request.use(function (config) {
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  if (token) {
+    config.headers['X-CSRF-TOKEN'] = token;
   }
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_NavBar_js__WEBPACK_IMPORTED_MODULE_2__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(Component, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_components_Footer_js__WEBPACK_IMPORTED_MODULE_7__["default"], {})]
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+(axios__WEBPACK_IMPORTED_MODULE_10___default().defaults).headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+function App() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_context_AuthContext__WEBPACK_IMPORTED_MODULE_2__.AuthProvider, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.BrowserRouter, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(YourAppContent, {})
+    })
   });
 }
+var YourAppContent = function YourAppContent() {
+  var _useAuth = (0,_context_AuthContext__WEBPACK_IMPORTED_MODULE_2__.useAuth)(),
+    isAuthenticated = _useAuth.isAuthenticated;
+  var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_12__.useLocation)();
+
+  // Páginas donde se debe cargar `LoggedNav`
+  var loggedInRoutes = ['/home'];
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+    children: [loggedInRoutes.includes(location.pathname) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_LoggedNav_js__WEBPACK_IMPORTED_MODULE_4__["default"], {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_NavBar_js__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Routes, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+        path: "/home",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_HomeComponent_js__WEBPACK_IMPORTED_MODULE_5__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+        path: "/login",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_LoginComponent_js__WEBPACK_IMPORTED_MODULE_7__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+        path: "/register",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_RegisterComponent_js__WEBPACK_IMPORTED_MODULE_8__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+        path: "/",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_WelcomeComponent_js__WEBPACK_IMPORTED_MODULE_6__["default"], {})
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_components_Footer_js__WEBPACK_IMPORTED_MODULE_9__["default"], {})]
+  });
+};
 var container = document.getElementById('app');
 var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container);
-root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(App, {}));
+root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(App, {}));
 
 /***/ }),
 
@@ -2424,6 +2457,94 @@ var HomeComponent = function HomeComponent() {
 
 /***/ }),
 
+/***/ "./resources/js/components/LoggedNav.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/LoggedNav.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _context_AuthContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../context/AuthContext */ "./resources/js/context/AuthContext.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+var LoggedNav = function LoggedNav() {
+  var _useAuth = (0,_context_AuthContext__WEBPACK_IMPORTED_MODULE_1__.useAuth)(),
+    nickname = _useAuth.nickname;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("nav", {
+    className: "text-white flex flex-col justify-between sticky top-0 z-20",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "loggednavup flex justify-between items-center",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+        src: "/images/logo-learnify.jpeg",
+        alt: "Learnify",
+        className: "w-20"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+        type: "search",
+        className: "w-1/2 h-fit xl:p-2 xl:text-base text-black xl:rounded-lg",
+        name: "search_course",
+        id: "search_course",
+        placeholder: "\xBFQu\xE9 te interesa aprender hoy?"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "ml-4 text-black",
+        children: nickname
+      }), " "]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "loggednavdown w-full bg-blue-200",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("ul", {
+        className: "flex text-center text-gray-500 xl:text-base xl:py-3",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+            href: "/home",
+            className: "border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4",
+            children: "Inicio"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+            href: "/aboutus",
+            className: "border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4",
+            children: "Cursos"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+            href: "/contact",
+            className: "border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4",
+            children: "Categor\xEDas"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+            href: "/register",
+            className: "border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4",
+            children: "Cursos Comprados"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+            href: "/login",
+            className: "border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4",
+            children: "Cursos Creados"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+            href: "/login",
+            className: "transition-all hover:transition-all hover:text-black xl:px-4",
+            children: "Comunidad"
+          })
+        })]
+      })
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LoggedNav);
+
+/***/ }),
+
 /***/ "./resources/js/components/LoginComponent.js":
 /*!***************************************************!*\
   !*** ./resources/js/components/LoginComponent.js ***!
@@ -2438,30 +2559,128 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 var LoginComponent = function LoginComponent() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    showPassword = _useState2[0],
+    setShowPassword = _useState2[1];
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
-      method: "POST",
-      action: "/login",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "hidden",
-        name: "_token",
-        value: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "email",
-        name: "email",
-        placeholder: "Email",
-        required: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "password",
-        name: "password",
-        placeholder: "Password",
-        required: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-        type: "submit",
-        children: "Login"
+    className: "login flex justify-end items-center xl:pt-5 xl:pb-10 xl:pr-32 bg h-fit",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "flex flex-col items-center justify-center w-1/3 h-full xl:space-y-12",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+        className: "xl:text-4xl text-white text-center",
+        children: "\xA1Aprende sin l\xEDmites, ense\xF1a sin fronteras!"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
+        method: "POST",
+        action: "/login",
+        className: "form-container flex flex-col items-center bg-white xl:px-12 xl:py-10 w-full xl:space-y-6 xl:rounded-xl shadow-sm shadow-black h-[calc(100vh-42vh)] overflow-auto",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+          className: "xl:text-2xl text-center",
+          children: "Inicia sesi\xF3n"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+          type: "hidden",
+          name: "_token",
+          value: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+          type: "email",
+          className: "w-full xl:text-base xl:py-2 xl:px-3 border border-black xl:rounded-lg",
+          name: "email",
+          placeholder: "Correo Electr\xF3nico",
+          required: true
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "relative w-full",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+            type: showPassword ? 'text' : 'password',
+            className: "w-full xl:text-base xl:py-2 xl:px-3 border border-black xl:rounded-lg",
+            name: "password",
+            placeholder: "Contrase\xF1a",
+            required: true
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+            type: "button",
+            onClick: function onClick() {
+              return setShowPassword(!showPassword);
+            },
+            className: "absolute right-3 top-3 text-gray-600",
+            children: showPassword ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "24",
+              height: "24",
+              viewBox: "0 0 24 24",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("g", {
+                fill: "none",
+                stroke: "currentColor",
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                strokeWidth: "1.5",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+                  d: "M2.55 13.406c-.272-.373-.408-.56-.502-.92a2.5 2.5 0 0 1 0-.971c.094-.361.23-.548.502-.92C4.039 8.55 7.303 5 12 5s7.961 3.55 9.45 5.594c.272.373.408.56.502.92a2.5 2.5 0 0 1 0 .971c-.094.361-.23.548-.502.92C19.961 15.45 16.697 19 12 19s-7.961-3.55-9.45-5.594"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+                  d: "M12 14a2 2 0 1 0 0-4a2 2 0 0 0 0 4m9-11L3 21"
+                })]
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "24",
+              height: "24",
+              viewBox: "0 0 24 24",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("g", {
+                fill: "none",
+                stroke: "currentColor",
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                strokeWidth: "1.5",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+                  d: "M2.55 13.406c-.272-.373-.408-.56-.502-.92a2.5 2.5 0 0 1 0-.971c.094-.361.23-.548.502-.92C4.039 8.55 7.303 5 12 5s7.961 3.55 9.45 5.594c.272.373.408.56.502.92a2.5 2.5 0 0 1 0 .971c-.094.361-.23.548-.502.92C19.961 15.45 16.697 19 12 19s-7.961-3.55-9.45-5.594"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+                  d: "M12 14a2 2 0 1 0 0-4a2 2 0 0 0 0 4"
+                })]
+              })
+            })
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+          href: "/",
+          className: "xl:text-base text-gray-500 hover:text-cyan-700 hover:underline",
+          children: "\xBFOlvidaste tu contrase\xF1a?"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          type: "submit",
+          className: "bg-cyan-600 xl:text-base w-fit text-white xl:py-2 xl:px-14 xl:rounded-lg",
+          children: "Iniciar Sesi\xF3n"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
+          className: "xl:text-base",
+          children: ["\xBFNo tienes una cuenta? ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+            href: "/register",
+            className: "text-cyan-700 hover:underline",
+            children: "\xDAnete ahora!"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+          className: "xl:text-xs text-justify text-gray-500 !leading-relaxed",
+          children: ["Recuerda que siendo parte de Learnify est\xE1s aceptando los ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+            href: "/",
+            className: "underline hover:text-cyan-700",
+            children: "T\xE9rminos y Condiciones"
+          }), ", la ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+            href: "/",
+            className: "underline hover:text-cyan-700",
+            children: "Pol\xEDtica de Privacidad"
+          }), ", la ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+            href: "/",
+            className: "underline hover:text-cyan-700",
+            children: "Pol\xEDtica de Tratamiento de Datos"
+          }), " y la ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+            href: "/",
+            className: "underline hover:text-cyan-700",
+            children: "Pol\xEDtica de Cookies"
+          }), " de Learnify."]
+        })]
       })]
     })
   });
@@ -2489,10 +2708,10 @@ __webpack_require__.r(__webpack_exports__);
 
 var NavBar = function NavBar() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("nav", {
-    className: "text-white flex justify-between",
+    className: "text-white flex justify-between sticky top-0 z-20",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
       href: "/",
-      className: "flex",
+      className: "navbar-home flex",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
         src: "/images/logo-learnify.jpeg",
         alt: "Learnify",
@@ -2551,52 +2770,310 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flatpickr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flatpickr */ "./node_modules/flatpickr/dist/esm/index.js");
+/* harmony import */ var flatpickr_dist_flatpickr_min_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flatpickr/dist/flatpickr.min.css */ "./node_modules/flatpickr/dist/flatpickr.min.css");
+/* harmony import */ var flatpickr_dist_l10n_es_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flatpickr/dist/l10n/es.js */ "./node_modules/flatpickr/dist/l10n/es.js");
+/* harmony import */ var flatpickr_dist_l10n_es_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flatpickr_dist_l10n_es_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
+
+
 
 
 var RegisterComponent = function RegisterComponent() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
-      method: "POST",
-      action: "/register",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "text",
-        name: "first_name",
-        placeholder: "First Name",
-        required: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "text",
-        name: "last_name",
-        placeholder: "Last Name",
-        required: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "date",
-        name: "birth_date",
-        placeholder: "Birth Date",
-        required: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "email",
-        name: "email",
-        placeholder: "Email",
-        required: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "password",
-        name: "password",
-        placeholder: "Password",
-        required: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "password",
-        name: "password_confirmation",
-        placeholder: "Confirm Password",
-        required: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "text",
-        name: "role",
-        placeholder: "Role",
-        required: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-        type: "submit",
-        children: "Register"
+  var birthDateRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    showPassword = _useState2[0],
+    setShowPassword = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    showConfirmPassword = _useState4[0],
+    setShowConfirmPassword = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+      first_name: '',
+      last_name: '',
+      birth_date: '',
+      email: '',
+      password: '',
+      password_confirmation: ''
+    }),
+    _useState6 = _slicedToArray(_useState5, 2),
+    formData = _useState6[0],
+    setFormData = _useState6[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log('useEffect: Initializing Flatpickr');
+    (0,flatpickr__WEBPACK_IMPORTED_MODULE_2__["default"])(birthDateRef.current, {
+      locale: flatpickr_dist_l10n_es_js__WEBPACK_IMPORTED_MODULE_4__.Spanish,
+      dateFormat: 'Y-m-d',
+      disableMobile: true,
+      // Para asegurar que se usa el Flatpickr en dispositivos móviles también
+      onChange: function onChange(selectedDates, dateStr) {
+        console.log('Date selected:', dateStr);
+        setFormData(function (prevData) {
+          return _objectSpread(_objectSpread({}, prevData), {}, {
+            birth_date: dateStr
+          });
+        });
+      }
+    });
+  }, []);
+  var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState8 = _slicedToArray(_useState7, 2),
+    errorMessage = _useState8[0],
+    setErrorMessage = _useState8[1];
+  var handleChange = function handleChange(e) {
+    console.log("handleChange: Updating formData [".concat(e.target.name, "]"), e.target.value); // Añadir un log para verificar el cambio
+    setFormData(_objectSpread(_objectSpread({}, formData), {}, _defineProperty({}, e.target.name, e.target.value)));
+  };
+  var handleSubmit = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
+      var response;
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            e.preventDefault();
+            console.log('handleSubmit: Form submitted'); // Añadir un log para verificar que se llama a handleSubmit
+
+            // Verificar que todos los campos estén completos
+            if (!(!formData.first_name || !formData.last_name || !formData.birth_date || !formData.email || !formData.password || !formData.password_confirmation)) {
+              _context.next = 6;
+              break;
+            }
+            setErrorMessage('Por favor, complete todos los campos requeridos.');
+            console.log('handleSubmit: Form fields incomplete'); // Añadir un log para verificar los campos incompletos
+            return _context.abrupt("return");
+          case 6:
+            _context.prev = 6;
+            console.log('Submitting form', _objectSpread(_objectSpread({}, formData), {}, {
+              _token: csrfToken
+            })); // Añadir un log para verificar la información enviada
+            _context.next = 10;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default().post('/register', _objectSpread(_objectSpread({}, formData), {}, {
+              _token: csrfToken
+            }));
+          case 10:
+            response = _context.sent;
+            console.log('Response from server:', response); // Añadir un log para verificar la respuesta del servidor
+            window.location.href = '/home'; // Redirigir al usuario a la página de inicio después del registro exitoso
+            _context.next = 19;
+            break;
+          case 15:
+            _context.prev = 15;
+            _context.t0 = _context["catch"](6);
+            setErrorMessage('Error registrando el usuario. Por favor, inténtelo de nuevo.');
+            console.error('Error registrando el usuario:', _context.t0);
+          case 19:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, null, [[6, 15]]);
+    }));
+    return function handleSubmit(_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    className: "register flex justify-end items-center xl:pt-5 xl:pb-10 xl:pr-32 bg h-fit",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "flex flex-col items-center justify-center w-1/3 h-full xl:space-y-12",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
+        className: "xl:text-4xl text-white text-center",
+        children: "\xA1Aprende sin l\xEDmites, ense\xF1a sin fronteras!"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("form", {
+        onSubmit: handleSubmit,
+        className: "form-container flex flex-col items-center bg-white xl:px-12 xl:py-10 w-full xl:space-y-6 xl:rounded-xl shadow-sm shadow-black h-[calc(100vh-42vh)] overflow-auto",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h3", {
+          className: "xl:text-2xl text-center",
+          children: "Reg\xEDstrate"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+          type: "hidden",
+          name: "_token",
+          value: csrfToken
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+          type: "text",
+          className: "w-full xl:text-base xl:py-2 xl:px-3 border border-black xl:rounded-lg",
+          name: "first_name",
+          placeholder: "Nombre(s)",
+          required: true,
+          onChange: handleChange
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+          type: "text",
+          className: "w-full xl:text-base xl:py-2 xl:px-3 border border-black xl:rounded-lg",
+          name: "last_name",
+          placeholder: "Apellidos",
+          required: true,
+          onChange: handleChange
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+          type: "email",
+          className: "w-full xl:text-base xl:py-2 xl:px-3 border border-black xl:rounded-lg",
+          name: "email",
+          placeholder: "Correo Electr\xF3nico",
+          required: true,
+          onChange: handleChange
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+          type: "text",
+          ref: birthDateRef,
+          className: "w-full xl:text-base xl:py-2 xl:px-3 border border-black xl:rounded-lg",
+          name: "birth_date",
+          placeholder: "Fecha de Nacimiento",
+          required: true,
+          onChange: handleChange
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          className: "relative w-full",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+            type: showPassword ? 'text' : 'password',
+            className: "w-full xl:text-base xl:py-2 xl:px-3 border border-black xl:rounded-lg",
+            name: "password",
+            placeholder: "Contrase\xF1a",
+            required: true,
+            onChange: handleChange
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            type: "button",
+            onClick: function onClick() {
+              return setShowPassword(!showPassword);
+            },
+            className: "absolute right-3 top-3 text-gray-600",
+            children: showPassword ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "24",
+              height: "24",
+              viewBox: "0 0 24 24",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("g", {
+                fill: "none",
+                stroke: "currentColor",
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round",
+                "stroke-width": "1.5",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+                  d: "M2.55 13.406c-.272-.373-.408-.56-.502-.92a2.5 2.5 0 0 1 0-.971c.094-.361.23-.548.502-.92C4.039 8.55 7.303 5 12 5s7.961 3.55 9.45 5.594c.272.373.408.56.502.92a2.5 2.5 0 0 1 0 .971c-.094.361-.23.548-.502.92C19.961 15.45 16.697 19 12 19s-7.961-3.55-9.45-5.594"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+                  d: "M12 14a2 2 0 1 0 0-4a2 2 0 0 0 0 4m9-11L3 21"
+                })]
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "24",
+              height: "24",
+              viewBox: "0 0 24 24",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("g", {
+                fill: "none",
+                stroke: "currentColor",
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round",
+                "stroke-width": "1.5",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+                  d: "M2.55 13.406c-.272-.373-.408-.56-.502-.92a2.5 2.5 0 0 1 0-.971c.094-.361.23-.548.502-.92C4.039 8.55 7.303 5 12 5s7.961 3.55 9.45 5.594c.272.373.408.56.502.92a2.5 2.5 0 0 1 0 .971c-.094.361-.23.548-.502.92C19.961 15.45 16.697 19 12 19s-7.961-3.55-9.45-5.594"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+                  d: "M12 14a2 2 0 1 0 0-4a2 2 0 0 0 0 4"
+                })]
+              })
+            })
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          className: "relative w-full",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+            type: showConfirmPassword ? 'text' : 'password',
+            className: "w-full xl:text-base xl:py-2 xl:px-3 border border-black xl:rounded-lg",
+            name: "password_confirmation",
+            placeholder: "Confirmar Contrase\xF1a",
+            required: true,
+            onChange: handleChange
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            type: "button",
+            onClick: function onClick() {
+              return setShowConfirmPassword(!showConfirmPassword);
+            },
+            className: "absolute right-3 top-3 text-gray-600",
+            children: showConfirmPassword ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "24",
+              height: "24",
+              viewBox: "0 0 24 24",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("g", {
+                fill: "none",
+                stroke: "currentColor",
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round",
+                "stroke-width": "1.5",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+                  d: "M2.55 13.406c-.272-.373-.408-.56-.502-.92a2.5 2.5 0 0 1 0-.971c.094-.361.23-.548.502-.92C4.039 8.55 7.303 5 12 5s7.961 3.55 9.45 5.594c.272.373.408.56.502.92a2.5 2.5 0 0 1 0 .971c-.094.361-.23.548-.502.92C19.961 15.45 16.697 19 12 19s-7.961-3.55-9.45-5.594"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+                  d: "M12 14a2 2 0 1 0 0-4a2 2 0 0 0 0 4m9-11L3 21"
+                })]
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
+              xmlns: "http://www.w3.org/2000/svg",
+              width: "24",
+              height: "24",
+              viewBox: "0 0 24 24",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("g", {
+                fill: "none",
+                stroke: "currentColor",
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round",
+                "stroke-width": "1.5",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+                  d: "M2.55 13.406c-.272-.373-.408-.56-.502-.92a2.5 2.5 0 0 1 0-.971c.094-.361.23-.548.502-.92C4.039 8.55 7.303 5 12 5s7.961 3.55 9.45 5.594c.272.373.408.56.502.92a2.5 2.5 0 0 1 0 .971c-.094.361-.23.548-.502.92C19.961 15.45 16.697 19 12 19s-7.961-3.55-9.45-5.594"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+                  d: "M12 14a2 2 0 1 0 0-4a2 2 0 0 0 0 4"
+                })]
+              })
+            })
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+          type: "submit",
+          className: "bg-cyan-600 xl:text-base w-fit text-white xl:py-2 xl:px-14 xl:rounded-lg hover:bg-black",
+          children: "Registrarse"
+        }), errorMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "text-red-500",
+          children: errorMessage
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("h4", {
+          className: "xl:text-base",
+          children: ["\xBFYa tienes una cuenta? ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+            href: "/login",
+            className: "text-cyan-700 hover:underline",
+            children: "Entra ya!"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
+          className: "xl:text-xs text-justify text-gray-500 !leading-relaxed",
+          children: ["Al registrarte, aceptas los ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+            href: "/",
+            className: "underline hover:text-cyan-700",
+            children: "T\xE9rminos y Condiciones"
+          }), ", la ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+            href: "/",
+            className: "underline hover:text-cyan-700",
+            children: "Pol\xEDtica de Privacidad"
+          }), ", la ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+            href: "/",
+            className: "underline hover:text-cyan-700",
+            children: "Pol\xEDtica de Tratamiento de Datos"
+          }), " y la ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+            href: "/",
+            className: "underline hover:text-cyan-700",
+            children: "Pol\xEDtica de Cookies"
+          }), " de Learnify."]
+        })]
       })]
     })
   });
@@ -2841,6 +3318,3021 @@ var WelcomeComponent = function WelcomeComponent() {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WelcomeComponent);
+
+/***/ }),
+
+/***/ "./resources/js/context/AuthContext.js":
+/*!*********************************************!*\
+  !*** ./resources/js/context/AuthContext.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   AuthProvider: () => (/* binding */ AuthProvider),
+/* harmony export */   useAuth: () => (/* binding */ useAuth)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
+
+// Configurar Axios para enviar cookies de sesión con las solicitudes API
+
+(axios__WEBPACK_IMPORTED_MODULE_1___default().defaults).withCredentials = true;
+
+// Crear el contexto
+var AuthContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)();
+
+// Proveedor del contexto
+var AuthProvider = function AuthProvider(_ref) {
+  var children = _ref.children;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState2 = _slicedToArray(_useState, 2),
+    nickname = _useState2[0],
+    setNickname = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    isAuthenticated = _useState4[0],
+    setIsAuthenticated = _useState4[1];
+
+  // Función para comprobar si el usuario está autenticado
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var checkAuth = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var authResponse, nicknameResponse;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/check-auth');
+            case 3:
+              authResponse = _context.sent;
+              if (!(authResponse.data && authResponse.data.authenticated)) {
+                _context.next = 12;
+                break;
+              }
+              setIsAuthenticated(authResponse.data.authenticated);
+              _context.next = 8;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/get-nickname');
+            case 8:
+              nicknameResponse = _context.sent;
+              // Ruta para obtener el nickname
+              if (nicknameResponse.data) {
+                setNickname(nicknameResponse.data.nickname); // Establecer el nickname
+              }
+              _context.next = 14;
+              break;
+            case 12:
+              setIsAuthenticated(false);
+              setNickname('');
+            case 14:
+              _context.next = 20;
+              break;
+            case 16:
+              _context.prev = 16;
+              _context.t0 = _context["catch"](0);
+              setIsAuthenticated(false);
+              setNickname('');
+            case 20:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[0, 16]]);
+      }));
+      return function checkAuth() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+    checkAuth();
+  }, []);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(AuthContext.Provider, {
+    value: {
+      isAuthenticated: isAuthenticated,
+      nickname: nickname
+    },
+    children: children
+  });
+};
+
+// Hook personalizado para usar el contexto
+var useAuth = function useAuth() {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(AuthContext);
+};
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/flatpickr/dist/flatpickr.min.css":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/flatpickr/dist/flatpickr.min.css ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".flatpickr-calendar{background:transparent;opacity:0;display:none;text-align:center;visibility:hidden;padding:0;-webkit-animation:none;animation:none;direction:ltr;border:0;font-size:14px;line-height:24px;border-radius:5px;position:absolute;width:307.875px;-webkit-box-sizing:border-box;box-sizing:border-box;-ms-touch-action:manipulation;touch-action:manipulation;background:#fff;-webkit-box-shadow:1px 0 0 #e6e6e6,-1px 0 0 #e6e6e6,0 1px 0 #e6e6e6,0 -1px 0 #e6e6e6,0 3px 13px rgba(0,0,0,0.08);box-shadow:1px 0 0 #e6e6e6,-1px 0 0 #e6e6e6,0 1px 0 #e6e6e6,0 -1px 0 #e6e6e6,0 3px 13px rgba(0,0,0,0.08)}.flatpickr-calendar.open,.flatpickr-calendar.inline{opacity:1;max-height:640px;visibility:visible}.flatpickr-calendar.open{display:inline-block;z-index:99999}.flatpickr-calendar.animate.open{-webkit-animation:fpFadeInDown 300ms cubic-bezier(.23,1,.32,1);animation:fpFadeInDown 300ms cubic-bezier(.23,1,.32,1)}.flatpickr-calendar.inline{display:block;position:relative;top:2px}.flatpickr-calendar.static{position:absolute;top:calc(100% + 2px)}.flatpickr-calendar.static.open{z-index:999;display:block}.flatpickr-calendar.multiMonth .flatpickr-days .dayContainer:nth-child(n+1) .flatpickr-day.inRange:nth-child(7n+7){-webkit-box-shadow:none !important;box-shadow:none !important}.flatpickr-calendar.multiMonth .flatpickr-days .dayContainer:nth-child(n+2) .flatpickr-day.inRange:nth-child(7n+1){-webkit-box-shadow:-2px 0 0 #e6e6e6,5px 0 0 #e6e6e6;box-shadow:-2px 0 0 #e6e6e6,5px 0 0 #e6e6e6}.flatpickr-calendar .hasWeeks .dayContainer,.flatpickr-calendar .hasTime .dayContainer{border-bottom:0;border-bottom-right-radius:0;border-bottom-left-radius:0}.flatpickr-calendar .hasWeeks .dayContainer{border-left:0}.flatpickr-calendar.hasTime .flatpickr-time{height:40px;border-top:1px solid #e6e6e6}.flatpickr-calendar.noCalendar.hasTime .flatpickr-time{height:auto}.flatpickr-calendar:before,.flatpickr-calendar:after{position:absolute;display:block;pointer-events:none;border:solid transparent;content:'';height:0;width:0;left:22px}.flatpickr-calendar.rightMost:before,.flatpickr-calendar.arrowRight:before,.flatpickr-calendar.rightMost:after,.flatpickr-calendar.arrowRight:after{left:auto;right:22px}.flatpickr-calendar.arrowCenter:before,.flatpickr-calendar.arrowCenter:after{left:50%;right:50%}.flatpickr-calendar:before{border-width:5px;margin:0 -5px}.flatpickr-calendar:after{border-width:4px;margin:0 -4px}.flatpickr-calendar.arrowTop:before,.flatpickr-calendar.arrowTop:after{bottom:100%}.flatpickr-calendar.arrowTop:before{border-bottom-color:#e6e6e6}.flatpickr-calendar.arrowTop:after{border-bottom-color:#fff}.flatpickr-calendar.arrowBottom:before,.flatpickr-calendar.arrowBottom:after{top:100%}.flatpickr-calendar.arrowBottom:before{border-top-color:#e6e6e6}.flatpickr-calendar.arrowBottom:after{border-top-color:#fff}.flatpickr-calendar:focus{outline:0}.flatpickr-wrapper{position:relative;display:inline-block}.flatpickr-months{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}.flatpickr-months .flatpickr-month{background:transparent;color:rgba(0,0,0,0.9);fill:rgba(0,0,0,0.9);height:34px;line-height:1;text-align:center;position:relative;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;overflow:hidden;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}.flatpickr-months .flatpickr-prev-month,.flatpickr-months .flatpickr-next-month{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;text-decoration:none;cursor:pointer;position:absolute;top:0;height:34px;padding:10px;z-index:3;color:rgba(0,0,0,0.9);fill:rgba(0,0,0,0.9)}.flatpickr-months .flatpickr-prev-month.flatpickr-disabled,.flatpickr-months .flatpickr-next-month.flatpickr-disabled{display:none}.flatpickr-months .flatpickr-prev-month i,.flatpickr-months .flatpickr-next-month i{position:relative}.flatpickr-months .flatpickr-prev-month.flatpickr-prev-month,.flatpickr-months .flatpickr-next-month.flatpickr-prev-month{/*\n      /*rtl:begin:ignore*/left:0/*\n      /*rtl:end:ignore*/}/*\n      /*rtl:begin:ignore*/\n/*\n      /*rtl:end:ignore*/\n.flatpickr-months .flatpickr-prev-month.flatpickr-next-month,.flatpickr-months .flatpickr-next-month.flatpickr-next-month{/*\n      /*rtl:begin:ignore*/right:0/*\n      /*rtl:end:ignore*/}/*\n      /*rtl:begin:ignore*/\n/*\n      /*rtl:end:ignore*/\n.flatpickr-months .flatpickr-prev-month:hover,.flatpickr-months .flatpickr-next-month:hover{color:#959ea9}.flatpickr-months .flatpickr-prev-month:hover svg,.flatpickr-months .flatpickr-next-month:hover svg{fill:#f64747}.flatpickr-months .flatpickr-prev-month svg,.flatpickr-months .flatpickr-next-month svg{width:14px;height:14px}.flatpickr-months .flatpickr-prev-month svg path,.flatpickr-months .flatpickr-next-month svg path{-webkit-transition:fill .1s;transition:fill .1s;fill:inherit}.numInputWrapper{position:relative;height:auto}.numInputWrapper input,.numInputWrapper span{display:inline-block}.numInputWrapper input{width:100%}.numInputWrapper input::-ms-clear{display:none}.numInputWrapper input::-webkit-outer-spin-button,.numInputWrapper input::-webkit-inner-spin-button{margin:0;-webkit-appearance:none}.numInputWrapper span{position:absolute;right:0;width:14px;padding:0 4px 0 2px;height:50%;line-height:50%;opacity:0;cursor:pointer;border:1px solid rgba(57,57,57,0.15);-webkit-box-sizing:border-box;box-sizing:border-box}.numInputWrapper span:hover{background:rgba(0,0,0,0.1)}.numInputWrapper span:active{background:rgba(0,0,0,0.2)}.numInputWrapper span:after{display:block;content:\"\";position:absolute}.numInputWrapper span.arrowUp{top:0;border-bottom:0}.numInputWrapper span.arrowUp:after{border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:4px solid rgba(57,57,57,0.6);top:26%}.numInputWrapper span.arrowDown{top:50%}.numInputWrapper span.arrowDown:after{border-left:4px solid transparent;border-right:4px solid transparent;border-top:4px solid rgba(57,57,57,0.6);top:40%}.numInputWrapper span svg{width:inherit;height:auto}.numInputWrapper span svg path{fill:rgba(0,0,0,0.5)}.numInputWrapper:hover{background:rgba(0,0,0,0.05)}.numInputWrapper:hover span{opacity:1}.flatpickr-current-month{font-size:135%;line-height:inherit;font-weight:300;color:inherit;position:absolute;width:75%;left:12.5%;padding:7.48px 0 0 0;line-height:1;height:34px;display:inline-block;text-align:center;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}.flatpickr-current-month span.cur-month{font-family:inherit;font-weight:700;color:inherit;display:inline-block;margin-left:.5ch;padding:0}.flatpickr-current-month span.cur-month:hover{background:rgba(0,0,0,0.05)}.flatpickr-current-month .numInputWrapper{width:6ch;width:7ch\\0;display:inline-block}.flatpickr-current-month .numInputWrapper span.arrowUp:after{border-bottom-color:rgba(0,0,0,0.9)}.flatpickr-current-month .numInputWrapper span.arrowDown:after{border-top-color:rgba(0,0,0,0.9)}.flatpickr-current-month input.cur-year{background:transparent;-webkit-box-sizing:border-box;box-sizing:border-box;color:inherit;cursor:text;padding:0 0 0 .5ch;margin:0;display:inline-block;font-size:inherit;font-family:inherit;font-weight:300;line-height:inherit;height:auto;border:0;border-radius:0;vertical-align:initial;-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield}.flatpickr-current-month input.cur-year:focus{outline:0}.flatpickr-current-month input.cur-year[disabled],.flatpickr-current-month input.cur-year[disabled]:hover{font-size:100%;color:rgba(0,0,0,0.5);background:transparent;pointer-events:none}.flatpickr-current-month .flatpickr-monthDropdown-months{appearance:menulist;background:transparent;border:none;border-radius:0;box-sizing:border-box;color:inherit;cursor:pointer;font-size:inherit;font-family:inherit;font-weight:300;height:auto;line-height:inherit;margin:-1px 0 0 0;outline:none;padding:0 0 0 .5ch;position:relative;vertical-align:initial;-webkit-box-sizing:border-box;-webkit-appearance:menulist;-moz-appearance:menulist;width:auto}.flatpickr-current-month .flatpickr-monthDropdown-months:focus,.flatpickr-current-month .flatpickr-monthDropdown-months:active{outline:none}.flatpickr-current-month .flatpickr-monthDropdown-months:hover{background:rgba(0,0,0,0.05)}.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month{background-color:transparent;outline:none;padding:0}.flatpickr-weekdays{background:transparent;text-align:center;overflow:hidden;width:100%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;height:28px}.flatpickr-weekdays .flatpickr-weekdaycontainer{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1}span.flatpickr-weekday{cursor:default;font-size:90%;background:transparent;color:rgba(0,0,0,0.54);line-height:1;margin:0;text-align:center;display:block;-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;font-weight:bolder}.dayContainer,.flatpickr-weeks{padding:1px 0 0 0}.flatpickr-days{position:relative;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:start;-webkit-align-items:flex-start;-ms-flex-align:start;align-items:flex-start;width:307.875px}.flatpickr-days:focus{outline:0}.dayContainer{padding:0;outline:0;text-align:left;width:307.875px;min-width:307.875px;max-width:307.875px;-webkit-box-sizing:border-box;box-sizing:border-box;display:inline-block;display:-ms-flexbox;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;-ms-flex-wrap:wrap;-ms-flex-pack:justify;-webkit-justify-content:space-around;justify-content:space-around;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0);opacity:1}.dayContainer + .dayContainer{-webkit-box-shadow:-1px 0 0 #e6e6e6;box-shadow:-1px 0 0 #e6e6e6}.flatpickr-day{background:none;border:1px solid transparent;border-radius:150px;-webkit-box-sizing:border-box;box-sizing:border-box;color:#393939;cursor:pointer;font-weight:400;width:14.2857143%;-webkit-flex-basis:14.2857143%;-ms-flex-preferred-size:14.2857143%;flex-basis:14.2857143%;max-width:39px;height:39px;line-height:39px;margin:0;display:inline-block;position:relative;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;text-align:center}.flatpickr-day.inRange,.flatpickr-day.prevMonthDay.inRange,.flatpickr-day.nextMonthDay.inRange,.flatpickr-day.today.inRange,.flatpickr-day.prevMonthDay.today.inRange,.flatpickr-day.nextMonthDay.today.inRange,.flatpickr-day:hover,.flatpickr-day.prevMonthDay:hover,.flatpickr-day.nextMonthDay:hover,.flatpickr-day:focus,.flatpickr-day.prevMonthDay:focus,.flatpickr-day.nextMonthDay:focus{cursor:pointer;outline:0;background:#e6e6e6;border-color:#e6e6e6}.flatpickr-day.today{border-color:#959ea9}.flatpickr-day.today:hover,.flatpickr-day.today:focus{border-color:#959ea9;background:#959ea9;color:#fff}.flatpickr-day.selected,.flatpickr-day.startRange,.flatpickr-day.endRange,.flatpickr-day.selected.inRange,.flatpickr-day.startRange.inRange,.flatpickr-day.endRange.inRange,.flatpickr-day.selected:focus,.flatpickr-day.startRange:focus,.flatpickr-day.endRange:focus,.flatpickr-day.selected:hover,.flatpickr-day.startRange:hover,.flatpickr-day.endRange:hover,.flatpickr-day.selected.prevMonthDay,.flatpickr-day.startRange.prevMonthDay,.flatpickr-day.endRange.prevMonthDay,.flatpickr-day.selected.nextMonthDay,.flatpickr-day.startRange.nextMonthDay,.flatpickr-day.endRange.nextMonthDay{background:#569ff7;-webkit-box-shadow:none;box-shadow:none;color:#fff;border-color:#569ff7}.flatpickr-day.selected.startRange,.flatpickr-day.startRange.startRange,.flatpickr-day.endRange.startRange{border-radius:50px 0 0 50px}.flatpickr-day.selected.endRange,.flatpickr-day.startRange.endRange,.flatpickr-day.endRange.endRange{border-radius:0 50px 50px 0}.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)),.flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)),.flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1)){-webkit-box-shadow:-10px 0 0 #569ff7;box-shadow:-10px 0 0 #569ff7}.flatpickr-day.selected.startRange.endRange,.flatpickr-day.startRange.startRange.endRange,.flatpickr-day.endRange.startRange.endRange{border-radius:50px}.flatpickr-day.inRange{border-radius:0;-webkit-box-shadow:-5px 0 0 #e6e6e6,5px 0 0 #e6e6e6;box-shadow:-5px 0 0 #e6e6e6,5px 0 0 #e6e6e6}.flatpickr-day.flatpickr-disabled,.flatpickr-day.flatpickr-disabled:hover,.flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay,.flatpickr-day.notAllowed,.flatpickr-day.notAllowed.prevMonthDay,.flatpickr-day.notAllowed.nextMonthDay{color:rgba(57,57,57,0.3);background:transparent;border-color:transparent;cursor:default}.flatpickr-day.flatpickr-disabled,.flatpickr-day.flatpickr-disabled:hover{cursor:not-allowed;color:rgba(57,57,57,0.1)}.flatpickr-day.week.selected{border-radius:0;-webkit-box-shadow:-5px 0 0 #569ff7,5px 0 0 #569ff7;box-shadow:-5px 0 0 #569ff7,5px 0 0 #569ff7}.flatpickr-day.hidden{visibility:hidden}.rangeMode .flatpickr-day{margin-top:1px}.flatpickr-weekwrapper{float:left}.flatpickr-weekwrapper .flatpickr-weeks{padding:0 12px;-webkit-box-shadow:1px 0 0 #e6e6e6;box-shadow:1px 0 0 #e6e6e6}.flatpickr-weekwrapper .flatpickr-weekday{float:none;width:100%;line-height:28px}.flatpickr-weekwrapper span.flatpickr-day,.flatpickr-weekwrapper span.flatpickr-day:hover{display:block;width:100%;max-width:none;color:rgba(57,57,57,0.3);background:transparent;cursor:default;border:none}.flatpickr-innerContainer{display:block;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden}.flatpickr-rContainer{display:inline-block;padding:0;-webkit-box-sizing:border-box;box-sizing:border-box}.flatpickr-time{text-align:center;outline:0;display:block;height:0;line-height:40px;max-height:40px;-webkit-box-sizing:border-box;box-sizing:border-box;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}.flatpickr-time:after{content:\"\";display:table;clear:both}.flatpickr-time .numInputWrapper{-webkit-box-flex:1;-webkit-flex:1;-ms-flex:1;flex:1;width:40%;height:40px;float:left}.flatpickr-time .numInputWrapper span.arrowUp:after{border-bottom-color:#393939}.flatpickr-time .numInputWrapper span.arrowDown:after{border-top-color:#393939}.flatpickr-time.hasSeconds .numInputWrapper{width:26%}.flatpickr-time.time24hr .numInputWrapper{width:49%}.flatpickr-time input{background:transparent;-webkit-box-shadow:none;box-shadow:none;border:0;border-radius:0;text-align:center;margin:0;padding:0;height:inherit;line-height:inherit;color:#393939;font-size:14px;position:relative;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield}.flatpickr-time input.flatpickr-hour{font-weight:bold}.flatpickr-time input.flatpickr-minute,.flatpickr-time input.flatpickr-second{font-weight:400}.flatpickr-time input:focus{outline:0;border:0}.flatpickr-time .flatpickr-time-separator,.flatpickr-time .flatpickr-am-pm{height:inherit;float:left;line-height:inherit;color:#393939;font-weight:bold;width:2%;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-align-self:center;-ms-flex-item-align:center;align-self:center}.flatpickr-time .flatpickr-am-pm{outline:0;width:18%;cursor:pointer;text-align:center;font-weight:400}.flatpickr-time input:hover,.flatpickr-time .flatpickr-am-pm:hover,.flatpickr-time input:focus,.flatpickr-time .flatpickr-am-pm:focus{background:#eee}.flatpickr-input[readonly]{cursor:pointer}@-webkit-keyframes fpFadeInDown{from{opacity:0;-webkit-transform:translate3d(0,-20px,0);transform:translate3d(0,-20px,0)}to{opacity:1;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}@keyframes fpFadeInDown{from{opacity:0;-webkit-transform:translate3d(0,-20px,0);transform:translate3d(0,-20px,0)}to{opacity:1;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+"use strict";
+
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+// eslint-disable-next-line func-names
+module.exports = function (cssWithMappingToString) {
+  var list = []; // return the list of modules as css string
+
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = cssWithMappingToString(item);
+
+      if (item[2]) {
+        return "@media ".concat(item[2], " {").concat(content, "}");
+      }
+
+      return content;
+    }).join("");
+  }; // import a list of modules into the list
+  // eslint-disable-next-line func-names
+
+
+  list.i = function (modules, mediaQuery, dedupe) {
+    if (typeof modules === "string") {
+      // eslint-disable-next-line no-param-reassign
+      modules = [[null, modules, ""]];
+    }
+
+    var alreadyImportedModules = {};
+
+    if (dedupe) {
+      for (var i = 0; i < this.length; i++) {
+        // eslint-disable-next-line prefer-destructuring
+        var id = this[i][0];
+
+        if (id != null) {
+          alreadyImportedModules[id] = true;
+        }
+      }
+    }
+
+    for (var _i = 0; _i < modules.length; _i++) {
+      var item = [].concat(modules[_i]);
+
+      if (dedupe && alreadyImportedModules[item[0]]) {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      if (mediaQuery) {
+        if (!item[2]) {
+          item[2] = mediaQuery;
+        } else {
+          item[2] = "".concat(mediaQuery, " and ").concat(item[2]);
+        }
+      }
+
+      list.push(item);
+    }
+  };
+
+  return list;
+};
+
+/***/ }),
+
+/***/ "./node_modules/flatpickr/dist/esm/index.js":
+/*!**************************************************!*\
+  !*** ./node_modules/flatpickr/dist/esm/index.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _types_options__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types/options */ "./node_modules/flatpickr/dist/esm/types/options.js");
+/* harmony import */ var _l10n_default__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./l10n/default */ "./node_modules/flatpickr/dist/esm/l10n/default.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./node_modules/flatpickr/dist/esm/utils/index.js");
+/* harmony import */ var _utils_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/dom */ "./node_modules/flatpickr/dist/esm/utils/dom.js");
+/* harmony import */ var _utils_dates__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/dates */ "./node_modules/flatpickr/dist/esm/utils/dates.js");
+/* harmony import */ var _utils_formatting__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/formatting */ "./node_modules/flatpickr/dist/esm/utils/formatting.js");
+/* harmony import */ var _utils_polyfills__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/polyfills */ "./node_modules/flatpickr/dist/esm/utils/polyfills.js");
+/* harmony import */ var _utils_polyfills__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_utils_polyfills__WEBPACK_IMPORTED_MODULE_6__);
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+
+
+
+
+
+
+var DEBOUNCED_CHANGE_MS = 300;
+function FlatpickrInstance(element, instanceConfig) {
+    var self = {
+        config: __assign(__assign({}, _types_options__WEBPACK_IMPORTED_MODULE_0__.defaults), flatpickr.defaultConfig),
+        l10n: _l10n_default__WEBPACK_IMPORTED_MODULE_1__["default"],
+    };
+    self.parseDate = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.createDateParser)({ config: self.config, l10n: self.l10n });
+    self._handlers = [];
+    self.pluginElements = [];
+    self.loadedPlugins = [];
+    self._bind = bind;
+    self._setHoursFromDate = setHoursFromDate;
+    self._positionCalendar = positionCalendar;
+    self.changeMonth = changeMonth;
+    self.changeYear = changeYear;
+    self.clear = clear;
+    self.close = close;
+    self.onMouseOver = onMouseOver;
+    self._createElement = _utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement;
+    self.createDay = createDay;
+    self.destroy = destroy;
+    self.isEnabled = isEnabled;
+    self.jumpToDate = jumpToDate;
+    self.updateValue = updateValue;
+    self.open = open;
+    self.redraw = redraw;
+    self.set = set;
+    self.setDate = setDate;
+    self.toggle = toggle;
+    function setupHelperFunctions() {
+        self.utils = {
+            getDaysInMonth: function (month, yr) {
+                if (month === void 0) { month = self.currentMonth; }
+                if (yr === void 0) { yr = self.currentYear; }
+                if (month === 1 && ((yr % 4 === 0 && yr % 100 !== 0) || yr % 400 === 0))
+                    return 29;
+                return self.l10n.daysInMonth[month];
+            },
+        };
+    }
+    function init() {
+        self.element = self.input = element;
+        self.isOpen = false;
+        parseConfig();
+        setupLocale();
+        setupInputs();
+        setupDates();
+        setupHelperFunctions();
+        if (!self.isMobile)
+            build();
+        bindEvents();
+        if (self.selectedDates.length || self.config.noCalendar) {
+            if (self.config.enableTime) {
+                setHoursFromDate(self.config.noCalendar ? self.latestSelectedDateObj : undefined);
+            }
+            updateValue(false);
+        }
+        setCalendarWidth();
+        var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (!self.isMobile && isSafari) {
+            positionCalendar();
+        }
+        triggerEvent("onReady");
+    }
+    function getClosestActiveElement() {
+        var _a;
+        return (((_a = self.calendarContainer) === null || _a === void 0 ? void 0 : _a.getRootNode())
+            .activeElement || document.activeElement);
+    }
+    function bindToInstance(fn) {
+        return fn.bind(self);
+    }
+    function setCalendarWidth() {
+        var config = self.config;
+        if (config.weekNumbers === false && config.showMonths === 1) {
+            return;
+        }
+        else if (config.noCalendar !== true) {
+            window.requestAnimationFrame(function () {
+                if (self.calendarContainer !== undefined) {
+                    self.calendarContainer.style.visibility = "hidden";
+                    self.calendarContainer.style.display = "block";
+                }
+                if (self.daysContainer !== undefined) {
+                    var daysWidth = (self.days.offsetWidth + 1) * config.showMonths;
+                    self.daysContainer.style.width = daysWidth + "px";
+                    self.calendarContainer.style.width =
+                        daysWidth +
+                            (self.weekWrapper !== undefined
+                                ? self.weekWrapper.offsetWidth
+                                : 0) +
+                            "px";
+                    self.calendarContainer.style.removeProperty("visibility");
+                    self.calendarContainer.style.removeProperty("display");
+                }
+            });
+        }
+    }
+    function updateTime(e) {
+        if (self.selectedDates.length === 0) {
+            var defaultDate = self.config.minDate === undefined ||
+                (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(new Date(), self.config.minDate) >= 0
+                ? new Date()
+                : new Date(self.config.minDate.getTime());
+            var defaults = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.getDefaultHours)(self.config);
+            defaultDate.setHours(defaults.hours, defaults.minutes, defaults.seconds, defaultDate.getMilliseconds());
+            self.selectedDates = [defaultDate];
+            self.latestSelectedDateObj = defaultDate;
+        }
+        if (e !== undefined && e.type !== "blur") {
+            timeWrapper(e);
+        }
+        var prevValue = self._input.value;
+        setHoursFromInputs();
+        updateValue();
+        if (self._input.value !== prevValue) {
+            self._debouncedChange();
+        }
+    }
+    function ampm2military(hour, amPM) {
+        return (hour % 12) + 12 * (0,_utils__WEBPACK_IMPORTED_MODULE_2__.int)(amPM === self.l10n.amPM[1]);
+    }
+    function military2ampm(hour) {
+        switch (hour % 24) {
+            case 0:
+            case 12:
+                return 12;
+            default:
+                return hour % 12;
+        }
+    }
+    function setHoursFromInputs() {
+        if (self.hourElement === undefined || self.minuteElement === undefined)
+            return;
+        var hours = (parseInt(self.hourElement.value.slice(-2), 10) || 0) % 24, minutes = (parseInt(self.minuteElement.value, 10) || 0) % 60, seconds = self.secondElement !== undefined
+            ? (parseInt(self.secondElement.value, 10) || 0) % 60
+            : 0;
+        if (self.amPM !== undefined) {
+            hours = ampm2military(hours, self.amPM.textContent);
+        }
+        var limitMinHours = self.config.minTime !== undefined ||
+            (self.config.minDate &&
+                self.minDateHasTime &&
+                self.latestSelectedDateObj &&
+                (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(self.latestSelectedDateObj, self.config.minDate, true) ===
+                    0);
+        var limitMaxHours = self.config.maxTime !== undefined ||
+            (self.config.maxDate &&
+                self.maxDateHasTime &&
+                self.latestSelectedDateObj &&
+                (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(self.latestSelectedDateObj, self.config.maxDate, true) ===
+                    0);
+        if (self.config.maxTime !== undefined &&
+            self.config.minTime !== undefined &&
+            self.config.minTime > self.config.maxTime) {
+            var minBound = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.calculateSecondsSinceMidnight)(self.config.minTime.getHours(), self.config.minTime.getMinutes(), self.config.minTime.getSeconds());
+            var maxBound = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.calculateSecondsSinceMidnight)(self.config.maxTime.getHours(), self.config.maxTime.getMinutes(), self.config.maxTime.getSeconds());
+            var currentTime = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.calculateSecondsSinceMidnight)(hours, minutes, seconds);
+            if (currentTime > maxBound && currentTime < minBound) {
+                var result = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.parseSeconds)(minBound);
+                hours = result[0];
+                minutes = result[1];
+                seconds = result[2];
+            }
+        }
+        else {
+            if (limitMaxHours) {
+                var maxTime = self.config.maxTime !== undefined
+                    ? self.config.maxTime
+                    : self.config.maxDate;
+                hours = Math.min(hours, maxTime.getHours());
+                if (hours === maxTime.getHours())
+                    minutes = Math.min(minutes, maxTime.getMinutes());
+                if (minutes === maxTime.getMinutes())
+                    seconds = Math.min(seconds, maxTime.getSeconds());
+            }
+            if (limitMinHours) {
+                var minTime = self.config.minTime !== undefined
+                    ? self.config.minTime
+                    : self.config.minDate;
+                hours = Math.max(hours, minTime.getHours());
+                if (hours === minTime.getHours() && minutes < minTime.getMinutes())
+                    minutes = minTime.getMinutes();
+                if (minutes === minTime.getMinutes())
+                    seconds = Math.max(seconds, minTime.getSeconds());
+            }
+        }
+        setHours(hours, minutes, seconds);
+    }
+    function setHoursFromDate(dateObj) {
+        var date = dateObj || self.latestSelectedDateObj;
+        if (date && date instanceof Date) {
+            setHours(date.getHours(), date.getMinutes(), date.getSeconds());
+        }
+    }
+    function setHours(hours, minutes, seconds) {
+        if (self.latestSelectedDateObj !== undefined) {
+            self.latestSelectedDateObj.setHours(hours % 24, minutes, seconds || 0, 0);
+        }
+        if (!self.hourElement || !self.minuteElement || self.isMobile)
+            return;
+        self.hourElement.value = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.pad)(!self.config.time_24hr
+            ? ((12 + hours) % 12) + 12 * (0,_utils__WEBPACK_IMPORTED_MODULE_2__.int)(hours % 12 === 0)
+            : hours);
+        self.minuteElement.value = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.pad)(minutes);
+        if (self.amPM !== undefined)
+            self.amPM.textContent = self.l10n.amPM[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.int)(hours >= 12)];
+        if (self.secondElement !== undefined)
+            self.secondElement.value = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.pad)(seconds);
+    }
+    function onYearInput(event) {
+        var eventTarget = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(event);
+        var year = parseInt(eventTarget.value) + (event.delta || 0);
+        if (year / 1000 > 1 ||
+            (event.key === "Enter" && !/[^\d]/.test(year.toString()))) {
+            changeYear(year);
+        }
+    }
+    function bind(element, event, handler, options) {
+        if (event instanceof Array)
+            return event.forEach(function (ev) { return bind(element, ev, handler, options); });
+        if (element instanceof Array)
+            return element.forEach(function (el) { return bind(el, event, handler, options); });
+        element.addEventListener(event, handler, options);
+        self._handlers.push({
+            remove: function () { return element.removeEventListener(event, handler, options); },
+        });
+    }
+    function triggerChange() {
+        triggerEvent("onChange");
+    }
+    function bindEvents() {
+        if (self.config.wrap) {
+            ["open", "close", "toggle", "clear"].forEach(function (evt) {
+                Array.prototype.forEach.call(self.element.querySelectorAll("[data-" + evt + "]"), function (el) {
+                    return bind(el, "click", self[evt]);
+                });
+            });
+        }
+        if (self.isMobile) {
+            setupMobile();
+            return;
+        }
+        var debouncedResize = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.debounce)(onResize, 50);
+        self._debouncedChange = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.debounce)(triggerChange, DEBOUNCED_CHANGE_MS);
+        if (self.daysContainer && !/iPhone|iPad|iPod/i.test(navigator.userAgent))
+            bind(self.daysContainer, "mouseover", function (e) {
+                if (self.config.mode === "range")
+                    onMouseOver((0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e));
+            });
+        bind(self._input, "keydown", onKeyDown);
+        if (self.calendarContainer !== undefined) {
+            bind(self.calendarContainer, "keydown", onKeyDown);
+        }
+        if (!self.config.inline && !self.config.static)
+            bind(window, "resize", debouncedResize);
+        if (window.ontouchstart !== undefined)
+            bind(window.document, "touchstart", documentClick);
+        else
+            bind(window.document, "mousedown", documentClick);
+        bind(window.document, "focus", documentClick, { capture: true });
+        if (self.config.clickOpens === true) {
+            bind(self._input, "focus", self.open);
+            bind(self._input, "click", self.open);
+        }
+        if (self.daysContainer !== undefined) {
+            bind(self.monthNav, "click", onMonthNavClick);
+            bind(self.monthNav, ["keyup", "increment"], onYearInput);
+            bind(self.daysContainer, "click", selectDate);
+        }
+        if (self.timeContainer !== undefined &&
+            self.minuteElement !== undefined &&
+            self.hourElement !== undefined) {
+            var selText = function (e) {
+                return (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e).select();
+            };
+            bind(self.timeContainer, ["increment"], updateTime);
+            bind(self.timeContainer, "blur", updateTime, { capture: true });
+            bind(self.timeContainer, "click", timeIncrement);
+            bind([self.hourElement, self.minuteElement], ["focus", "click"], selText);
+            if (self.secondElement !== undefined)
+                bind(self.secondElement, "focus", function () { return self.secondElement && self.secondElement.select(); });
+            if (self.amPM !== undefined) {
+                bind(self.amPM, "click", function (e) {
+                    updateTime(e);
+                });
+            }
+        }
+        if (self.config.allowInput) {
+            bind(self._input, "blur", onBlur);
+        }
+    }
+    function jumpToDate(jumpDate, triggerChange) {
+        var jumpTo = jumpDate !== undefined
+            ? self.parseDate(jumpDate)
+            : self.latestSelectedDateObj ||
+                (self.config.minDate && self.config.minDate > self.now
+                    ? self.config.minDate
+                    : self.config.maxDate && self.config.maxDate < self.now
+                        ? self.config.maxDate
+                        : self.now);
+        var oldYear = self.currentYear;
+        var oldMonth = self.currentMonth;
+        try {
+            if (jumpTo !== undefined) {
+                self.currentYear = jumpTo.getFullYear();
+                self.currentMonth = jumpTo.getMonth();
+            }
+        }
+        catch (e) {
+            e.message = "Invalid date supplied: " + jumpTo;
+            self.config.errorHandler(e);
+        }
+        if (triggerChange && self.currentYear !== oldYear) {
+            triggerEvent("onYearChange");
+            buildMonthSwitch();
+        }
+        if (triggerChange &&
+            (self.currentYear !== oldYear || self.currentMonth !== oldMonth)) {
+            triggerEvent("onMonthChange");
+        }
+        self.redraw();
+    }
+    function timeIncrement(e) {
+        var eventTarget = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e);
+        if (~eventTarget.className.indexOf("arrow"))
+            incrementNumInput(e, eventTarget.classList.contains("arrowUp") ? 1 : -1);
+    }
+    function incrementNumInput(e, delta, inputElem) {
+        var target = e && (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e);
+        var input = inputElem ||
+            (target && target.parentNode && target.parentNode.firstChild);
+        var event = createEvent("increment");
+        event.delta = delta;
+        input && input.dispatchEvent(event);
+    }
+    function build() {
+        var fragment = window.document.createDocumentFragment();
+        self.calendarContainer = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-calendar");
+        self.calendarContainer.tabIndex = -1;
+        if (!self.config.noCalendar) {
+            fragment.appendChild(buildMonthNav());
+            self.innerContainer = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-innerContainer");
+            if (self.config.weekNumbers) {
+                var _a = buildWeeks(), weekWrapper = _a.weekWrapper, weekNumbers = _a.weekNumbers;
+                self.innerContainer.appendChild(weekWrapper);
+                self.weekNumbers = weekNumbers;
+                self.weekWrapper = weekWrapper;
+            }
+            self.rContainer = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-rContainer");
+            self.rContainer.appendChild(buildWeekdays());
+            if (!self.daysContainer) {
+                self.daysContainer = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-days");
+                self.daysContainer.tabIndex = -1;
+            }
+            buildDays();
+            self.rContainer.appendChild(self.daysContainer);
+            self.innerContainer.appendChild(self.rContainer);
+            fragment.appendChild(self.innerContainer);
+        }
+        if (self.config.enableTime) {
+            fragment.appendChild(buildTime());
+        }
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "rangeMode", self.config.mode === "range");
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "animate", self.config.animate === true);
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "multiMonth", self.config.showMonths > 1);
+        self.calendarContainer.appendChild(fragment);
+        var customAppend = self.config.appendTo !== undefined &&
+            self.config.appendTo.nodeType !== undefined;
+        if (self.config.inline || self.config.static) {
+            self.calendarContainer.classList.add(self.config.inline ? "inline" : "static");
+            if (self.config.inline) {
+                if (!customAppend && self.element.parentNode)
+                    self.element.parentNode.insertBefore(self.calendarContainer, self._input.nextSibling);
+                else if (self.config.appendTo !== undefined)
+                    self.config.appendTo.appendChild(self.calendarContainer);
+            }
+            if (self.config.static) {
+                var wrapper = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-wrapper");
+                if (self.element.parentNode)
+                    self.element.parentNode.insertBefore(wrapper, self.element);
+                wrapper.appendChild(self.element);
+                if (self.altInput)
+                    wrapper.appendChild(self.altInput);
+                wrapper.appendChild(self.calendarContainer);
+            }
+        }
+        if (!self.config.static && !self.config.inline)
+            (self.config.appendTo !== undefined
+                ? self.config.appendTo
+                : window.document.body).appendChild(self.calendarContainer);
+    }
+    function createDay(className, date, _dayNumber, i) {
+        var dateIsEnabled = isEnabled(date, true), dayElement = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("span", className, date.getDate().toString());
+        dayElement.dateObj = date;
+        dayElement.$i = i;
+        dayElement.setAttribute("aria-label", self.formatDate(date, self.config.ariaDateFormat));
+        if (className.indexOf("hidden") === -1 &&
+            (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(date, self.now) === 0) {
+            self.todayDateElem = dayElement;
+            dayElement.classList.add("today");
+            dayElement.setAttribute("aria-current", "date");
+        }
+        if (dateIsEnabled) {
+            dayElement.tabIndex = -1;
+            if (isDateSelected(date)) {
+                dayElement.classList.add("selected");
+                self.selectedDateElem = dayElement;
+                if (self.config.mode === "range") {
+                    (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(dayElement, "startRange", self.selectedDates[0] &&
+                        (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(date, self.selectedDates[0], true) === 0);
+                    (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(dayElement, "endRange", self.selectedDates[1] &&
+                        (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(date, self.selectedDates[1], true) === 0);
+                    if (className === "nextMonthDay")
+                        dayElement.classList.add("inRange");
+                }
+            }
+        }
+        else {
+            dayElement.classList.add("flatpickr-disabled");
+        }
+        if (self.config.mode === "range") {
+            if (isDateInRange(date) && !isDateSelected(date))
+                dayElement.classList.add("inRange");
+        }
+        if (self.weekNumbers &&
+            self.config.showMonths === 1 &&
+            className !== "prevMonthDay" &&
+            i % 7 === 6) {
+            self.weekNumbers.insertAdjacentHTML("beforeend", "<span class='flatpickr-day'>" + self.config.getWeek(date) + "</span>");
+        }
+        triggerEvent("onDayCreate", dayElement);
+        return dayElement;
+    }
+    function focusOnDayElem(targetNode) {
+        targetNode.focus();
+        if (self.config.mode === "range")
+            onMouseOver(targetNode);
+    }
+    function getFirstAvailableDay(delta) {
+        var startMonth = delta > 0 ? 0 : self.config.showMonths - 1;
+        var endMonth = delta > 0 ? self.config.showMonths : -1;
+        for (var m = startMonth; m != endMonth; m += delta) {
+            var month = self.daysContainer.children[m];
+            var startIndex = delta > 0 ? 0 : month.children.length - 1;
+            var endIndex = delta > 0 ? month.children.length : -1;
+            for (var i = startIndex; i != endIndex; i += delta) {
+                var c = month.children[i];
+                if (c.className.indexOf("hidden") === -1 && isEnabled(c.dateObj))
+                    return c;
+            }
+        }
+        return undefined;
+    }
+    function getNextAvailableDay(current, delta) {
+        var givenMonth = current.className.indexOf("Month") === -1
+            ? current.dateObj.getMonth()
+            : self.currentMonth;
+        var endMonth = delta > 0 ? self.config.showMonths : -1;
+        var loopDelta = delta > 0 ? 1 : -1;
+        for (var m = givenMonth - self.currentMonth; m != endMonth; m += loopDelta) {
+            var month = self.daysContainer.children[m];
+            var startIndex = givenMonth - self.currentMonth === m
+                ? current.$i + delta
+                : delta < 0
+                    ? month.children.length - 1
+                    : 0;
+            var numMonthDays = month.children.length;
+            for (var i = startIndex; i >= 0 && i < numMonthDays && i != (delta > 0 ? numMonthDays : -1); i += loopDelta) {
+                var c = month.children[i];
+                if (c.className.indexOf("hidden") === -1 &&
+                    isEnabled(c.dateObj) &&
+                    Math.abs(current.$i - i) >= Math.abs(delta))
+                    return focusOnDayElem(c);
+            }
+        }
+        self.changeMonth(loopDelta);
+        focusOnDay(getFirstAvailableDay(loopDelta), 0);
+        return undefined;
+    }
+    function focusOnDay(current, offset) {
+        var activeElement = getClosestActiveElement();
+        var dayFocused = isInView(activeElement || document.body);
+        var startElem = current !== undefined
+            ? current
+            : dayFocused
+                ? activeElement
+                : self.selectedDateElem !== undefined && isInView(self.selectedDateElem)
+                    ? self.selectedDateElem
+                    : self.todayDateElem !== undefined && isInView(self.todayDateElem)
+                        ? self.todayDateElem
+                        : getFirstAvailableDay(offset > 0 ? 1 : -1);
+        if (startElem === undefined) {
+            self._input.focus();
+        }
+        else if (!dayFocused) {
+            focusOnDayElem(startElem);
+        }
+        else {
+            getNextAvailableDay(startElem, offset);
+        }
+    }
+    function buildMonthDays(year, month) {
+        var firstOfMonth = (new Date(year, month, 1).getDay() - self.l10n.firstDayOfWeek + 7) % 7;
+        var prevMonthDays = self.utils.getDaysInMonth((month - 1 + 12) % 12, year);
+        var daysInMonth = self.utils.getDaysInMonth(month, year), days = window.document.createDocumentFragment(), isMultiMonth = self.config.showMonths > 1, prevMonthDayClass = isMultiMonth ? "prevMonthDay hidden" : "prevMonthDay", nextMonthDayClass = isMultiMonth ? "nextMonthDay hidden" : "nextMonthDay";
+        var dayNumber = prevMonthDays + 1 - firstOfMonth, dayIndex = 0;
+        for (; dayNumber <= prevMonthDays; dayNumber++, dayIndex++) {
+            days.appendChild(createDay("flatpickr-day " + prevMonthDayClass, new Date(year, month - 1, dayNumber), dayNumber, dayIndex));
+        }
+        for (dayNumber = 1; dayNumber <= daysInMonth; dayNumber++, dayIndex++) {
+            days.appendChild(createDay("flatpickr-day", new Date(year, month, dayNumber), dayNumber, dayIndex));
+        }
+        for (var dayNum = daysInMonth + 1; dayNum <= 42 - firstOfMonth &&
+            (self.config.showMonths === 1 || dayIndex % 7 !== 0); dayNum++, dayIndex++) {
+            days.appendChild(createDay("flatpickr-day " + nextMonthDayClass, new Date(year, month + 1, dayNum % daysInMonth), dayNum, dayIndex));
+        }
+        var dayContainer = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "dayContainer");
+        dayContainer.appendChild(days);
+        return dayContainer;
+    }
+    function buildDays() {
+        if (self.daysContainer === undefined) {
+            return;
+        }
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.clearNode)(self.daysContainer);
+        if (self.weekNumbers)
+            (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.clearNode)(self.weekNumbers);
+        var frag = document.createDocumentFragment();
+        for (var i = 0; i < self.config.showMonths; i++) {
+            var d = new Date(self.currentYear, self.currentMonth, 1);
+            d.setMonth(self.currentMonth + i);
+            frag.appendChild(buildMonthDays(d.getFullYear(), d.getMonth()));
+        }
+        self.daysContainer.appendChild(frag);
+        self.days = self.daysContainer.firstChild;
+        if (self.config.mode === "range" && self.selectedDates.length === 1) {
+            onMouseOver();
+        }
+    }
+    function buildMonthSwitch() {
+        if (self.config.showMonths > 1 ||
+            self.config.monthSelectorType !== "dropdown")
+            return;
+        var shouldBuildMonth = function (month) {
+            if (self.config.minDate !== undefined &&
+                self.currentYear === self.config.minDate.getFullYear() &&
+                month < self.config.minDate.getMonth()) {
+                return false;
+            }
+            return !(self.config.maxDate !== undefined &&
+                self.currentYear === self.config.maxDate.getFullYear() &&
+                month > self.config.maxDate.getMonth());
+        };
+        self.monthsDropdownContainer.tabIndex = -1;
+        self.monthsDropdownContainer.innerHTML = "";
+        for (var i = 0; i < 12; i++) {
+            if (!shouldBuildMonth(i))
+                continue;
+            var month = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("option", "flatpickr-monthDropdown-month");
+            month.value = new Date(self.currentYear, i).getMonth().toString();
+            month.textContent = (0,_utils_formatting__WEBPACK_IMPORTED_MODULE_5__.monthToStr)(i, self.config.shorthandCurrentMonth, self.l10n);
+            month.tabIndex = -1;
+            if (self.currentMonth === i) {
+                month.selected = true;
+            }
+            self.monthsDropdownContainer.appendChild(month);
+        }
+    }
+    function buildMonth() {
+        var container = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-month");
+        var monthNavFragment = window.document.createDocumentFragment();
+        var monthElement;
+        if (self.config.showMonths > 1 ||
+            self.config.monthSelectorType === "static") {
+            monthElement = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("span", "cur-month");
+        }
+        else {
+            self.monthsDropdownContainer = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("select", "flatpickr-monthDropdown-months");
+            self.monthsDropdownContainer.setAttribute("aria-label", self.l10n.monthAriaLabel);
+            bind(self.monthsDropdownContainer, "change", function (e) {
+                var target = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e);
+                var selectedMonth = parseInt(target.value, 10);
+                self.changeMonth(selectedMonth - self.currentMonth);
+                triggerEvent("onMonthChange");
+            });
+            buildMonthSwitch();
+            monthElement = self.monthsDropdownContainer;
+        }
+        var yearInput = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createNumberInput)("cur-year", { tabindex: "-1" });
+        var yearElement = yearInput.getElementsByTagName("input")[0];
+        yearElement.setAttribute("aria-label", self.l10n.yearAriaLabel);
+        if (self.config.minDate) {
+            yearElement.setAttribute("min", self.config.minDate.getFullYear().toString());
+        }
+        if (self.config.maxDate) {
+            yearElement.setAttribute("max", self.config.maxDate.getFullYear().toString());
+            yearElement.disabled =
+                !!self.config.minDate &&
+                    self.config.minDate.getFullYear() === self.config.maxDate.getFullYear();
+        }
+        var currentMonth = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-current-month");
+        currentMonth.appendChild(monthElement);
+        currentMonth.appendChild(yearInput);
+        monthNavFragment.appendChild(currentMonth);
+        container.appendChild(monthNavFragment);
+        return {
+            container: container,
+            yearElement: yearElement,
+            monthElement: monthElement,
+        };
+    }
+    function buildMonths() {
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.clearNode)(self.monthNav);
+        self.monthNav.appendChild(self.prevMonthNav);
+        if (self.config.showMonths) {
+            self.yearElements = [];
+            self.monthElements = [];
+        }
+        for (var m = self.config.showMonths; m--;) {
+            var month = buildMonth();
+            self.yearElements.push(month.yearElement);
+            self.monthElements.push(month.monthElement);
+            self.monthNav.appendChild(month.container);
+        }
+        self.monthNav.appendChild(self.nextMonthNav);
+    }
+    function buildMonthNav() {
+        self.monthNav = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-months");
+        self.yearElements = [];
+        self.monthElements = [];
+        self.prevMonthNav = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("span", "flatpickr-prev-month");
+        self.prevMonthNav.innerHTML = self.config.prevArrow;
+        self.nextMonthNav = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("span", "flatpickr-next-month");
+        self.nextMonthNav.innerHTML = self.config.nextArrow;
+        buildMonths();
+        Object.defineProperty(self, "_hidePrevMonthArrow", {
+            get: function () { return self.__hidePrevMonthArrow; },
+            set: function (bool) {
+                if (self.__hidePrevMonthArrow !== bool) {
+                    (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.prevMonthNav, "flatpickr-disabled", bool);
+                    self.__hidePrevMonthArrow = bool;
+                }
+            },
+        });
+        Object.defineProperty(self, "_hideNextMonthArrow", {
+            get: function () { return self.__hideNextMonthArrow; },
+            set: function (bool) {
+                if (self.__hideNextMonthArrow !== bool) {
+                    (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.nextMonthNav, "flatpickr-disabled", bool);
+                    self.__hideNextMonthArrow = bool;
+                }
+            },
+        });
+        self.currentYearElement = self.yearElements[0];
+        updateNavigationCurrentMonth();
+        return self.monthNav;
+    }
+    function buildTime() {
+        self.calendarContainer.classList.add("hasTime");
+        if (self.config.noCalendar)
+            self.calendarContainer.classList.add("noCalendar");
+        var defaults = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.getDefaultHours)(self.config);
+        self.timeContainer = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-time");
+        self.timeContainer.tabIndex = -1;
+        var separator = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("span", "flatpickr-time-separator", ":");
+        var hourInput = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createNumberInput)("flatpickr-hour", {
+            "aria-label": self.l10n.hourAriaLabel,
+        });
+        self.hourElement = hourInput.getElementsByTagName("input")[0];
+        var minuteInput = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createNumberInput)("flatpickr-minute", {
+            "aria-label": self.l10n.minuteAriaLabel,
+        });
+        self.minuteElement = minuteInput.getElementsByTagName("input")[0];
+        self.hourElement.tabIndex = self.minuteElement.tabIndex = -1;
+        self.hourElement.value = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.pad)(self.latestSelectedDateObj
+            ? self.latestSelectedDateObj.getHours()
+            : self.config.time_24hr
+                ? defaults.hours
+                : military2ampm(defaults.hours));
+        self.minuteElement.value = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.pad)(self.latestSelectedDateObj
+            ? self.latestSelectedDateObj.getMinutes()
+            : defaults.minutes);
+        self.hourElement.setAttribute("step", self.config.hourIncrement.toString());
+        self.minuteElement.setAttribute("step", self.config.minuteIncrement.toString());
+        self.hourElement.setAttribute("min", self.config.time_24hr ? "0" : "1");
+        self.hourElement.setAttribute("max", self.config.time_24hr ? "23" : "12");
+        self.hourElement.setAttribute("maxlength", "2");
+        self.minuteElement.setAttribute("min", "0");
+        self.minuteElement.setAttribute("max", "59");
+        self.minuteElement.setAttribute("maxlength", "2");
+        self.timeContainer.appendChild(hourInput);
+        self.timeContainer.appendChild(separator);
+        self.timeContainer.appendChild(minuteInput);
+        if (self.config.time_24hr)
+            self.timeContainer.classList.add("time24hr");
+        if (self.config.enableSeconds) {
+            self.timeContainer.classList.add("hasSeconds");
+            var secondInput = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createNumberInput)("flatpickr-second");
+            self.secondElement = secondInput.getElementsByTagName("input")[0];
+            self.secondElement.value = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.pad)(self.latestSelectedDateObj
+                ? self.latestSelectedDateObj.getSeconds()
+                : defaults.seconds);
+            self.secondElement.setAttribute("step", self.minuteElement.getAttribute("step"));
+            self.secondElement.setAttribute("min", "0");
+            self.secondElement.setAttribute("max", "59");
+            self.secondElement.setAttribute("maxlength", "2");
+            self.timeContainer.appendChild((0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("span", "flatpickr-time-separator", ":"));
+            self.timeContainer.appendChild(secondInput);
+        }
+        if (!self.config.time_24hr) {
+            self.amPM = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("span", "flatpickr-am-pm", self.l10n.amPM[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.int)((self.latestSelectedDateObj
+                ? self.hourElement.value
+                : self.config.defaultHour) > 11)]);
+            self.amPM.title = self.l10n.toggleTitle;
+            self.amPM.tabIndex = -1;
+            self.timeContainer.appendChild(self.amPM);
+        }
+        return self.timeContainer;
+    }
+    function buildWeekdays() {
+        if (!self.weekdayContainer)
+            self.weekdayContainer = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-weekdays");
+        else
+            (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.clearNode)(self.weekdayContainer);
+        for (var i = self.config.showMonths; i--;) {
+            var container = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-weekdaycontainer");
+            self.weekdayContainer.appendChild(container);
+        }
+        updateWeekdays();
+        return self.weekdayContainer;
+    }
+    function updateWeekdays() {
+        if (!self.weekdayContainer) {
+            return;
+        }
+        var firstDayOfWeek = self.l10n.firstDayOfWeek;
+        var weekdays = __spreadArrays(self.l10n.weekdays.shorthand);
+        if (firstDayOfWeek > 0 && firstDayOfWeek < weekdays.length) {
+            weekdays = __spreadArrays(weekdays.splice(firstDayOfWeek, weekdays.length), weekdays.splice(0, firstDayOfWeek));
+        }
+        for (var i = self.config.showMonths; i--;) {
+            self.weekdayContainer.children[i].innerHTML = "\n      <span class='flatpickr-weekday'>\n        " + weekdays.join("</span><span class='flatpickr-weekday'>") + "\n      </span>\n      ";
+        }
+    }
+    function buildWeeks() {
+        self.calendarContainer.classList.add("hasWeeks");
+        var weekWrapper = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-weekwrapper");
+        weekWrapper.appendChild((0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("span", "flatpickr-weekday", self.l10n.weekAbbreviation));
+        var weekNumbers = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("div", "flatpickr-weeks");
+        weekWrapper.appendChild(weekNumbers);
+        return {
+            weekWrapper: weekWrapper,
+            weekNumbers: weekNumbers,
+        };
+    }
+    function changeMonth(value, isOffset) {
+        if (isOffset === void 0) { isOffset = true; }
+        var delta = isOffset ? value : value - self.currentMonth;
+        if ((delta < 0 && self._hidePrevMonthArrow === true) ||
+            (delta > 0 && self._hideNextMonthArrow === true))
+            return;
+        self.currentMonth += delta;
+        if (self.currentMonth < 0 || self.currentMonth > 11) {
+            self.currentYear += self.currentMonth > 11 ? 1 : -1;
+            self.currentMonth = (self.currentMonth + 12) % 12;
+            triggerEvent("onYearChange");
+            buildMonthSwitch();
+        }
+        buildDays();
+        triggerEvent("onMonthChange");
+        updateNavigationCurrentMonth();
+    }
+    function clear(triggerChangeEvent, toInitial) {
+        if (triggerChangeEvent === void 0) { triggerChangeEvent = true; }
+        if (toInitial === void 0) { toInitial = true; }
+        self.input.value = "";
+        if (self.altInput !== undefined)
+            self.altInput.value = "";
+        if (self.mobileInput !== undefined)
+            self.mobileInput.value = "";
+        self.selectedDates = [];
+        self.latestSelectedDateObj = undefined;
+        if (toInitial === true) {
+            self.currentYear = self._initialDate.getFullYear();
+            self.currentMonth = self._initialDate.getMonth();
+        }
+        if (self.config.enableTime === true) {
+            var _a = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.getDefaultHours)(self.config), hours = _a.hours, minutes = _a.minutes, seconds = _a.seconds;
+            setHours(hours, minutes, seconds);
+        }
+        self.redraw();
+        if (triggerChangeEvent)
+            triggerEvent("onChange");
+    }
+    function close() {
+        self.isOpen = false;
+        if (!self.isMobile) {
+            if (self.calendarContainer !== undefined) {
+                self.calendarContainer.classList.remove("open");
+            }
+            if (self._input !== undefined) {
+                self._input.classList.remove("active");
+            }
+        }
+        triggerEvent("onClose");
+    }
+    function destroy() {
+        if (self.config !== undefined)
+            triggerEvent("onDestroy");
+        for (var i = self._handlers.length; i--;) {
+            self._handlers[i].remove();
+        }
+        self._handlers = [];
+        if (self.mobileInput) {
+            if (self.mobileInput.parentNode)
+                self.mobileInput.parentNode.removeChild(self.mobileInput);
+            self.mobileInput = undefined;
+        }
+        else if (self.calendarContainer && self.calendarContainer.parentNode) {
+            if (self.config.static && self.calendarContainer.parentNode) {
+                var wrapper = self.calendarContainer.parentNode;
+                wrapper.lastChild && wrapper.removeChild(wrapper.lastChild);
+                if (wrapper.parentNode) {
+                    while (wrapper.firstChild)
+                        wrapper.parentNode.insertBefore(wrapper.firstChild, wrapper);
+                    wrapper.parentNode.removeChild(wrapper);
+                }
+            }
+            else
+                self.calendarContainer.parentNode.removeChild(self.calendarContainer);
+        }
+        if (self.altInput) {
+            self.input.type = "text";
+            if (self.altInput.parentNode)
+                self.altInput.parentNode.removeChild(self.altInput);
+            delete self.altInput;
+        }
+        if (self.input) {
+            self.input.type = self.input._type;
+            self.input.classList.remove("flatpickr-input");
+            self.input.removeAttribute("readonly");
+        }
+        [
+            "_showTimeInput",
+            "latestSelectedDateObj",
+            "_hideNextMonthArrow",
+            "_hidePrevMonthArrow",
+            "__hideNextMonthArrow",
+            "__hidePrevMonthArrow",
+            "isMobile",
+            "isOpen",
+            "selectedDateElem",
+            "minDateHasTime",
+            "maxDateHasTime",
+            "days",
+            "daysContainer",
+            "_input",
+            "_positionElement",
+            "innerContainer",
+            "rContainer",
+            "monthNav",
+            "todayDateElem",
+            "calendarContainer",
+            "weekdayContainer",
+            "prevMonthNav",
+            "nextMonthNav",
+            "monthsDropdownContainer",
+            "currentMonthElement",
+            "currentYearElement",
+            "navigationCurrentMonth",
+            "selectedDateElem",
+            "config",
+        ].forEach(function (k) {
+            try {
+                delete self[k];
+            }
+            catch (_) { }
+        });
+    }
+    function isCalendarElem(elem) {
+        return self.calendarContainer.contains(elem);
+    }
+    function documentClick(e) {
+        if (self.isOpen && !self.config.inline) {
+            var eventTarget_1 = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e);
+            var isCalendarElement = isCalendarElem(eventTarget_1);
+            var isInput = eventTarget_1 === self.input ||
+                eventTarget_1 === self.altInput ||
+                self.element.contains(eventTarget_1) ||
+                (e.path &&
+                    e.path.indexOf &&
+                    (~e.path.indexOf(self.input) ||
+                        ~e.path.indexOf(self.altInput)));
+            var lostFocus = !isInput &&
+                !isCalendarElement &&
+                !isCalendarElem(e.relatedTarget);
+            var isIgnored = !self.config.ignoredFocusElements.some(function (elem) {
+                return elem.contains(eventTarget_1);
+            });
+            if (lostFocus && isIgnored) {
+                if (self.config.allowInput) {
+                    self.setDate(self._input.value, false, self.config.altInput
+                        ? self.config.altFormat
+                        : self.config.dateFormat);
+                }
+                if (self.timeContainer !== undefined &&
+                    self.minuteElement !== undefined &&
+                    self.hourElement !== undefined &&
+                    self.input.value !== "" &&
+                    self.input.value !== undefined) {
+                    updateTime();
+                }
+                self.close();
+                if (self.config &&
+                    self.config.mode === "range" &&
+                    self.selectedDates.length === 1)
+                    self.clear(false);
+            }
+        }
+    }
+    function changeYear(newYear) {
+        if (!newYear ||
+            (self.config.minDate && newYear < self.config.minDate.getFullYear()) ||
+            (self.config.maxDate && newYear > self.config.maxDate.getFullYear()))
+            return;
+        var newYearNum = newYear, isNewYear = self.currentYear !== newYearNum;
+        self.currentYear = newYearNum || self.currentYear;
+        if (self.config.maxDate &&
+            self.currentYear === self.config.maxDate.getFullYear()) {
+            self.currentMonth = Math.min(self.config.maxDate.getMonth(), self.currentMonth);
+        }
+        else if (self.config.minDate &&
+            self.currentYear === self.config.minDate.getFullYear()) {
+            self.currentMonth = Math.max(self.config.minDate.getMonth(), self.currentMonth);
+        }
+        if (isNewYear) {
+            self.redraw();
+            triggerEvent("onYearChange");
+            buildMonthSwitch();
+        }
+    }
+    function isEnabled(date, timeless) {
+        var _a;
+        if (timeless === void 0) { timeless = true; }
+        var dateToCheck = self.parseDate(date, undefined, timeless);
+        if ((self.config.minDate &&
+            dateToCheck &&
+            (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(dateToCheck, self.config.minDate, timeless !== undefined ? timeless : !self.minDateHasTime) < 0) ||
+            (self.config.maxDate &&
+                dateToCheck &&
+                (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(dateToCheck, self.config.maxDate, timeless !== undefined ? timeless : !self.maxDateHasTime) > 0))
+            return false;
+        if (!self.config.enable && self.config.disable.length === 0)
+            return true;
+        if (dateToCheck === undefined)
+            return false;
+        var bool = !!self.config.enable, array = (_a = self.config.enable) !== null && _a !== void 0 ? _a : self.config.disable;
+        for (var i = 0, d = void 0; i < array.length; i++) {
+            d = array[i];
+            if (typeof d === "function" &&
+                d(dateToCheck))
+                return bool;
+            else if (d instanceof Date &&
+                dateToCheck !== undefined &&
+                d.getTime() === dateToCheck.getTime())
+                return bool;
+            else if (typeof d === "string") {
+                var parsed = self.parseDate(d, undefined, true);
+                return parsed && parsed.getTime() === dateToCheck.getTime()
+                    ? bool
+                    : !bool;
+            }
+            else if (typeof d === "object" &&
+                dateToCheck !== undefined &&
+                d.from &&
+                d.to &&
+                dateToCheck.getTime() >= d.from.getTime() &&
+                dateToCheck.getTime() <= d.to.getTime())
+                return bool;
+        }
+        return !bool;
+    }
+    function isInView(elem) {
+        if (self.daysContainer !== undefined)
+            return (elem.className.indexOf("hidden") === -1 &&
+                elem.className.indexOf("flatpickr-disabled") === -1 &&
+                self.daysContainer.contains(elem));
+        return false;
+    }
+    function onBlur(e) {
+        var isInput = e.target === self._input;
+        var valueChanged = self._input.value.trimEnd() !== getDateStr();
+        if (isInput &&
+            valueChanged &&
+            !(e.relatedTarget && isCalendarElem(e.relatedTarget))) {
+            self.setDate(self._input.value, true, e.target === self.altInput
+                ? self.config.altFormat
+                : self.config.dateFormat);
+        }
+    }
+    function onKeyDown(e) {
+        var eventTarget = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e);
+        var isInput = self.config.wrap
+            ? element.contains(eventTarget)
+            : eventTarget === self._input;
+        var allowInput = self.config.allowInput;
+        var allowKeydown = self.isOpen && (!allowInput || !isInput);
+        var allowInlineKeydown = self.config.inline && isInput && !allowInput;
+        if (e.keyCode === 13 && isInput) {
+            if (allowInput) {
+                self.setDate(self._input.value, true, eventTarget === self.altInput
+                    ? self.config.altFormat
+                    : self.config.dateFormat);
+                self.close();
+                return eventTarget.blur();
+            }
+            else {
+                self.open();
+            }
+        }
+        else if (isCalendarElem(eventTarget) ||
+            allowKeydown ||
+            allowInlineKeydown) {
+            var isTimeObj = !!self.timeContainer &&
+                self.timeContainer.contains(eventTarget);
+            switch (e.keyCode) {
+                case 13:
+                    if (isTimeObj) {
+                        e.preventDefault();
+                        updateTime();
+                        focusAndClose();
+                    }
+                    else
+                        selectDate(e);
+                    break;
+                case 27:
+                    e.preventDefault();
+                    focusAndClose();
+                    break;
+                case 8:
+                case 46:
+                    if (isInput && !self.config.allowInput) {
+                        e.preventDefault();
+                        self.clear();
+                    }
+                    break;
+                case 37:
+                case 39:
+                    if (!isTimeObj && !isInput) {
+                        e.preventDefault();
+                        var activeElement = getClosestActiveElement();
+                        if (self.daysContainer !== undefined &&
+                            (allowInput === false ||
+                                (activeElement && isInView(activeElement)))) {
+                            var delta_1 = e.keyCode === 39 ? 1 : -1;
+                            if (!e.ctrlKey)
+                                focusOnDay(undefined, delta_1);
+                            else {
+                                e.stopPropagation();
+                                changeMonth(delta_1);
+                                focusOnDay(getFirstAvailableDay(1), 0);
+                            }
+                        }
+                    }
+                    else if (self.hourElement)
+                        self.hourElement.focus();
+                    break;
+                case 38:
+                case 40:
+                    e.preventDefault();
+                    var delta = e.keyCode === 40 ? 1 : -1;
+                    if ((self.daysContainer &&
+                        eventTarget.$i !== undefined) ||
+                        eventTarget === self.input ||
+                        eventTarget === self.altInput) {
+                        if (e.ctrlKey) {
+                            e.stopPropagation();
+                            changeYear(self.currentYear - delta);
+                            focusOnDay(getFirstAvailableDay(1), 0);
+                        }
+                        else if (!isTimeObj)
+                            focusOnDay(undefined, delta * 7);
+                    }
+                    else if (eventTarget === self.currentYearElement) {
+                        changeYear(self.currentYear - delta);
+                    }
+                    else if (self.config.enableTime) {
+                        if (!isTimeObj && self.hourElement)
+                            self.hourElement.focus();
+                        updateTime(e);
+                        self._debouncedChange();
+                    }
+                    break;
+                case 9:
+                    if (isTimeObj) {
+                        var elems = [
+                            self.hourElement,
+                            self.minuteElement,
+                            self.secondElement,
+                            self.amPM,
+                        ]
+                            .concat(self.pluginElements)
+                            .filter(function (x) { return x; });
+                        var i = elems.indexOf(eventTarget);
+                        if (i !== -1) {
+                            var target = elems[i + (e.shiftKey ? -1 : 1)];
+                            e.preventDefault();
+                            (target || self._input).focus();
+                        }
+                    }
+                    else if (!self.config.noCalendar &&
+                        self.daysContainer &&
+                        self.daysContainer.contains(eventTarget) &&
+                        e.shiftKey) {
+                        e.preventDefault();
+                        self._input.focus();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (self.amPM !== undefined && eventTarget === self.amPM) {
+            switch (e.key) {
+                case self.l10n.amPM[0].charAt(0):
+                case self.l10n.amPM[0].charAt(0).toLowerCase():
+                    self.amPM.textContent = self.l10n.amPM[0];
+                    setHoursFromInputs();
+                    updateValue();
+                    break;
+                case self.l10n.amPM[1].charAt(0):
+                case self.l10n.amPM[1].charAt(0).toLowerCase():
+                    self.amPM.textContent = self.l10n.amPM[1];
+                    setHoursFromInputs();
+                    updateValue();
+                    break;
+            }
+        }
+        if (isInput || isCalendarElem(eventTarget)) {
+            triggerEvent("onKeyDown", e);
+        }
+    }
+    function onMouseOver(elem, cellClass) {
+        if (cellClass === void 0) { cellClass = "flatpickr-day"; }
+        if (self.selectedDates.length !== 1 ||
+            (elem &&
+                (!elem.classList.contains(cellClass) ||
+                    elem.classList.contains("flatpickr-disabled"))))
+            return;
+        var hoverDate = elem
+            ? elem.dateObj.getTime()
+            : self.days.firstElementChild.dateObj.getTime(), initialDate = self.parseDate(self.selectedDates[0], undefined, true).getTime(), rangeStartDate = Math.min(hoverDate, self.selectedDates[0].getTime()), rangeEndDate = Math.max(hoverDate, self.selectedDates[0].getTime());
+        var containsDisabled = false;
+        var minRange = 0, maxRange = 0;
+        for (var t = rangeStartDate; t < rangeEndDate; t += _utils_dates__WEBPACK_IMPORTED_MODULE_4__.duration.DAY) {
+            if (!isEnabled(new Date(t), true)) {
+                containsDisabled =
+                    containsDisabled || (t > rangeStartDate && t < rangeEndDate);
+                if (t < initialDate && (!minRange || t > minRange))
+                    minRange = t;
+                else if (t > initialDate && (!maxRange || t < maxRange))
+                    maxRange = t;
+            }
+        }
+        var hoverableCells = Array.from(self.rContainer.querySelectorAll("*:nth-child(-n+" + self.config.showMonths + ") > ." + cellClass));
+        hoverableCells.forEach(function (dayElem) {
+            var date = dayElem.dateObj;
+            var timestamp = date.getTime();
+            var outOfRange = (minRange > 0 && timestamp < minRange) ||
+                (maxRange > 0 && timestamp > maxRange);
+            if (outOfRange) {
+                dayElem.classList.add("notAllowed");
+                ["inRange", "startRange", "endRange"].forEach(function (c) {
+                    dayElem.classList.remove(c);
+                });
+                return;
+            }
+            else if (containsDisabled && !outOfRange)
+                return;
+            ["startRange", "inRange", "endRange", "notAllowed"].forEach(function (c) {
+                dayElem.classList.remove(c);
+            });
+            if (elem !== undefined) {
+                elem.classList.add(hoverDate <= self.selectedDates[0].getTime()
+                    ? "startRange"
+                    : "endRange");
+                if (initialDate < hoverDate && timestamp === initialDate)
+                    dayElem.classList.add("startRange");
+                else if (initialDate > hoverDate && timestamp === initialDate)
+                    dayElem.classList.add("endRange");
+                if (timestamp >= minRange &&
+                    (maxRange === 0 || timestamp <= maxRange) &&
+                    (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.isBetween)(timestamp, initialDate, hoverDate))
+                    dayElem.classList.add("inRange");
+            }
+        });
+    }
+    function onResize() {
+        if (self.isOpen && !self.config.static && !self.config.inline)
+            positionCalendar();
+    }
+    function open(e, positionElement) {
+        if (positionElement === void 0) { positionElement = self._positionElement; }
+        if (self.isMobile === true) {
+            if (e) {
+                e.preventDefault();
+                var eventTarget = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e);
+                if (eventTarget) {
+                    eventTarget.blur();
+                }
+            }
+            if (self.mobileInput !== undefined) {
+                self.mobileInput.focus();
+                self.mobileInput.click();
+            }
+            triggerEvent("onOpen");
+            return;
+        }
+        else if (self._input.disabled || self.config.inline) {
+            return;
+        }
+        var wasOpen = self.isOpen;
+        self.isOpen = true;
+        if (!wasOpen) {
+            self.calendarContainer.classList.add("open");
+            self._input.classList.add("active");
+            triggerEvent("onOpen");
+            positionCalendar(positionElement);
+        }
+        if (self.config.enableTime === true && self.config.noCalendar === true) {
+            if (self.config.allowInput === false &&
+                (e === undefined ||
+                    !self.timeContainer.contains(e.relatedTarget))) {
+                setTimeout(function () { return self.hourElement.select(); }, 50);
+            }
+        }
+    }
+    function minMaxDateSetter(type) {
+        return function (date) {
+            var dateObj = (self.config["_" + type + "Date"] = self.parseDate(date, self.config.dateFormat));
+            var inverseDateObj = self.config["_" + (type === "min" ? "max" : "min") + "Date"];
+            if (dateObj !== undefined) {
+                self[type === "min" ? "minDateHasTime" : "maxDateHasTime"] =
+                    dateObj.getHours() > 0 ||
+                        dateObj.getMinutes() > 0 ||
+                        dateObj.getSeconds() > 0;
+            }
+            if (self.selectedDates) {
+                self.selectedDates = self.selectedDates.filter(function (d) { return isEnabled(d); });
+                if (!self.selectedDates.length && type === "min")
+                    setHoursFromDate(dateObj);
+                updateValue();
+            }
+            if (self.daysContainer) {
+                redraw();
+                if (dateObj !== undefined)
+                    self.currentYearElement[type] = dateObj.getFullYear().toString();
+                else
+                    self.currentYearElement.removeAttribute(type);
+                self.currentYearElement.disabled =
+                    !!inverseDateObj &&
+                        dateObj !== undefined &&
+                        inverseDateObj.getFullYear() === dateObj.getFullYear();
+            }
+        };
+    }
+    function parseConfig() {
+        var boolOpts = [
+            "wrap",
+            "weekNumbers",
+            "allowInput",
+            "allowInvalidPreload",
+            "clickOpens",
+            "time_24hr",
+            "enableTime",
+            "noCalendar",
+            "altInput",
+            "shorthandCurrentMonth",
+            "inline",
+            "static",
+            "enableSeconds",
+            "disableMobile",
+        ];
+        var userConfig = __assign(__assign({}, JSON.parse(JSON.stringify(element.dataset || {}))), instanceConfig);
+        var formats = {};
+        self.config.parseDate = userConfig.parseDate;
+        self.config.formatDate = userConfig.formatDate;
+        Object.defineProperty(self.config, "enable", {
+            get: function () { return self.config._enable; },
+            set: function (dates) {
+                self.config._enable = parseDateRules(dates);
+            },
+        });
+        Object.defineProperty(self.config, "disable", {
+            get: function () { return self.config._disable; },
+            set: function (dates) {
+                self.config._disable = parseDateRules(dates);
+            },
+        });
+        var timeMode = userConfig.mode === "time";
+        if (!userConfig.dateFormat && (userConfig.enableTime || timeMode)) {
+            var defaultDateFormat = flatpickr.defaultConfig.dateFormat || _types_options__WEBPACK_IMPORTED_MODULE_0__.defaults.dateFormat;
+            formats.dateFormat =
+                userConfig.noCalendar || timeMode
+                    ? "H:i" + (userConfig.enableSeconds ? ":S" : "")
+                    : defaultDateFormat + " H:i" + (userConfig.enableSeconds ? ":S" : "");
+        }
+        if (userConfig.altInput &&
+            (userConfig.enableTime || timeMode) &&
+            !userConfig.altFormat) {
+            var defaultAltFormat = flatpickr.defaultConfig.altFormat || _types_options__WEBPACK_IMPORTED_MODULE_0__.defaults.altFormat;
+            formats.altFormat =
+                userConfig.noCalendar || timeMode
+                    ? "h:i" + (userConfig.enableSeconds ? ":S K" : " K")
+                    : defaultAltFormat + (" h:i" + (userConfig.enableSeconds ? ":S" : "") + " K");
+        }
+        Object.defineProperty(self.config, "minDate", {
+            get: function () { return self.config._minDate; },
+            set: minMaxDateSetter("min"),
+        });
+        Object.defineProperty(self.config, "maxDate", {
+            get: function () { return self.config._maxDate; },
+            set: minMaxDateSetter("max"),
+        });
+        var minMaxTimeSetter = function (type) { return function (val) {
+            self.config[type === "min" ? "_minTime" : "_maxTime"] = self.parseDate(val, "H:i:S");
+        }; };
+        Object.defineProperty(self.config, "minTime", {
+            get: function () { return self.config._minTime; },
+            set: minMaxTimeSetter("min"),
+        });
+        Object.defineProperty(self.config, "maxTime", {
+            get: function () { return self.config._maxTime; },
+            set: minMaxTimeSetter("max"),
+        });
+        if (userConfig.mode === "time") {
+            self.config.noCalendar = true;
+            self.config.enableTime = true;
+        }
+        Object.assign(self.config, formats, userConfig);
+        for (var i = 0; i < boolOpts.length; i++)
+            self.config[boolOpts[i]] =
+                self.config[boolOpts[i]] === true ||
+                    self.config[boolOpts[i]] === "true";
+        _types_options__WEBPACK_IMPORTED_MODULE_0__.HOOKS.filter(function (hook) { return self.config[hook] !== undefined; }).forEach(function (hook) {
+            self.config[hook] = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.arrayify)(self.config[hook] || []).map(bindToInstance);
+        });
+        self.isMobile =
+            !self.config.disableMobile &&
+                !self.config.inline &&
+                self.config.mode === "single" &&
+                !self.config.disable.length &&
+                !self.config.enable &&
+                !self.config.weekNumbers &&
+                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        for (var i = 0; i < self.config.plugins.length; i++) {
+            var pluginConf = self.config.plugins[i](self) || {};
+            for (var key in pluginConf) {
+                if (_types_options__WEBPACK_IMPORTED_MODULE_0__.HOOKS.indexOf(key) > -1) {
+                    self.config[key] = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.arrayify)(pluginConf[key])
+                        .map(bindToInstance)
+                        .concat(self.config[key]);
+                }
+                else if (typeof userConfig[key] === "undefined")
+                    self.config[key] = pluginConf[key];
+            }
+        }
+        if (!userConfig.altInputClass) {
+            self.config.altInputClass =
+                getInputElem().className + " " + self.config.altInputClass;
+        }
+        triggerEvent("onParseConfig");
+    }
+    function getInputElem() {
+        return self.config.wrap
+            ? element.querySelector("[data-input]")
+            : element;
+    }
+    function setupLocale() {
+        if (typeof self.config.locale !== "object" &&
+            typeof flatpickr.l10ns[self.config.locale] === "undefined")
+            self.config.errorHandler(new Error("flatpickr: invalid locale " + self.config.locale));
+        self.l10n = __assign(__assign({}, flatpickr.l10ns.default), (typeof self.config.locale === "object"
+            ? self.config.locale
+            : self.config.locale !== "default"
+                ? flatpickr.l10ns[self.config.locale]
+                : undefined));
+        _utils_formatting__WEBPACK_IMPORTED_MODULE_5__.tokenRegex.D = "(" + self.l10n.weekdays.shorthand.join("|") + ")";
+        _utils_formatting__WEBPACK_IMPORTED_MODULE_5__.tokenRegex.l = "(" + self.l10n.weekdays.longhand.join("|") + ")";
+        _utils_formatting__WEBPACK_IMPORTED_MODULE_5__.tokenRegex.M = "(" + self.l10n.months.shorthand.join("|") + ")";
+        _utils_formatting__WEBPACK_IMPORTED_MODULE_5__.tokenRegex.F = "(" + self.l10n.months.longhand.join("|") + ")";
+        _utils_formatting__WEBPACK_IMPORTED_MODULE_5__.tokenRegex.K = "(" + self.l10n.amPM[0] + "|" + self.l10n.amPM[1] + "|" + self.l10n.amPM[0].toLowerCase() + "|" + self.l10n.amPM[1].toLowerCase() + ")";
+        var userConfig = __assign(__assign({}, instanceConfig), JSON.parse(JSON.stringify(element.dataset || {})));
+        if (userConfig.time_24hr === undefined &&
+            flatpickr.defaultConfig.time_24hr === undefined) {
+            self.config.time_24hr = self.l10n.time_24hr;
+        }
+        self.formatDate = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.createDateFormatter)(self);
+        self.parseDate = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.createDateParser)({ config: self.config, l10n: self.l10n });
+    }
+    function positionCalendar(customPositionElement) {
+        if (typeof self.config.position === "function") {
+            return void self.config.position(self, customPositionElement);
+        }
+        if (self.calendarContainer === undefined)
+            return;
+        triggerEvent("onPreCalendarPosition");
+        var positionElement = customPositionElement || self._positionElement;
+        var calendarHeight = Array.prototype.reduce.call(self.calendarContainer.children, (function (acc, child) { return acc + child.offsetHeight; }), 0), calendarWidth = self.calendarContainer.offsetWidth, configPos = self.config.position.split(" "), configPosVertical = configPos[0], configPosHorizontal = configPos.length > 1 ? configPos[1] : null, inputBounds = positionElement.getBoundingClientRect(), distanceFromBottom = window.innerHeight - inputBounds.bottom, showOnTop = configPosVertical === "above" ||
+            (configPosVertical !== "below" &&
+                distanceFromBottom < calendarHeight &&
+                inputBounds.top > calendarHeight);
+        var top = window.pageYOffset +
+            inputBounds.top +
+            (!showOnTop ? positionElement.offsetHeight + 2 : -calendarHeight - 2);
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "arrowTop", !showOnTop);
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "arrowBottom", showOnTop);
+        if (self.config.inline)
+            return;
+        var left = window.pageXOffset + inputBounds.left;
+        var isCenter = false;
+        var isRight = false;
+        if (configPosHorizontal === "center") {
+            left -= (calendarWidth - inputBounds.width) / 2;
+            isCenter = true;
+        }
+        else if (configPosHorizontal === "right") {
+            left -= calendarWidth - inputBounds.width;
+            isRight = true;
+        }
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "arrowLeft", !isCenter && !isRight);
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "arrowCenter", isCenter);
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "arrowRight", isRight);
+        var right = window.document.body.offsetWidth -
+            (window.pageXOffset + inputBounds.right);
+        var rightMost = left + calendarWidth > window.document.body.offsetWidth;
+        var centerMost = right + calendarWidth > window.document.body.offsetWidth;
+        (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "rightMost", rightMost);
+        if (self.config.static)
+            return;
+        self.calendarContainer.style.top = top + "px";
+        if (!rightMost) {
+            self.calendarContainer.style.left = left + "px";
+            self.calendarContainer.style.right = "auto";
+        }
+        else if (!centerMost) {
+            self.calendarContainer.style.left = "auto";
+            self.calendarContainer.style.right = right + "px";
+        }
+        else {
+            var doc = getDocumentStyleSheet();
+            if (doc === undefined)
+                return;
+            var bodyWidth = window.document.body.offsetWidth;
+            var centerLeft = Math.max(0, bodyWidth / 2 - calendarWidth / 2);
+            var centerBefore = ".flatpickr-calendar.centerMost:before";
+            var centerAfter = ".flatpickr-calendar.centerMost:after";
+            var centerIndex = doc.cssRules.length;
+            var centerStyle = "{left:" + inputBounds.left + "px;right:auto;}";
+            (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "rightMost", false);
+            (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.toggleClass)(self.calendarContainer, "centerMost", true);
+            doc.insertRule(centerBefore + "," + centerAfter + centerStyle, centerIndex);
+            self.calendarContainer.style.left = centerLeft + "px";
+            self.calendarContainer.style.right = "auto";
+        }
+    }
+    function getDocumentStyleSheet() {
+        var editableSheet = null;
+        for (var i = 0; i < document.styleSheets.length; i++) {
+            var sheet = document.styleSheets[i];
+            if (!sheet.cssRules)
+                continue;
+            try {
+                sheet.cssRules;
+            }
+            catch (err) {
+                continue;
+            }
+            editableSheet = sheet;
+            break;
+        }
+        return editableSheet != null ? editableSheet : createStyleSheet();
+    }
+    function createStyleSheet() {
+        var style = document.createElement("style");
+        document.head.appendChild(style);
+        return style.sheet;
+    }
+    function redraw() {
+        if (self.config.noCalendar || self.isMobile)
+            return;
+        buildMonthSwitch();
+        updateNavigationCurrentMonth();
+        buildDays();
+    }
+    function focusAndClose() {
+        self._input.focus();
+        if (window.navigator.userAgent.indexOf("MSIE") !== -1 ||
+            navigator.msMaxTouchPoints !== undefined) {
+            setTimeout(self.close, 0);
+        }
+        else {
+            self.close();
+        }
+    }
+    function selectDate(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var isSelectable = function (day) {
+            return day.classList &&
+                day.classList.contains("flatpickr-day") &&
+                !day.classList.contains("flatpickr-disabled") &&
+                !day.classList.contains("notAllowed");
+        };
+        var t = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.findParent)((0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e), isSelectable);
+        if (t === undefined)
+            return;
+        var target = t;
+        var selectedDate = (self.latestSelectedDateObj = new Date(target.dateObj.getTime()));
+        var shouldChangeMonth = (selectedDate.getMonth() < self.currentMonth ||
+            selectedDate.getMonth() >
+                self.currentMonth + self.config.showMonths - 1) &&
+            self.config.mode !== "range";
+        self.selectedDateElem = target;
+        if (self.config.mode === "single")
+            self.selectedDates = [selectedDate];
+        else if (self.config.mode === "multiple") {
+            var selectedIndex = isDateSelected(selectedDate);
+            if (selectedIndex)
+                self.selectedDates.splice(parseInt(selectedIndex), 1);
+            else
+                self.selectedDates.push(selectedDate);
+        }
+        else if (self.config.mode === "range") {
+            if (self.selectedDates.length === 2) {
+                self.clear(false, false);
+            }
+            self.latestSelectedDateObj = selectedDate;
+            self.selectedDates.push(selectedDate);
+            if ((0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(selectedDate, self.selectedDates[0], true) !== 0)
+                self.selectedDates.sort(function (a, b) { return a.getTime() - b.getTime(); });
+        }
+        setHoursFromInputs();
+        if (shouldChangeMonth) {
+            var isNewYear = self.currentYear !== selectedDate.getFullYear();
+            self.currentYear = selectedDate.getFullYear();
+            self.currentMonth = selectedDate.getMonth();
+            if (isNewYear) {
+                triggerEvent("onYearChange");
+                buildMonthSwitch();
+            }
+            triggerEvent("onMonthChange");
+        }
+        updateNavigationCurrentMonth();
+        buildDays();
+        updateValue();
+        if (!shouldChangeMonth &&
+            self.config.mode !== "range" &&
+            self.config.showMonths === 1)
+            focusOnDayElem(target);
+        else if (self.selectedDateElem !== undefined &&
+            self.hourElement === undefined) {
+            self.selectedDateElem && self.selectedDateElem.focus();
+        }
+        if (self.hourElement !== undefined)
+            self.hourElement !== undefined && self.hourElement.focus();
+        if (self.config.closeOnSelect) {
+            var single = self.config.mode === "single" && !self.config.enableTime;
+            var range = self.config.mode === "range" &&
+                self.selectedDates.length === 2 &&
+                !self.config.enableTime;
+            if (single || range) {
+                focusAndClose();
+            }
+        }
+        triggerChange();
+    }
+    var CALLBACKS = {
+        locale: [setupLocale, updateWeekdays],
+        showMonths: [buildMonths, setCalendarWidth, buildWeekdays],
+        minDate: [jumpToDate],
+        maxDate: [jumpToDate],
+        positionElement: [updatePositionElement],
+        clickOpens: [
+            function () {
+                if (self.config.clickOpens === true) {
+                    bind(self._input, "focus", self.open);
+                    bind(self._input, "click", self.open);
+                }
+                else {
+                    self._input.removeEventListener("focus", self.open);
+                    self._input.removeEventListener("click", self.open);
+                }
+            },
+        ],
+    };
+    function set(option, value) {
+        if (option !== null && typeof option === "object") {
+            Object.assign(self.config, option);
+            for (var key in option) {
+                if (CALLBACKS[key] !== undefined)
+                    CALLBACKS[key].forEach(function (x) { return x(); });
+            }
+        }
+        else {
+            self.config[option] = value;
+            if (CALLBACKS[option] !== undefined)
+                CALLBACKS[option].forEach(function (x) { return x(); });
+            else if (_types_options__WEBPACK_IMPORTED_MODULE_0__.HOOKS.indexOf(option) > -1)
+                self.config[option] = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.arrayify)(value);
+        }
+        self.redraw();
+        updateValue(true);
+    }
+    function setSelectedDate(inputDate, format) {
+        var dates = [];
+        if (inputDate instanceof Array)
+            dates = inputDate.map(function (d) { return self.parseDate(d, format); });
+        else if (inputDate instanceof Date || typeof inputDate === "number")
+            dates = [self.parseDate(inputDate, format)];
+        else if (typeof inputDate === "string") {
+            switch (self.config.mode) {
+                case "single":
+                case "time":
+                    dates = [self.parseDate(inputDate, format)];
+                    break;
+                case "multiple":
+                    dates = inputDate
+                        .split(self.config.conjunction)
+                        .map(function (date) { return self.parseDate(date, format); });
+                    break;
+                case "range":
+                    dates = inputDate
+                        .split(self.l10n.rangeSeparator)
+                        .map(function (date) { return self.parseDate(date, format); });
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+            self.config.errorHandler(new Error("Invalid date supplied: " + JSON.stringify(inputDate)));
+        self.selectedDates = (self.config.allowInvalidPreload
+            ? dates
+            : dates.filter(function (d) { return d instanceof Date && isEnabled(d, false); }));
+        if (self.config.mode === "range")
+            self.selectedDates.sort(function (a, b) { return a.getTime() - b.getTime(); });
+    }
+    function setDate(date, triggerChange, format) {
+        if (triggerChange === void 0) { triggerChange = false; }
+        if (format === void 0) { format = self.config.dateFormat; }
+        if ((date !== 0 && !date) || (date instanceof Array && date.length === 0))
+            return self.clear(triggerChange);
+        setSelectedDate(date, format);
+        self.latestSelectedDateObj =
+            self.selectedDates[self.selectedDates.length - 1];
+        self.redraw();
+        jumpToDate(undefined, triggerChange);
+        setHoursFromDate();
+        if (self.selectedDates.length === 0) {
+            self.clear(false);
+        }
+        updateValue(triggerChange);
+        if (triggerChange)
+            triggerEvent("onChange");
+    }
+    function parseDateRules(arr) {
+        return arr
+            .slice()
+            .map(function (rule) {
+            if (typeof rule === "string" ||
+                typeof rule === "number" ||
+                rule instanceof Date) {
+                return self.parseDate(rule, undefined, true);
+            }
+            else if (rule &&
+                typeof rule === "object" &&
+                rule.from &&
+                rule.to)
+                return {
+                    from: self.parseDate(rule.from, undefined),
+                    to: self.parseDate(rule.to, undefined),
+                };
+            return rule;
+        })
+            .filter(function (x) { return x; });
+    }
+    function setupDates() {
+        self.selectedDates = [];
+        self.now = self.parseDate(self.config.now) || new Date();
+        var preloadedDate = self.config.defaultDate ||
+            ((self.input.nodeName === "INPUT" ||
+                self.input.nodeName === "TEXTAREA") &&
+                self.input.placeholder &&
+                self.input.value === self.input.placeholder
+                ? null
+                : self.input.value);
+        if (preloadedDate)
+            setSelectedDate(preloadedDate, self.config.dateFormat);
+        self._initialDate =
+            self.selectedDates.length > 0
+                ? self.selectedDates[0]
+                : self.config.minDate &&
+                    self.config.minDate.getTime() > self.now.getTime()
+                    ? self.config.minDate
+                    : self.config.maxDate &&
+                        self.config.maxDate.getTime() < self.now.getTime()
+                        ? self.config.maxDate
+                        : self.now;
+        self.currentYear = self._initialDate.getFullYear();
+        self.currentMonth = self._initialDate.getMonth();
+        if (self.selectedDates.length > 0)
+            self.latestSelectedDateObj = self.selectedDates[0];
+        if (self.config.minTime !== undefined)
+            self.config.minTime = self.parseDate(self.config.minTime, "H:i");
+        if (self.config.maxTime !== undefined)
+            self.config.maxTime = self.parseDate(self.config.maxTime, "H:i");
+        self.minDateHasTime =
+            !!self.config.minDate &&
+                (self.config.minDate.getHours() > 0 ||
+                    self.config.minDate.getMinutes() > 0 ||
+                    self.config.minDate.getSeconds() > 0);
+        self.maxDateHasTime =
+            !!self.config.maxDate &&
+                (self.config.maxDate.getHours() > 0 ||
+                    self.config.maxDate.getMinutes() > 0 ||
+                    self.config.maxDate.getSeconds() > 0);
+    }
+    function setupInputs() {
+        self.input = getInputElem();
+        if (!self.input) {
+            self.config.errorHandler(new Error("Invalid input element specified"));
+            return;
+        }
+        self.input._type = self.input.type;
+        self.input.type = "text";
+        self.input.classList.add("flatpickr-input");
+        self._input = self.input;
+        if (self.config.altInput) {
+            self.altInput = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)(self.input.nodeName, self.config.altInputClass);
+            self._input = self.altInput;
+            self.altInput.placeholder = self.input.placeholder;
+            self.altInput.disabled = self.input.disabled;
+            self.altInput.required = self.input.required;
+            self.altInput.tabIndex = self.input.tabIndex;
+            self.altInput.type = "text";
+            self.input.setAttribute("type", "hidden");
+            if (!self.config.static && self.input.parentNode)
+                self.input.parentNode.insertBefore(self.altInput, self.input.nextSibling);
+        }
+        if (!self.config.allowInput)
+            self._input.setAttribute("readonly", "readonly");
+        updatePositionElement();
+    }
+    function updatePositionElement() {
+        self._positionElement = self.config.positionElement || self._input;
+    }
+    function setupMobile() {
+        var inputType = self.config.enableTime
+            ? self.config.noCalendar
+                ? "time"
+                : "datetime-local"
+            : "date";
+        self.mobileInput = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.createElement)("input", self.input.className + " flatpickr-mobile");
+        self.mobileInput.tabIndex = 1;
+        self.mobileInput.type = inputType;
+        self.mobileInput.disabled = self.input.disabled;
+        self.mobileInput.required = self.input.required;
+        self.mobileInput.placeholder = self.input.placeholder;
+        self.mobileFormatStr =
+            inputType === "datetime-local"
+                ? "Y-m-d\\TH:i:S"
+                : inputType === "date"
+                    ? "Y-m-d"
+                    : "H:i:S";
+        if (self.selectedDates.length > 0) {
+            self.mobileInput.defaultValue = self.mobileInput.value = self.formatDate(self.selectedDates[0], self.mobileFormatStr);
+        }
+        if (self.config.minDate)
+            self.mobileInput.min = self.formatDate(self.config.minDate, "Y-m-d");
+        if (self.config.maxDate)
+            self.mobileInput.max = self.formatDate(self.config.maxDate, "Y-m-d");
+        if (self.input.getAttribute("step"))
+            self.mobileInput.step = String(self.input.getAttribute("step"));
+        self.input.type = "hidden";
+        if (self.altInput !== undefined)
+            self.altInput.type = "hidden";
+        try {
+            if (self.input.parentNode)
+                self.input.parentNode.insertBefore(self.mobileInput, self.input.nextSibling);
+        }
+        catch (_a) { }
+        bind(self.mobileInput, "change", function (e) {
+            self.setDate((0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e).value, false, self.mobileFormatStr);
+            triggerEvent("onChange");
+            triggerEvent("onClose");
+        });
+    }
+    function toggle(e) {
+        if (self.isOpen === true)
+            return self.close();
+        self.open(e);
+    }
+    function triggerEvent(event, data) {
+        if (self.config === undefined)
+            return;
+        var hooks = self.config[event];
+        if (hooks !== undefined && hooks.length > 0) {
+            for (var i = 0; hooks[i] && i < hooks.length; i++)
+                hooks[i](self.selectedDates, self.input.value, self, data);
+        }
+        if (event === "onChange") {
+            self.input.dispatchEvent(createEvent("change"));
+            self.input.dispatchEvent(createEvent("input"));
+        }
+    }
+    function createEvent(name) {
+        var e = document.createEvent("Event");
+        e.initEvent(name, true, true);
+        return e;
+    }
+    function isDateSelected(date) {
+        for (var i = 0; i < self.selectedDates.length; i++) {
+            var selectedDate = self.selectedDates[i];
+            if (selectedDate instanceof Date &&
+                (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(selectedDate, date) === 0)
+                return "" + i;
+        }
+        return false;
+    }
+    function isDateInRange(date) {
+        if (self.config.mode !== "range" || self.selectedDates.length < 2)
+            return false;
+        return ((0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(date, self.selectedDates[0]) >= 0 &&
+            (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates)(date, self.selectedDates[1]) <= 0);
+    }
+    function updateNavigationCurrentMonth() {
+        if (self.config.noCalendar || self.isMobile || !self.monthNav)
+            return;
+        self.yearElements.forEach(function (yearElement, i) {
+            var d = new Date(self.currentYear, self.currentMonth, 1);
+            d.setMonth(self.currentMonth + i);
+            if (self.config.showMonths > 1 ||
+                self.config.monthSelectorType === "static") {
+                self.monthElements[i].textContent =
+                    (0,_utils_formatting__WEBPACK_IMPORTED_MODULE_5__.monthToStr)(d.getMonth(), self.config.shorthandCurrentMonth, self.l10n) + " ";
+            }
+            else {
+                self.monthsDropdownContainer.value = d.getMonth().toString();
+            }
+            yearElement.value = d.getFullYear().toString();
+        });
+        self._hidePrevMonthArrow =
+            self.config.minDate !== undefined &&
+                (self.currentYear === self.config.minDate.getFullYear()
+                    ? self.currentMonth <= self.config.minDate.getMonth()
+                    : self.currentYear < self.config.minDate.getFullYear());
+        self._hideNextMonthArrow =
+            self.config.maxDate !== undefined &&
+                (self.currentYear === self.config.maxDate.getFullYear()
+                    ? self.currentMonth + 1 > self.config.maxDate.getMonth()
+                    : self.currentYear > self.config.maxDate.getFullYear());
+    }
+    function getDateStr(specificFormat) {
+        var format = specificFormat ||
+            (self.config.altInput ? self.config.altFormat : self.config.dateFormat);
+        return self.selectedDates
+            .map(function (dObj) { return self.formatDate(dObj, format); })
+            .filter(function (d, i, arr) {
+            return self.config.mode !== "range" ||
+                self.config.enableTime ||
+                arr.indexOf(d) === i;
+        })
+            .join(self.config.mode !== "range"
+            ? self.config.conjunction
+            : self.l10n.rangeSeparator);
+    }
+    function updateValue(triggerChange) {
+        if (triggerChange === void 0) { triggerChange = true; }
+        if (self.mobileInput !== undefined && self.mobileFormatStr) {
+            self.mobileInput.value =
+                self.latestSelectedDateObj !== undefined
+                    ? self.formatDate(self.latestSelectedDateObj, self.mobileFormatStr)
+                    : "";
+        }
+        self.input.value = getDateStr(self.config.dateFormat);
+        if (self.altInput !== undefined) {
+            self.altInput.value = getDateStr(self.config.altFormat);
+        }
+        if (triggerChange !== false)
+            triggerEvent("onValueUpdate");
+    }
+    function onMonthNavClick(e) {
+        var eventTarget = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e);
+        var isPrevMonth = self.prevMonthNav.contains(eventTarget);
+        var isNextMonth = self.nextMonthNav.contains(eventTarget);
+        if (isPrevMonth || isNextMonth) {
+            changeMonth(isPrevMonth ? -1 : 1);
+        }
+        else if (self.yearElements.indexOf(eventTarget) >= 0) {
+            eventTarget.select();
+        }
+        else if (eventTarget.classList.contains("arrowUp")) {
+            self.changeYear(self.currentYear + 1);
+        }
+        else if (eventTarget.classList.contains("arrowDown")) {
+            self.changeYear(self.currentYear - 1);
+        }
+    }
+    function timeWrapper(e) {
+        e.preventDefault();
+        var isKeyDown = e.type === "keydown", eventTarget = (0,_utils_dom__WEBPACK_IMPORTED_MODULE_3__.getEventTarget)(e), input = eventTarget;
+        if (self.amPM !== undefined && eventTarget === self.amPM) {
+            self.amPM.textContent =
+                self.l10n.amPM[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.int)(self.amPM.textContent === self.l10n.amPM[0])];
+        }
+        var min = parseFloat(input.getAttribute("min")), max = parseFloat(input.getAttribute("max")), step = parseFloat(input.getAttribute("step")), curValue = parseInt(input.value, 10), delta = e.delta ||
+            (isKeyDown ? (e.which === 38 ? 1 : -1) : 0);
+        var newValue = curValue + step * delta;
+        if (typeof input.value !== "undefined" && input.value.length === 2) {
+            var isHourElem = input === self.hourElement, isMinuteElem = input === self.minuteElement;
+            if (newValue < min) {
+                newValue =
+                    max +
+                        newValue +
+                        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.int)(!isHourElem) +
+                        ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.int)(isHourElem) && (0,_utils__WEBPACK_IMPORTED_MODULE_2__.int)(!self.amPM));
+                if (isMinuteElem)
+                    incrementNumInput(undefined, -1, self.hourElement);
+            }
+            else if (newValue > max) {
+                newValue =
+                    input === self.hourElement ? newValue - max - (0,_utils__WEBPACK_IMPORTED_MODULE_2__.int)(!self.amPM) : min;
+                if (isMinuteElem)
+                    incrementNumInput(undefined, 1, self.hourElement);
+            }
+            if (self.amPM &&
+                isHourElem &&
+                (step === 1
+                    ? newValue + curValue === 23
+                    : Math.abs(newValue - curValue) > step)) {
+                self.amPM.textContent =
+                    self.l10n.amPM[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.int)(self.amPM.textContent === self.l10n.amPM[0])];
+            }
+            input.value = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.pad)(newValue);
+        }
+    }
+    init();
+    return self;
+}
+function _flatpickr(nodeList, config) {
+    var nodes = Array.prototype.slice
+        .call(nodeList)
+        .filter(function (x) { return x instanceof HTMLElement; });
+    var instances = [];
+    for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        try {
+            if (node.getAttribute("data-fp-omit") !== null)
+                continue;
+            if (node._flatpickr !== undefined) {
+                node._flatpickr.destroy();
+                node._flatpickr = undefined;
+            }
+            node._flatpickr = FlatpickrInstance(node, config || {});
+            instances.push(node._flatpickr);
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+    return instances.length === 1 ? instances[0] : instances;
+}
+if (typeof HTMLElement !== "undefined" &&
+    typeof HTMLCollection !== "undefined" &&
+    typeof NodeList !== "undefined") {
+    HTMLCollection.prototype.flatpickr = NodeList.prototype.flatpickr = function (config) {
+        return _flatpickr(this, config);
+    };
+    HTMLElement.prototype.flatpickr = function (config) {
+        return _flatpickr([this], config);
+    };
+}
+var flatpickr = function (selector, config) {
+    if (typeof selector === "string") {
+        return _flatpickr(window.document.querySelectorAll(selector), config);
+    }
+    else if (selector instanceof Node) {
+        return _flatpickr([selector], config);
+    }
+    else {
+        return _flatpickr(selector, config);
+    }
+};
+flatpickr.defaultConfig = {};
+flatpickr.l10ns = {
+    en: __assign({}, _l10n_default__WEBPACK_IMPORTED_MODULE_1__["default"]),
+    default: __assign({}, _l10n_default__WEBPACK_IMPORTED_MODULE_1__["default"]),
+};
+flatpickr.localize = function (l10n) {
+    flatpickr.l10ns.default = __assign(__assign({}, flatpickr.l10ns.default), l10n);
+};
+flatpickr.setDefaults = function (config) {
+    flatpickr.defaultConfig = __assign(__assign({}, flatpickr.defaultConfig), config);
+};
+flatpickr.parseDate = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.createDateParser)({});
+flatpickr.formatDate = (0,_utils_dates__WEBPACK_IMPORTED_MODULE_4__.createDateFormatter)({});
+flatpickr.compareDates = _utils_dates__WEBPACK_IMPORTED_MODULE_4__.compareDates;
+if (typeof jQuery !== "undefined" && typeof jQuery.fn !== "undefined") {
+    jQuery.fn.flatpickr = function (config) {
+        return _flatpickr(this, config);
+    };
+}
+Date.prototype.fp_incr = function (days) {
+    return new Date(this.getFullYear(), this.getMonth(), this.getDate() + (typeof days === "string" ? parseInt(days, 10) : days));
+};
+if (typeof window !== "undefined") {
+    window.flatpickr = flatpickr;
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (flatpickr);
+
+
+/***/ }),
+
+/***/ "./node_modules/flatpickr/dist/esm/l10n/default.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/flatpickr/dist/esm/l10n/default.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   english: () => (/* binding */ english)
+/* harmony export */ });
+var english = {
+    weekdays: {
+        shorthand: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        longhand: [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+        ],
+    },
+    months: {
+        shorthand: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
+        longhand: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ],
+    },
+    daysInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+    firstDayOfWeek: 0,
+    ordinal: function (nth) {
+        var s = nth % 100;
+        if (s > 3 && s < 21)
+            return "th";
+        switch (s % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    },
+    rangeSeparator: " to ",
+    weekAbbreviation: "Wk",
+    scrollTitle: "Scroll to increment",
+    toggleTitle: "Click to toggle",
+    amPM: ["AM", "PM"],
+    yearAriaLabel: "Year",
+    monthAriaLabel: "Month",
+    hourAriaLabel: "Hour",
+    minuteAriaLabel: "Minute",
+    time_24hr: false,
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (english);
+
+
+/***/ }),
+
+/***/ "./node_modules/flatpickr/dist/esm/types/options.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/flatpickr/dist/esm/types/options.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   HOOKS: () => (/* binding */ HOOKS),
+/* harmony export */   defaults: () => (/* binding */ defaults)
+/* harmony export */ });
+var HOOKS = [
+    "onChange",
+    "onClose",
+    "onDayCreate",
+    "onDestroy",
+    "onKeyDown",
+    "onMonthChange",
+    "onOpen",
+    "onParseConfig",
+    "onReady",
+    "onValueUpdate",
+    "onYearChange",
+    "onPreCalendarPosition",
+];
+var defaults = {
+    _disable: [],
+    allowInput: false,
+    allowInvalidPreload: false,
+    altFormat: "F j, Y",
+    altInput: false,
+    altInputClass: "form-control input",
+    animate: typeof window === "object" &&
+        window.navigator.userAgent.indexOf("MSIE") === -1,
+    ariaDateFormat: "F j, Y",
+    autoFillDefaultTime: true,
+    clickOpens: true,
+    closeOnSelect: true,
+    conjunction: ", ",
+    dateFormat: "Y-m-d",
+    defaultHour: 12,
+    defaultMinute: 0,
+    defaultSeconds: 0,
+    disable: [],
+    disableMobile: false,
+    enableSeconds: false,
+    enableTime: false,
+    errorHandler: function (err) {
+        return typeof console !== "undefined" && console.warn(err);
+    },
+    getWeek: function (givenDate) {
+        var date = new Date(givenDate.getTime());
+        date.setHours(0, 0, 0, 0);
+        date.setDate(date.getDate() + 3 - ((date.getDay() + 6) % 7));
+        var week1 = new Date(date.getFullYear(), 0, 4);
+        return (1 +
+            Math.round(((date.getTime() - week1.getTime()) / 86400000 -
+                3 +
+                ((week1.getDay() + 6) % 7)) /
+                7));
+    },
+    hourIncrement: 1,
+    ignoredFocusElements: [],
+    inline: false,
+    locale: "default",
+    minuteIncrement: 5,
+    mode: "single",
+    monthSelectorType: "dropdown",
+    nextArrow: "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M13.207 8.472l-7.854 7.854-0.707-0.707 7.146-7.146-7.146-7.148 0.707-0.707 7.854 7.854z' /></svg>",
+    noCalendar: false,
+    now: new Date(),
+    onChange: [],
+    onClose: [],
+    onDayCreate: [],
+    onDestroy: [],
+    onKeyDown: [],
+    onMonthChange: [],
+    onOpen: [],
+    onParseConfig: [],
+    onReady: [],
+    onValueUpdate: [],
+    onYearChange: [],
+    onPreCalendarPosition: [],
+    plugins: [],
+    position: "auto",
+    positionElement: undefined,
+    prevArrow: "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M5.207 8.471l7.146 7.147-0.707 0.707-7.853-7.854 7.854-7.853 0.707 0.707-7.147 7.146z' /></svg>",
+    shorthandCurrentMonth: false,
+    showMonths: 1,
+    static: false,
+    time_24hr: false,
+    weekNumbers: false,
+    wrap: false,
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/flatpickr/dist/esm/utils/dates.js":
+/*!********************************************************!*\
+  !*** ./node_modules/flatpickr/dist/esm/utils/dates.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   calculateSecondsSinceMidnight: () => (/* binding */ calculateSecondsSinceMidnight),
+/* harmony export */   compareDates: () => (/* binding */ compareDates),
+/* harmony export */   compareTimes: () => (/* binding */ compareTimes),
+/* harmony export */   createDateFormatter: () => (/* binding */ createDateFormatter),
+/* harmony export */   createDateParser: () => (/* binding */ createDateParser),
+/* harmony export */   duration: () => (/* binding */ duration),
+/* harmony export */   getDefaultHours: () => (/* binding */ getDefaultHours),
+/* harmony export */   isBetween: () => (/* binding */ isBetween),
+/* harmony export */   parseSeconds: () => (/* binding */ parseSeconds)
+/* harmony export */ });
+/* harmony import */ var _formatting__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formatting */ "./node_modules/flatpickr/dist/esm/utils/formatting.js");
+/* harmony import */ var _types_options__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/options */ "./node_modules/flatpickr/dist/esm/types/options.js");
+/* harmony import */ var _l10n_default__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../l10n/default */ "./node_modules/flatpickr/dist/esm/l10n/default.js");
+
+
+
+var createDateFormatter = function (_a) {
+    var _b = _a.config, config = _b === void 0 ? _types_options__WEBPACK_IMPORTED_MODULE_1__.defaults : _b, _c = _a.l10n, l10n = _c === void 0 ? _l10n_default__WEBPACK_IMPORTED_MODULE_2__.english : _c, _d = _a.isMobile, isMobile = _d === void 0 ? false : _d;
+    return function (dateObj, frmt, overrideLocale) {
+        var locale = overrideLocale || l10n;
+        if (config.formatDate !== undefined && !isMobile) {
+            return config.formatDate(dateObj, frmt, locale);
+        }
+        return frmt
+            .split("")
+            .map(function (c, i, arr) {
+            return _formatting__WEBPACK_IMPORTED_MODULE_0__.formats[c] && arr[i - 1] !== "\\"
+                ? _formatting__WEBPACK_IMPORTED_MODULE_0__.formats[c](dateObj, locale, config)
+                : c !== "\\"
+                    ? c
+                    : "";
+        })
+            .join("");
+    };
+};
+var createDateParser = function (_a) {
+    var _b = _a.config, config = _b === void 0 ? _types_options__WEBPACK_IMPORTED_MODULE_1__.defaults : _b, _c = _a.l10n, l10n = _c === void 0 ? _l10n_default__WEBPACK_IMPORTED_MODULE_2__.english : _c;
+    return function (date, givenFormat, timeless, customLocale) {
+        if (date !== 0 && !date)
+            return undefined;
+        var locale = customLocale || l10n;
+        var parsedDate;
+        var dateOrig = date;
+        if (date instanceof Date)
+            parsedDate = new Date(date.getTime());
+        else if (typeof date !== "string" &&
+            date.toFixed !== undefined)
+            parsedDate = new Date(date);
+        else if (typeof date === "string") {
+            var format = givenFormat || (config || _types_options__WEBPACK_IMPORTED_MODULE_1__.defaults).dateFormat;
+            var datestr = String(date).trim();
+            if (datestr === "today") {
+                parsedDate = new Date();
+                timeless = true;
+            }
+            else if (config && config.parseDate) {
+                parsedDate = config.parseDate(date, format);
+            }
+            else if (/Z$/.test(datestr) ||
+                /GMT$/.test(datestr)) {
+                parsedDate = new Date(date);
+            }
+            else {
+                var matched = void 0, ops = [];
+                for (var i = 0, matchIndex = 0, regexStr = ""; i < format.length; i++) {
+                    var token = format[i];
+                    var isBackSlash = token === "\\";
+                    var escaped = format[i - 1] === "\\" || isBackSlash;
+                    if (_formatting__WEBPACK_IMPORTED_MODULE_0__.tokenRegex[token] && !escaped) {
+                        regexStr += _formatting__WEBPACK_IMPORTED_MODULE_0__.tokenRegex[token];
+                        var match = new RegExp(regexStr).exec(date);
+                        if (match && (matched = true)) {
+                            ops[token !== "Y" ? "push" : "unshift"]({
+                                fn: _formatting__WEBPACK_IMPORTED_MODULE_0__.revFormat[token],
+                                val: match[++matchIndex],
+                            });
+                        }
+                    }
+                    else if (!isBackSlash)
+                        regexStr += ".";
+                }
+                parsedDate =
+                    !config || !config.noCalendar
+                        ? new Date(new Date().getFullYear(), 0, 1, 0, 0, 0, 0)
+                        : new Date(new Date().setHours(0, 0, 0, 0));
+                ops.forEach(function (_a) {
+                    var fn = _a.fn, val = _a.val;
+                    return (parsedDate = fn(parsedDate, val, locale) || parsedDate);
+                });
+                parsedDate = matched ? parsedDate : undefined;
+            }
+        }
+        if (!(parsedDate instanceof Date && !isNaN(parsedDate.getTime()))) {
+            config.errorHandler(new Error("Invalid date provided: " + dateOrig));
+            return undefined;
+        }
+        if (timeless === true)
+            parsedDate.setHours(0, 0, 0, 0);
+        return parsedDate;
+    };
+};
+function compareDates(date1, date2, timeless) {
+    if (timeless === void 0) { timeless = true; }
+    if (timeless !== false) {
+        return (new Date(date1.getTime()).setHours(0, 0, 0, 0) -
+            new Date(date2.getTime()).setHours(0, 0, 0, 0));
+    }
+    return date1.getTime() - date2.getTime();
+}
+function compareTimes(date1, date2) {
+    return (3600 * (date1.getHours() - date2.getHours()) +
+        60 * (date1.getMinutes() - date2.getMinutes()) +
+        date1.getSeconds() -
+        date2.getSeconds());
+}
+var isBetween = function (ts, ts1, ts2) {
+    return ts > Math.min(ts1, ts2) && ts < Math.max(ts1, ts2);
+};
+var calculateSecondsSinceMidnight = function (hours, minutes, seconds) {
+    return hours * 3600 + minutes * 60 + seconds;
+};
+var parseSeconds = function (secondsSinceMidnight) {
+    var hours = Math.floor(secondsSinceMidnight / 3600), minutes = (secondsSinceMidnight - hours * 3600) / 60;
+    return [hours, minutes, secondsSinceMidnight - hours * 3600 - minutes * 60];
+};
+var duration = {
+    DAY: 86400000,
+};
+function getDefaultHours(config) {
+    var hours = config.defaultHour;
+    var minutes = config.defaultMinute;
+    var seconds = config.defaultSeconds;
+    if (config.minDate !== undefined) {
+        var minHour = config.minDate.getHours();
+        var minMinutes = config.minDate.getMinutes();
+        var minSeconds = config.minDate.getSeconds();
+        if (hours < minHour) {
+            hours = minHour;
+        }
+        if (hours === minHour && minutes < minMinutes) {
+            minutes = minMinutes;
+        }
+        if (hours === minHour && minutes === minMinutes && seconds < minSeconds)
+            seconds = config.minDate.getSeconds();
+    }
+    if (config.maxDate !== undefined) {
+        var maxHr = config.maxDate.getHours();
+        var maxMinutes = config.maxDate.getMinutes();
+        hours = Math.min(hours, maxHr);
+        if (hours === maxHr)
+            minutes = Math.min(maxMinutes, minutes);
+        if (hours === maxHr && minutes === maxMinutes)
+            seconds = config.maxDate.getSeconds();
+    }
+    return { hours: hours, minutes: minutes, seconds: seconds };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/flatpickr/dist/esm/utils/dom.js":
+/*!******************************************************!*\
+  !*** ./node_modules/flatpickr/dist/esm/utils/dom.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   clearNode: () => (/* binding */ clearNode),
+/* harmony export */   createElement: () => (/* binding */ createElement),
+/* harmony export */   createNumberInput: () => (/* binding */ createNumberInput),
+/* harmony export */   findParent: () => (/* binding */ findParent),
+/* harmony export */   getEventTarget: () => (/* binding */ getEventTarget),
+/* harmony export */   toggleClass: () => (/* binding */ toggleClass)
+/* harmony export */ });
+function toggleClass(elem, className, bool) {
+    if (bool === true)
+        return elem.classList.add(className);
+    elem.classList.remove(className);
+}
+function createElement(tag, className, content) {
+    var e = window.document.createElement(tag);
+    className = className || "";
+    content = content || "";
+    e.className = className;
+    if (content !== undefined)
+        e.textContent = content;
+    return e;
+}
+function clearNode(node) {
+    while (node.firstChild)
+        node.removeChild(node.firstChild);
+}
+function findParent(node, condition) {
+    if (condition(node))
+        return node;
+    else if (node.parentNode)
+        return findParent(node.parentNode, condition);
+    return undefined;
+}
+function createNumberInput(inputClassName, opts) {
+    var wrapper = createElement("div", "numInputWrapper"), numInput = createElement("input", "numInput " + inputClassName), arrowUp = createElement("span", "arrowUp"), arrowDown = createElement("span", "arrowDown");
+    if (navigator.userAgent.indexOf("MSIE 9.0") === -1) {
+        numInput.type = "number";
+    }
+    else {
+        numInput.type = "text";
+        numInput.pattern = "\\d*";
+    }
+    if (opts !== undefined)
+        for (var key in opts)
+            numInput.setAttribute(key, opts[key]);
+    wrapper.appendChild(numInput);
+    wrapper.appendChild(arrowUp);
+    wrapper.appendChild(arrowDown);
+    return wrapper;
+}
+function getEventTarget(event) {
+    try {
+        if (typeof event.composedPath === "function") {
+            var path = event.composedPath();
+            return path[0];
+        }
+        return event.target;
+    }
+    catch (error) {
+        return event.target;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/flatpickr/dist/esm/utils/formatting.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/flatpickr/dist/esm/utils/formatting.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   formats: () => (/* binding */ formats),
+/* harmony export */   monthToStr: () => (/* binding */ monthToStr),
+/* harmony export */   revFormat: () => (/* binding */ revFormat),
+/* harmony export */   tokenRegex: () => (/* binding */ tokenRegex)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./node_modules/flatpickr/dist/esm/utils/index.js");
+
+var doNothing = function () { return undefined; };
+var monthToStr = function (monthNumber, shorthand, locale) { return locale.months[shorthand ? "shorthand" : "longhand"][monthNumber]; };
+var revFormat = {
+    D: doNothing,
+    F: function (dateObj, monthName, locale) {
+        dateObj.setMonth(locale.months.longhand.indexOf(monthName));
+    },
+    G: function (dateObj, hour) {
+        dateObj.setHours((dateObj.getHours() >= 12 ? 12 : 0) + parseFloat(hour));
+    },
+    H: function (dateObj, hour) {
+        dateObj.setHours(parseFloat(hour));
+    },
+    J: function (dateObj, day) {
+        dateObj.setDate(parseFloat(day));
+    },
+    K: function (dateObj, amPM, locale) {
+        dateObj.setHours((dateObj.getHours() % 12) +
+            12 * (0,_utils__WEBPACK_IMPORTED_MODULE_0__.int)(new RegExp(locale.amPM[1], "i").test(amPM)));
+    },
+    M: function (dateObj, shortMonth, locale) {
+        dateObj.setMonth(locale.months.shorthand.indexOf(shortMonth));
+    },
+    S: function (dateObj, seconds) {
+        dateObj.setSeconds(parseFloat(seconds));
+    },
+    U: function (_, unixSeconds) { return new Date(parseFloat(unixSeconds) * 1000); },
+    W: function (dateObj, weekNum, locale) {
+        var weekNumber = parseInt(weekNum);
+        var date = new Date(dateObj.getFullYear(), 0, 2 + (weekNumber - 1) * 7, 0, 0, 0, 0);
+        date.setDate(date.getDate() - date.getDay() + locale.firstDayOfWeek);
+        return date;
+    },
+    Y: function (dateObj, year) {
+        dateObj.setFullYear(parseFloat(year));
+    },
+    Z: function (_, ISODate) { return new Date(ISODate); },
+    d: function (dateObj, day) {
+        dateObj.setDate(parseFloat(day));
+    },
+    h: function (dateObj, hour) {
+        dateObj.setHours((dateObj.getHours() >= 12 ? 12 : 0) + parseFloat(hour));
+    },
+    i: function (dateObj, minutes) {
+        dateObj.setMinutes(parseFloat(minutes));
+    },
+    j: function (dateObj, day) {
+        dateObj.setDate(parseFloat(day));
+    },
+    l: doNothing,
+    m: function (dateObj, month) {
+        dateObj.setMonth(parseFloat(month) - 1);
+    },
+    n: function (dateObj, month) {
+        dateObj.setMonth(parseFloat(month) - 1);
+    },
+    s: function (dateObj, seconds) {
+        dateObj.setSeconds(parseFloat(seconds));
+    },
+    u: function (_, unixMillSeconds) {
+        return new Date(parseFloat(unixMillSeconds));
+    },
+    w: doNothing,
+    y: function (dateObj, year) {
+        dateObj.setFullYear(2000 + parseFloat(year));
+    },
+};
+var tokenRegex = {
+    D: "",
+    F: "",
+    G: "(\\d\\d|\\d)",
+    H: "(\\d\\d|\\d)",
+    J: "(\\d\\d|\\d)\\w+",
+    K: "",
+    M: "",
+    S: "(\\d\\d|\\d)",
+    U: "(.+)",
+    W: "(\\d\\d|\\d)",
+    Y: "(\\d{4})",
+    Z: "(.+)",
+    d: "(\\d\\d|\\d)",
+    h: "(\\d\\d|\\d)",
+    i: "(\\d\\d|\\d)",
+    j: "(\\d\\d|\\d)",
+    l: "",
+    m: "(\\d\\d|\\d)",
+    n: "(\\d\\d|\\d)",
+    s: "(\\d\\d|\\d)",
+    u: "(.+)",
+    w: "(\\d\\d|\\d)",
+    y: "(\\d{2})",
+};
+var formats = {
+    Z: function (date) { return date.toISOString(); },
+    D: function (date, locale, options) {
+        return locale.weekdays.shorthand[formats.w(date, locale, options)];
+    },
+    F: function (date, locale, options) {
+        return monthToStr(formats.n(date, locale, options) - 1, false, locale);
+    },
+    G: function (date, locale, options) {
+        return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.pad)(formats.h(date, locale, options));
+    },
+    H: function (date) { return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.pad)(date.getHours()); },
+    J: function (date, locale) {
+        return locale.ordinal !== undefined
+            ? date.getDate() + locale.ordinal(date.getDate())
+            : date.getDate();
+    },
+    K: function (date, locale) { return locale.amPM[(0,_utils__WEBPACK_IMPORTED_MODULE_0__.int)(date.getHours() > 11)]; },
+    M: function (date, locale) {
+        return monthToStr(date.getMonth(), true, locale);
+    },
+    S: function (date) { return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.pad)(date.getSeconds()); },
+    U: function (date) { return date.getTime() / 1000; },
+    W: function (date, _, options) {
+        return options.getWeek(date);
+    },
+    Y: function (date) { return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.pad)(date.getFullYear(), 4); },
+    d: function (date) { return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.pad)(date.getDate()); },
+    h: function (date) { return (date.getHours() % 12 ? date.getHours() % 12 : 12); },
+    i: function (date) { return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.pad)(date.getMinutes()); },
+    j: function (date) { return date.getDate(); },
+    l: function (date, locale) {
+        return locale.weekdays.longhand[date.getDay()];
+    },
+    m: function (date) { return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.pad)(date.getMonth() + 1); },
+    n: function (date) { return date.getMonth() + 1; },
+    s: function (date) { return date.getSeconds(); },
+    u: function (date) { return date.getTime(); },
+    w: function (date) { return date.getDay(); },
+    y: function (date) { return String(date.getFullYear()).substring(2); },
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/flatpickr/dist/esm/utils/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/flatpickr/dist/esm/utils/index.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   arrayify: () => (/* binding */ arrayify),
+/* harmony export */   debounce: () => (/* binding */ debounce),
+/* harmony export */   int: () => (/* binding */ int),
+/* harmony export */   pad: () => (/* binding */ pad)
+/* harmony export */ });
+var pad = function (number, length) {
+    if (length === void 0) { length = 2; }
+    return ("000" + number).slice(length * -1);
+};
+var int = function (bool) { return (bool === true ? 1 : 0); };
+function debounce(fn, wait) {
+    var t;
+    return function () {
+        var _this = this;
+        var args = arguments;
+        clearTimeout(t);
+        t = setTimeout(function () { return fn.apply(_this, args); }, wait);
+    };
+}
+var arrayify = function (obj) {
+    return obj instanceof Array ? obj : [obj];
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/flatpickr/dist/esm/utils/polyfills.js":
+/*!************************************************************!*\
+  !*** ./node_modules/flatpickr/dist/esm/utils/polyfills.js ***!
+  \************************************************************/
+/***/ (() => {
+
+"use strict";
+
+if (typeof Object.assign !== "function") {
+    Object.assign = function (target) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (!target) {
+            throw TypeError("Cannot convert undefined or null to object");
+        }
+        var _loop_1 = function (source) {
+            if (source) {
+                Object.keys(source).forEach(function (key) { return (target[key] = source[key]); });
+            }
+        };
+        for (var _a = 0, args_1 = args; _a < args_1.length; _a++) {
+            var source = args_1[_a];
+            _loop_1(source);
+        }
+        return target;
+    };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/flatpickr/dist/l10n/es.js":
+/*!************************************************!*\
+  !*** ./node_modules/flatpickr/dist/l10n/es.js ***!
+  \************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+(function (global, factory) {
+   true ? factory(exports) :
+  0;
+}(this, (function (exports) { 'use strict';
+
+  var fp = typeof window !== "undefined" && window.flatpickr !== undefined
+      ? window.flatpickr
+      : {
+          l10ns: {},
+      };
+  var Spanish = {
+      weekdays: {
+          shorthand: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+          longhand: [
+              "Domingo",
+              "Lunes",
+              "Martes",
+              "Miércoles",
+              "Jueves",
+              "Viernes",
+              "Sábado",
+          ],
+      },
+      months: {
+          shorthand: [
+              "Ene",
+              "Feb",
+              "Mar",
+              "Abr",
+              "May",
+              "Jun",
+              "Jul",
+              "Ago",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dic",
+          ],
+          longhand: [
+              "Enero",
+              "Febrero",
+              "Marzo",
+              "Abril",
+              "Mayo",
+              "Junio",
+              "Julio",
+              "Agosto",
+              "Septiembre",
+              "Octubre",
+              "Noviembre",
+              "Diciembre",
+          ],
+      },
+      ordinal: function () {
+          return "º";
+      },
+      firstDayOfWeek: 1,
+      rangeSeparator: " a ",
+      time_24hr: true,
+  };
+  fp.l10ns.es = Spanish;
+  var es = fp.l10ns;
+
+  exports.Spanish = Spanish;
+  exports.default = es;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
+
 
 /***/ }),
 
@@ -45514,6 +49006,255 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-router/node_modules/cookie/dist/index.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/react-router/node_modules/cookie/dist/index.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.parse = parse;
+exports.serialize = serialize;
+/**
+ * RegExp to match cookie-name in RFC 6265 sec 4.1.1
+ * This refers out to the obsoleted definition of token in RFC 2616 sec 2.2
+ * which has been replaced by the token definition in RFC 7230 appendix B.
+ *
+ * cookie-name       = token
+ * token             = 1*tchar
+ * tchar             = "!" / "#" / "$" / "%" / "&" / "'" /
+ *                     "*" / "+" / "-" / "." / "^" / "_" /
+ *                     "`" / "|" / "~" / DIGIT / ALPHA
+ *
+ * Note: Allowing more characters - https://github.com/jshttp/cookie/issues/191
+ * Allow same range as cookie value, except `=`, which delimits end of name.
+ */
+const cookieNameRegExp = /^[\u0021-\u003A\u003C\u003E-\u007E]+$/;
+/**
+ * RegExp to match cookie-value in RFC 6265 sec 4.1.1
+ *
+ * cookie-value      = *cookie-octet / ( DQUOTE *cookie-octet DQUOTE )
+ * cookie-octet      = %x21 / %x23-2B / %x2D-3A / %x3C-5B / %x5D-7E
+ *                     ; US-ASCII characters excluding CTLs,
+ *                     ; whitespace DQUOTE, comma, semicolon,
+ *                     ; and backslash
+ *
+ * Allowing more characters: https://github.com/jshttp/cookie/issues/191
+ * Comma, backslash, and DQUOTE are not part of the parsing algorithm.
+ */
+const cookieValueRegExp = /^[\u0021-\u003A\u003C-\u007E]*$/;
+/**
+ * RegExp to match domain-value in RFC 6265 sec 4.1.1
+ *
+ * domain-value      = <subdomain>
+ *                     ; defined in [RFC1034], Section 3.5, as
+ *                     ; enhanced by [RFC1123], Section 2.1
+ * <subdomain>       = <label> | <subdomain> "." <label>
+ * <label>           = <let-dig> [ [ <ldh-str> ] <let-dig> ]
+ *                     Labels must be 63 characters or less.
+ *                     'let-dig' not 'letter' in the first char, per RFC1123
+ * <ldh-str>         = <let-dig-hyp> | <let-dig-hyp> <ldh-str>
+ * <let-dig-hyp>     = <let-dig> | "-"
+ * <let-dig>         = <letter> | <digit>
+ * <letter>          = any one of the 52 alphabetic characters A through Z in
+ *                     upper case and a through z in lower case
+ * <digit>           = any one of the ten digits 0 through 9
+ *
+ * Keep support for leading dot: https://github.com/jshttp/cookie/issues/173
+ *
+ * > (Note that a leading %x2E ("."), if present, is ignored even though that
+ * character is not permitted, but a trailing %x2E ("."), if present, will
+ * cause the user agent to ignore the attribute.)
+ */
+const domainValueRegExp = /^([.]?[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)([.][a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$/i;
+/**
+ * RegExp to match path-value in RFC 6265 sec 4.1.1
+ *
+ * path-value        = <any CHAR except CTLs or ";">
+ * CHAR              = %x01-7F
+ *                     ; defined in RFC 5234 appendix B.1
+ */
+const pathValueRegExp = /^[\u0020-\u003A\u003D-\u007E]*$/;
+const __toString = Object.prototype.toString;
+const NullObject = /* @__PURE__ */ (() => {
+    const C = function () { };
+    C.prototype = Object.create(null);
+    return C;
+})();
+/**
+ * Parse a cookie header.
+ *
+ * Parse the given cookie header string into an object
+ * The object has the various cookies as keys(names) => values
+ */
+function parse(str, options) {
+    const obj = new NullObject();
+    const len = str.length;
+    // RFC 6265 sec 4.1.1, RFC 2616 2.2 defines a cookie name consists of one char minimum, plus '='.
+    if (len < 2)
+        return obj;
+    const dec = options?.decode || decode;
+    let index = 0;
+    do {
+        const eqIdx = str.indexOf("=", index);
+        if (eqIdx === -1)
+            break; // No more cookie pairs.
+        const colonIdx = str.indexOf(";", index);
+        const endIdx = colonIdx === -1 ? len : colonIdx;
+        if (eqIdx > endIdx) {
+            // backtrack on prior semicolon
+            index = str.lastIndexOf(";", eqIdx - 1) + 1;
+            continue;
+        }
+        const keyStartIdx = startIndex(str, index, eqIdx);
+        const keyEndIdx = endIndex(str, eqIdx, keyStartIdx);
+        const key = str.slice(keyStartIdx, keyEndIdx);
+        // only assign once
+        if (obj[key] === undefined) {
+            let valStartIdx = startIndex(str, eqIdx + 1, endIdx);
+            let valEndIdx = endIndex(str, endIdx, valStartIdx);
+            const value = dec(str.slice(valStartIdx, valEndIdx));
+            obj[key] = value;
+        }
+        index = endIdx + 1;
+    } while (index < len);
+    return obj;
+}
+function startIndex(str, index, max) {
+    do {
+        const code = str.charCodeAt(index);
+        if (code !== 0x20 /*   */ && code !== 0x09 /* \t */)
+            return index;
+    } while (++index < max);
+    return max;
+}
+function endIndex(str, index, min) {
+    while (index > min) {
+        const code = str.charCodeAt(--index);
+        if (code !== 0x20 /*   */ && code !== 0x09 /* \t */)
+            return index + 1;
+    }
+    return min;
+}
+/**
+ * Serialize data into a cookie header.
+ *
+ * Serialize a name value pair into a cookie string suitable for
+ * http headers. An optional options object specifies cookie parameters.
+ *
+ * serialize('foo', 'bar', { httpOnly: true })
+ *   => "foo=bar; httpOnly"
+ */
+function serialize(name, val, options) {
+    const enc = options?.encode || encodeURIComponent;
+    if (!cookieNameRegExp.test(name)) {
+        throw new TypeError(`argument name is invalid: ${name}`);
+    }
+    const value = enc(val);
+    if (!cookieValueRegExp.test(value)) {
+        throw new TypeError(`argument val is invalid: ${val}`);
+    }
+    let str = name + "=" + value;
+    if (!options)
+        return str;
+    if (options.maxAge !== undefined) {
+        if (!Number.isInteger(options.maxAge)) {
+            throw new TypeError(`option maxAge is invalid: ${options.maxAge}`);
+        }
+        str += "; Max-Age=" + options.maxAge;
+    }
+    if (options.domain) {
+        if (!domainValueRegExp.test(options.domain)) {
+            throw new TypeError(`option domain is invalid: ${options.domain}`);
+        }
+        str += "; Domain=" + options.domain;
+    }
+    if (options.path) {
+        if (!pathValueRegExp.test(options.path)) {
+            throw new TypeError(`option path is invalid: ${options.path}`);
+        }
+        str += "; Path=" + options.path;
+    }
+    if (options.expires) {
+        if (!isDate(options.expires) ||
+            !Number.isFinite(options.expires.valueOf())) {
+            throw new TypeError(`option expires is invalid: ${options.expires}`);
+        }
+        str += "; Expires=" + options.expires.toUTCString();
+    }
+    if (options.httpOnly) {
+        str += "; HttpOnly";
+    }
+    if (options.secure) {
+        str += "; Secure";
+    }
+    if (options.partitioned) {
+        str += "; Partitioned";
+    }
+    if (options.priority) {
+        const priority = typeof options.priority === "string"
+            ? options.priority.toLowerCase()
+            : undefined;
+        switch (priority) {
+            case "low":
+                str += "; Priority=Low";
+                break;
+            case "medium":
+                str += "; Priority=Medium";
+                break;
+            case "high":
+                str += "; Priority=High";
+                break;
+            default:
+                throw new TypeError(`option priority is invalid: ${options.priority}`);
+        }
+    }
+    if (options.sameSite) {
+        const sameSite = typeof options.sameSite === "string"
+            ? options.sameSite.toLowerCase()
+            : options.sameSite;
+        switch (sameSite) {
+            case true:
+            case "strict":
+                str += "; SameSite=Strict";
+                break;
+            case "lax":
+                str += "; SameSite=Lax";
+                break;
+            case "none":
+                str += "; SameSite=None";
+                break;
+            default:
+                throw new TypeError(`option sameSite is invalid: ${options.sameSite}`);
+        }
+    }
+    return str;
+}
+/**
+ * URL-decode string value. Optimized to skip native call when no %.
+ */
+function decode(str) {
+    if (str.indexOf("%") === -1)
+        return str;
+    try {
+        return decodeURIComponent(str);
+    }
+    catch (e) {
+        return str;
+    }
+}
+/**
+ * Determine if value is a Date.
+ */
+function isDate(val) {
+    return __toString.call(val) === "[object Date]";
+}
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
 /***/ "./node_modules/react/cjs/react-jsx-runtime.development.js":
 /*!*****************************************************************!*\
   !*** ./node_modules/react/cjs/react-jsx-runtime.development.js ***!
@@ -48136,6 +51877,10868 @@ if (false) {} else {
 }
 
 
+/***/ }),
+
+/***/ "./node_modules/set-cookie-parser/lib/set-cookie.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/set-cookie-parser/lib/set-cookie.js ***!
+  \**********************************************************/
+/***/ ((module) => {
+
+"use strict";
+
+
+var defaultParseOptions = {
+  decodeValues: true,
+  map: false,
+  silent: false,
+};
+
+function isNonEmptyString(str) {
+  return typeof str === "string" && !!str.trim();
+}
+
+function parseString(setCookieValue, options) {
+  var parts = setCookieValue.split(";").filter(isNonEmptyString);
+
+  var nameValuePairStr = parts.shift();
+  var parsed = parseNameValuePair(nameValuePairStr);
+  var name = parsed.name;
+  var value = parsed.value;
+
+  options = options
+    ? Object.assign({}, defaultParseOptions, options)
+    : defaultParseOptions;
+
+  try {
+    value = options.decodeValues ? decodeURIComponent(value) : value; // decode cookie value
+  } catch (e) {
+    console.error(
+      "set-cookie-parser encountered an error while decoding a cookie with value '" +
+        value +
+        "'. Set options.decodeValues to false to disable this feature.",
+      e
+    );
+  }
+
+  var cookie = {
+    name: name,
+    value: value,
+  };
+
+  parts.forEach(function (part) {
+    var sides = part.split("=");
+    var key = sides.shift().trimLeft().toLowerCase();
+    var value = sides.join("=");
+    if (key === "expires") {
+      cookie.expires = new Date(value);
+    } else if (key === "max-age") {
+      cookie.maxAge = parseInt(value, 10);
+    } else if (key === "secure") {
+      cookie.secure = true;
+    } else if (key === "httponly") {
+      cookie.httpOnly = true;
+    } else if (key === "samesite") {
+      cookie.sameSite = value;
+    } else if (key === "partitioned") {
+      cookie.partitioned = true;
+    } else {
+      cookie[key] = value;
+    }
+  });
+
+  return cookie;
+}
+
+function parseNameValuePair(nameValuePairStr) {
+  // Parses name-value-pair according to rfc6265bis draft
+
+  var name = "";
+  var value = "";
+  var nameValueArr = nameValuePairStr.split("=");
+  if (nameValueArr.length > 1) {
+    name = nameValueArr.shift();
+    value = nameValueArr.join("="); // everything after the first =, joined by a "=" if there was more than one part
+  } else {
+    value = nameValuePairStr;
+  }
+
+  return { name: name, value: value };
+}
+
+function parse(input, options) {
+  options = options
+    ? Object.assign({}, defaultParseOptions, options)
+    : defaultParseOptions;
+
+  if (!input) {
+    if (!options.map) {
+      return [];
+    } else {
+      return {};
+    }
+  }
+
+  if (input.headers) {
+    if (typeof input.headers.getSetCookie === "function") {
+      // for fetch responses - they combine headers of the same type in the headers array,
+      // but getSetCookie returns an uncombined array
+      input = input.headers.getSetCookie();
+    } else if (input.headers["set-cookie"]) {
+      // fast-path for node.js (which automatically normalizes header names to lower-case
+      input = input.headers["set-cookie"];
+    } else {
+      // slow-path for other environments - see #25
+      var sch =
+        input.headers[
+          Object.keys(input.headers).find(function (key) {
+            return key.toLowerCase() === "set-cookie";
+          })
+        ];
+      // warn if called on a request-like object with a cookie header rather than a set-cookie header - see #34, 36
+      if (!sch && input.headers.cookie && !options.silent) {
+        console.warn(
+          "Warning: set-cookie-parser appears to have been called on a request object. It is designed to parse Set-Cookie headers from responses, not Cookie headers from requests. Set the option {silent: true} to suppress this warning."
+        );
+      }
+      input = sch;
+    }
+  }
+  if (!Array.isArray(input)) {
+    input = [input];
+  }
+
+  if (!options.map) {
+    return input.filter(isNonEmptyString).map(function (str) {
+      return parseString(str, options);
+    });
+  } else {
+    var cookies = {};
+    return input.filter(isNonEmptyString).reduce(function (cookies, str) {
+      var cookie = parseString(str, options);
+      cookies[cookie.name] = cookie;
+      return cookies;
+    }, cookies);
+  }
+}
+
+/*
+  Set-Cookie header field-values are sometimes comma joined in one string. This splits them without choking on commas
+  that are within a single set-cookie field-value, such as in the Expires portion.
+
+  This is uncommon, but explicitly allowed - see https://tools.ietf.org/html/rfc2616#section-4.2
+  Node.js does this for every header *except* set-cookie - see https://github.com/nodejs/node/blob/d5e363b77ebaf1caf67cd7528224b651c86815c1/lib/_http_incoming.js#L128
+  React Native's fetch does this for *every* header, including set-cookie.
+
+  Based on: https://github.com/google/j2objc/commit/16820fdbc8f76ca0c33472810ce0cb03d20efe25
+  Credits to: https://github.com/tomball for original and https://github.com/chrusart for JavaScript implementation
+*/
+function splitCookiesString(cookiesString) {
+  if (Array.isArray(cookiesString)) {
+    return cookiesString;
+  }
+  if (typeof cookiesString !== "string") {
+    return [];
+  }
+
+  var cookiesStrings = [];
+  var pos = 0;
+  var start;
+  var ch;
+  var lastComma;
+  var nextStart;
+  var cookiesSeparatorFound;
+
+  function skipWhitespace() {
+    while (pos < cookiesString.length && /\s/.test(cookiesString.charAt(pos))) {
+      pos += 1;
+    }
+    return pos < cookiesString.length;
+  }
+
+  function notSpecialChar() {
+    ch = cookiesString.charAt(pos);
+
+    return ch !== "=" && ch !== ";" && ch !== ",";
+  }
+
+  while (pos < cookiesString.length) {
+    start = pos;
+    cookiesSeparatorFound = false;
+
+    while (skipWhitespace()) {
+      ch = cookiesString.charAt(pos);
+      if (ch === ",") {
+        // ',' is a cookie separator if we have later first '=', not ';' or ','
+        lastComma = pos;
+        pos += 1;
+
+        skipWhitespace();
+        nextStart = pos;
+
+        while (pos < cookiesString.length && notSpecialChar()) {
+          pos += 1;
+        }
+
+        // currently special character
+        if (pos < cookiesString.length && cookiesString.charAt(pos) === "=") {
+          // we found cookies separator
+          cookiesSeparatorFound = true;
+          // pos is inside the next cookie, so back up and return it.
+          pos = nextStart;
+          cookiesStrings.push(cookiesString.substring(start, lastComma));
+          start = pos;
+        } else {
+          // in param ',' or param separator ';',
+          // we continue from that comma
+          pos = lastComma + 1;
+        }
+      } else {
+        pos += 1;
+      }
+    }
+
+    if (!cookiesSeparatorFound || pos >= cookiesString.length) {
+      cookiesStrings.push(cookiesString.substring(start, cookiesString.length));
+    }
+  }
+
+  return cookiesStrings;
+}
+
+module.exports = parse;
+module.exports.parse = parse;
+module.exports.parseString = parseString;
+module.exports.splitCookiesString = splitCookiesString;
+
+
+/***/ }),
+
+/***/ "./node_modules/flatpickr/dist/flatpickr.min.css":
+/*!*******************************************************!*\
+  !*** ./node_modules/flatpickr/dist/flatpickr.min.css ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_flatpickr_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./flatpickr.min.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/flatpickr/dist/flatpickr.min.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_flatpickr_min_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_flatpickr_min_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
+  \****************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var isOldIE = function isOldIE() {
+  var memo;
+  return function memorize() {
+    if (typeof memo === 'undefined') {
+      // Test for IE <= 9 as proposed by Browserhacks
+      // @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+      // Tests for existence of standard globals is to allow style-loader
+      // to operate correctly into non-standard environments
+      // @see https://github.com/webpack-contrib/style-loader/issues/177
+      memo = Boolean(window && document && document.all && !window.atob);
+    }
+
+    return memo;
+  };
+}();
+
+var getTarget = function getTarget() {
+  var memo = {};
+  return function memorize(target) {
+    if (typeof memo[target] === 'undefined') {
+      var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
+
+      if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+        try {
+          // This will throw an exception if access to iframe is blocked
+          // due to cross-origin restrictions
+          styleTarget = styleTarget.contentDocument.head;
+        } catch (e) {
+          // istanbul ignore next
+          styleTarget = null;
+        }
+      }
+
+      memo[target] = styleTarget;
+    }
+
+    return memo[target];
+  };
+}();
+
+var stylesInDom = [];
+
+function getIndexByIdentifier(identifier) {
+  var result = -1;
+
+  for (var i = 0; i < stylesInDom.length; i++) {
+    if (stylesInDom[i].identifier === identifier) {
+      result = i;
+      break;
+    }
+  }
+
+  return result;
+}
+
+function modulesToDom(list, options) {
+  var idCountMap = {};
+  var identifiers = [];
+
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i];
+    var id = options.base ? item[0] + options.base : item[0];
+    var count = idCountMap[id] || 0;
+    var identifier = "".concat(id, " ").concat(count);
+    idCountMap[id] = count + 1;
+    var index = getIndexByIdentifier(identifier);
+    var obj = {
+      css: item[1],
+      media: item[2],
+      sourceMap: item[3]
+    };
+
+    if (index !== -1) {
+      stylesInDom[index].references++;
+      stylesInDom[index].updater(obj);
+    } else {
+      stylesInDom.push({
+        identifier: identifier,
+        updater: addStyle(obj, options),
+        references: 1
+      });
+    }
+
+    identifiers.push(identifier);
+  }
+
+  return identifiers;
+}
+
+function insertStyleElement(options) {
+  var style = document.createElement('style');
+  var attributes = options.attributes || {};
+
+  if (typeof attributes.nonce === 'undefined') {
+    var nonce =  true ? __webpack_require__.nc : 0;
+
+    if (nonce) {
+      attributes.nonce = nonce;
+    }
+  }
+
+  Object.keys(attributes).forEach(function (key) {
+    style.setAttribute(key, attributes[key]);
+  });
+
+  if (typeof options.insert === 'function') {
+    options.insert(style);
+  } else {
+    var target = getTarget(options.insert || 'head');
+
+    if (!target) {
+      throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
+    }
+
+    target.appendChild(style);
+  }
+
+  return style;
+}
+
+function removeStyleElement(style) {
+  // istanbul ignore if
+  if (style.parentNode === null) {
+    return false;
+  }
+
+  style.parentNode.removeChild(style);
+}
+/* istanbul ignore next  */
+
+
+var replaceText = function replaceText() {
+  var textStore = [];
+  return function replace(index, replacement) {
+    textStore[index] = replacement;
+    return textStore.filter(Boolean).join('\n');
+  };
+}();
+
+function applyToSingletonTag(style, index, remove, obj) {
+  var css = remove ? '' : obj.media ? "@media ".concat(obj.media, " {").concat(obj.css, "}") : obj.css; // For old IE
+
+  /* istanbul ignore if  */
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = replaceText(index, css);
+  } else {
+    var cssNode = document.createTextNode(css);
+    var childNodes = style.childNodes;
+
+    if (childNodes[index]) {
+      style.removeChild(childNodes[index]);
+    }
+
+    if (childNodes.length) {
+      style.insertBefore(cssNode, childNodes[index]);
+    } else {
+      style.appendChild(cssNode);
+    }
+  }
+}
+
+function applyToTag(style, options, obj) {
+  var css = obj.css;
+  var media = obj.media;
+  var sourceMap = obj.sourceMap;
+
+  if (media) {
+    style.setAttribute('media', media);
+  } else {
+    style.removeAttribute('media');
+  }
+
+  if (sourceMap && typeof btoa !== 'undefined') {
+    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
+  } // For old IE
+
+  /* istanbul ignore if  */
+
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    while (style.firstChild) {
+      style.removeChild(style.firstChild);
+    }
+
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var singleton = null;
+var singletonCounter = 0;
+
+function addStyle(obj, options) {
+  var style;
+  var update;
+  var remove;
+
+  if (options.singleton) {
+    var styleIndex = singletonCounter++;
+    style = singleton || (singleton = insertStyleElement(options));
+    update = applyToSingletonTag.bind(null, style, styleIndex, false);
+    remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+  } else {
+    style = insertStyleElement(options);
+    update = applyToTag.bind(null, style, options);
+
+    remove = function remove() {
+      removeStyleElement(style);
+    };
+  }
+
+  update(obj);
+  return function updateStyle(newObj) {
+    if (newObj) {
+      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap) {
+        return;
+      }
+
+      update(obj = newObj);
+    } else {
+      remove();
+    }
+  };
+}
+
+module.exports = function (list, options) {
+  options = options || {}; // Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+  // tags it will allow on a page
+
+  if (!options.singleton && typeof options.singleton !== 'boolean') {
+    options.singleton = isOldIE();
+  }
+
+  list = list || [];
+  var lastIdentifiers = modulesToDom(list, options);
+  return function update(newList) {
+    newList = newList || [];
+
+    if (Object.prototype.toString.call(newList) !== '[object Array]') {
+      return;
+    }
+
+    for (var i = 0; i < lastIdentifiers.length; i++) {
+      var identifier = lastIdentifiers[i];
+      var index = getIndexByIdentifier(identifier);
+      stylesInDom[index].references--;
+    }
+
+    var newLastIdentifiers = modulesToDom(newList, options);
+
+    for (var _i = 0; _i < lastIdentifiers.length; _i++) {
+      var _identifier = lastIdentifiers[_i];
+
+      var _index = getIndexByIdentifier(_identifier);
+
+      if (stylesInDom[_index].references === 0) {
+        stylesInDom[_index].updater();
+
+        stylesInDom.splice(_index, 1);
+      }
+    }
+
+    lastIdentifiers = newLastIdentifiers;
+  };
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-router/dist/development/chunk-K6AXKMTT.mjs":
+/*!***********************************************************************!*\
+  !*** ./node_modules/react-router/dist/development/chunk-K6AXKMTT.mjs ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Action: () => (/* binding */ Action),
+/* harmony export */   Await: () => (/* binding */ Await),
+/* harmony export */   BrowserRouter: () => (/* binding */ BrowserRouter),
+/* harmony export */   DataRouterContext: () => (/* binding */ DataRouterContext),
+/* harmony export */   DataRouterStateContext: () => (/* binding */ DataRouterStateContext),
+/* harmony export */   ErrorResponseImpl: () => (/* binding */ ErrorResponseImpl),
+/* harmony export */   FetchersContext: () => (/* binding */ FetchersContext),
+/* harmony export */   Form: () => (/* binding */ Form),
+/* harmony export */   FrameworkContext: () => (/* binding */ FrameworkContext),
+/* harmony export */   HashRouter: () => (/* binding */ HashRouter),
+/* harmony export */   HistoryRouter: () => (/* binding */ HistoryRouter),
+/* harmony export */   IDLE_BLOCKER: () => (/* binding */ IDLE_BLOCKER),
+/* harmony export */   IDLE_FETCHER: () => (/* binding */ IDLE_FETCHER),
+/* harmony export */   IDLE_NAVIGATION: () => (/* binding */ IDLE_NAVIGATION),
+/* harmony export */   Link: () => (/* binding */ Link),
+/* harmony export */   Links: () => (/* binding */ Links),
+/* harmony export */   LocationContext: () => (/* binding */ LocationContext),
+/* harmony export */   MemoryRouter: () => (/* binding */ MemoryRouter),
+/* harmony export */   Meta: () => (/* binding */ Meta),
+/* harmony export */   NavLink: () => (/* binding */ NavLink),
+/* harmony export */   Navigate: () => (/* binding */ Navigate),
+/* harmony export */   NavigationContext: () => (/* binding */ NavigationContext),
+/* harmony export */   Outlet: () => (/* binding */ Outlet),
+/* harmony export */   PrefetchPageLinks: () => (/* binding */ PrefetchPageLinks),
+/* harmony export */   RemixErrorBoundary: () => (/* binding */ RemixErrorBoundary),
+/* harmony export */   Route: () => (/* binding */ Route),
+/* harmony export */   RouteContext: () => (/* binding */ RouteContext),
+/* harmony export */   Router: () => (/* binding */ Router),
+/* harmony export */   RouterProvider: () => (/* binding */ RouterProvider),
+/* harmony export */   Routes: () => (/* binding */ Routes),
+/* harmony export */   Scripts: () => (/* binding */ Scripts),
+/* harmony export */   ScrollRestoration: () => (/* binding */ ScrollRestoration),
+/* harmony export */   ServerMode: () => (/* binding */ ServerMode),
+/* harmony export */   ServerRouter: () => (/* binding */ ServerRouter),
+/* harmony export */   SingleFetchRedirectSymbol: () => (/* binding */ SingleFetchRedirectSymbol),
+/* harmony export */   StaticRouter: () => (/* binding */ StaticRouter),
+/* harmony export */   StaticRouterProvider: () => (/* binding */ StaticRouterProvider),
+/* harmony export */   ViewTransitionContext: () => (/* binding */ ViewTransitionContext),
+/* harmony export */   createBrowserHistory: () => (/* binding */ createBrowserHistory),
+/* harmony export */   createBrowserRouter: () => (/* binding */ createBrowserRouter),
+/* harmony export */   createClientRoutes: () => (/* binding */ createClientRoutes),
+/* harmony export */   createClientRoutesWithHMRRevalidationOptOut: () => (/* binding */ createClientRoutesWithHMRRevalidationOptOut),
+/* harmony export */   createCookie: () => (/* binding */ createCookie),
+/* harmony export */   createCookieSessionStorage: () => (/* binding */ createCookieSessionStorage),
+/* harmony export */   createHashRouter: () => (/* binding */ createHashRouter),
+/* harmony export */   createMemoryRouter: () => (/* binding */ createMemoryRouter),
+/* harmony export */   createMemorySessionStorage: () => (/* binding */ createMemorySessionStorage),
+/* harmony export */   createPath: () => (/* binding */ createPath),
+/* harmony export */   createRequestHandler: () => (/* binding */ createRequestHandler),
+/* harmony export */   createRouter: () => (/* binding */ createRouter),
+/* harmony export */   createRoutesFromChildren: () => (/* binding */ createRoutesFromChildren),
+/* harmony export */   createRoutesFromElements: () => (/* binding */ createRoutesFromElements),
+/* harmony export */   createRoutesStub: () => (/* binding */ createRoutesStub),
+/* harmony export */   createSearchParams: () => (/* binding */ createSearchParams),
+/* harmony export */   createSession: () => (/* binding */ createSession),
+/* harmony export */   createSessionStorage: () => (/* binding */ createSessionStorage),
+/* harmony export */   createStaticHandler: () => (/* binding */ createStaticHandler2),
+/* harmony export */   createStaticRouter: () => (/* binding */ createStaticRouter),
+/* harmony export */   data: () => (/* binding */ data),
+/* harmony export */   decodeViaTurboStream: () => (/* binding */ decodeViaTurboStream),
+/* harmony export */   deserializeErrors: () => (/* binding */ deserializeErrors2),
+/* harmony export */   generatePath: () => (/* binding */ generatePath),
+/* harmony export */   getPatchRoutesOnNavigationFunction: () => (/* binding */ getPatchRoutesOnNavigationFunction),
+/* harmony export */   getSingleFetchDataStrategy: () => (/* binding */ getSingleFetchDataStrategy),
+/* harmony export */   invariant: () => (/* binding */ invariant),
+/* harmony export */   isCookie: () => (/* binding */ isCookie),
+/* harmony export */   isRouteErrorResponse: () => (/* binding */ isRouteErrorResponse),
+/* harmony export */   isSession: () => (/* binding */ isSession),
+/* harmony export */   mapRouteProperties: () => (/* binding */ mapRouteProperties),
+/* harmony export */   matchPath: () => (/* binding */ matchPath),
+/* harmony export */   matchRoutes: () => (/* binding */ matchRoutes),
+/* harmony export */   parsePath: () => (/* binding */ parsePath),
+/* harmony export */   redirect: () => (/* binding */ redirect),
+/* harmony export */   redirectDocument: () => (/* binding */ redirectDocument),
+/* harmony export */   renderMatches: () => (/* binding */ renderMatches),
+/* harmony export */   replace: () => (/* binding */ replace),
+/* harmony export */   resolvePath: () => (/* binding */ resolvePath),
+/* harmony export */   setDevServerHooks: () => (/* binding */ setDevServerHooks),
+/* harmony export */   shouldHydrateRouteLoader: () => (/* binding */ shouldHydrateRouteLoader),
+/* harmony export */   useActionData: () => (/* binding */ useActionData),
+/* harmony export */   useAsyncError: () => (/* binding */ useAsyncError),
+/* harmony export */   useAsyncValue: () => (/* binding */ useAsyncValue),
+/* harmony export */   useBeforeUnload: () => (/* binding */ useBeforeUnload),
+/* harmony export */   useBlocker: () => (/* binding */ useBlocker),
+/* harmony export */   useFetcher: () => (/* binding */ useFetcher),
+/* harmony export */   useFetchers: () => (/* binding */ useFetchers),
+/* harmony export */   useFogOFWarDiscovery: () => (/* binding */ useFogOFWarDiscovery),
+/* harmony export */   useFormAction: () => (/* binding */ useFormAction),
+/* harmony export */   useHref: () => (/* binding */ useHref),
+/* harmony export */   useInRouterContext: () => (/* binding */ useInRouterContext),
+/* harmony export */   useLinkClickHandler: () => (/* binding */ useLinkClickHandler),
+/* harmony export */   useLoaderData: () => (/* binding */ useLoaderData),
+/* harmony export */   useLocation: () => (/* binding */ useLocation),
+/* harmony export */   useMatch: () => (/* binding */ useMatch),
+/* harmony export */   useMatches: () => (/* binding */ useMatches),
+/* harmony export */   useNavigate: () => (/* binding */ useNavigate),
+/* harmony export */   useNavigation: () => (/* binding */ useNavigation),
+/* harmony export */   useNavigationType: () => (/* binding */ useNavigationType),
+/* harmony export */   useOutlet: () => (/* binding */ useOutlet),
+/* harmony export */   useOutletContext: () => (/* binding */ useOutletContext),
+/* harmony export */   useParams: () => (/* binding */ useParams),
+/* harmony export */   usePrompt: () => (/* binding */ usePrompt),
+/* harmony export */   useResolvedPath: () => (/* binding */ useResolvedPath),
+/* harmony export */   useRevalidator: () => (/* binding */ useRevalidator),
+/* harmony export */   useRouteError: () => (/* binding */ useRouteError),
+/* harmony export */   useRouteLoaderData: () => (/* binding */ useRouteLoaderData),
+/* harmony export */   useRoutes: () => (/* binding */ useRoutes),
+/* harmony export */   useScrollRestoration: () => (/* binding */ useScrollRestoration),
+/* harmony export */   useSearchParams: () => (/* binding */ useSearchParams),
+/* harmony export */   useSubmit: () => (/* binding */ useSubmit),
+/* harmony export */   useViewTransitionState: () => (/* binding */ useViewTransitionState)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var turbo_stream__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! turbo-stream */ "./node_modules/turbo-stream/dist/turbo-stream.mjs");
+/* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cookie */ "./node_modules/react-router/node_modules/cookie/dist/index.js");
+/* harmony import */ var set_cookie_parser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! set-cookie-parser */ "./node_modules/set-cookie-parser/lib/set-cookie.js");
+/**
+ * react-router v7.1.1
+ *
+ * Copyright (c) Remix Software Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
+ */
+
+// lib/router/history.ts
+var Action = /* @__PURE__ */ ((Action2) => {
+  Action2["Pop"] = "POP";
+  Action2["Push"] = "PUSH";
+  Action2["Replace"] = "REPLACE";
+  return Action2;
+})(Action || {});
+var PopStateEventType = "popstate";
+function createMemoryHistory(options = {}) {
+  let { initialEntries = ["/"], initialIndex, v5Compat = false } = options;
+  let entries;
+  entries = initialEntries.map(
+    (entry, index2) => createMemoryLocation(
+      entry,
+      typeof entry === "string" ? null : entry.state,
+      index2 === 0 ? "default" : void 0
+    )
+  );
+  let index = clampIndex(
+    initialIndex == null ? entries.length - 1 : initialIndex
+  );
+  let action = "POP" /* Pop */;
+  let listener = null;
+  function clampIndex(n) {
+    return Math.min(Math.max(n, 0), entries.length - 1);
+  }
+  function getCurrentLocation() {
+    return entries[index];
+  }
+  function createMemoryLocation(to, state = null, key) {
+    let location = createLocation(
+      entries ? getCurrentLocation().pathname : "/",
+      to,
+      state,
+      key
+    );
+    warning(
+      location.pathname.charAt(0) === "/",
+      `relative pathnames are not supported in memory history: ${JSON.stringify(
+        to
+      )}`
+    );
+    return location;
+  }
+  function createHref2(to) {
+    return typeof to === "string" ? to : createPath(to);
+  }
+  let history = {
+    get index() {
+      return index;
+    },
+    get action() {
+      return action;
+    },
+    get location() {
+      return getCurrentLocation();
+    },
+    createHref: createHref2,
+    createURL(to) {
+      return new URL(createHref2(to), "http://localhost");
+    },
+    encodeLocation(to) {
+      let path = typeof to === "string" ? parsePath(to) : to;
+      return {
+        pathname: path.pathname || "",
+        search: path.search || "",
+        hash: path.hash || ""
+      };
+    },
+    push(to, state) {
+      action = "PUSH" /* Push */;
+      let nextLocation = createMemoryLocation(to, state);
+      index += 1;
+      entries.splice(index, entries.length, nextLocation);
+      if (v5Compat && listener) {
+        listener({ action, location: nextLocation, delta: 1 });
+      }
+    },
+    replace(to, state) {
+      action = "REPLACE" /* Replace */;
+      let nextLocation = createMemoryLocation(to, state);
+      entries[index] = nextLocation;
+      if (v5Compat && listener) {
+        listener({ action, location: nextLocation, delta: 0 });
+      }
+    },
+    go(delta) {
+      action = "POP" /* Pop */;
+      let nextIndex = clampIndex(index + delta);
+      let nextLocation = entries[nextIndex];
+      index = nextIndex;
+      if (listener) {
+        listener({ action, location: nextLocation, delta });
+      }
+    },
+    listen(fn) {
+      listener = fn;
+      return () => {
+        listener = null;
+      };
+    }
+  };
+  return history;
+}
+function createBrowserHistory(options = {}) {
+  function createBrowserLocation(window2, globalHistory) {
+    let { pathname, search, hash } = window2.location;
+    return createLocation(
+      "",
+      { pathname, search, hash },
+      // state defaults to `null` because `window.history.state` does
+      globalHistory.state && globalHistory.state.usr || null,
+      globalHistory.state && globalHistory.state.key || "default"
+    );
+  }
+  function createBrowserHref(window2, to) {
+    return typeof to === "string" ? to : createPath(to);
+  }
+  return getUrlBasedHistory(
+    createBrowserLocation,
+    createBrowserHref,
+    null,
+    options
+  );
+}
+function createHashHistory(options = {}) {
+  function createHashLocation(window2, globalHistory) {
+    let {
+      pathname = "/",
+      search = "",
+      hash = ""
+    } = parsePath(window2.location.hash.substring(1));
+    if (!pathname.startsWith("/") && !pathname.startsWith(".")) {
+      pathname = "/" + pathname;
+    }
+    return createLocation(
+      "",
+      { pathname, search, hash },
+      // state defaults to `null` because `window.history.state` does
+      globalHistory.state && globalHistory.state.usr || null,
+      globalHistory.state && globalHistory.state.key || "default"
+    );
+  }
+  function createHashHref(window2, to) {
+    let base = window2.document.querySelector("base");
+    let href = "";
+    if (base && base.getAttribute("href")) {
+      let url = window2.location.href;
+      let hashIndex = url.indexOf("#");
+      href = hashIndex === -1 ? url : url.slice(0, hashIndex);
+    }
+    return href + "#" + (typeof to === "string" ? to : createPath(to));
+  }
+  function validateHashLocation(location, to) {
+    warning(
+      location.pathname.charAt(0) === "/",
+      `relative pathnames are not supported in hash history.push(${JSON.stringify(
+        to
+      )})`
+    );
+  }
+  return getUrlBasedHistory(
+    createHashLocation,
+    createHashHref,
+    validateHashLocation,
+    options
+  );
+}
+function invariant(value, message) {
+  if (value === false || value === null || typeof value === "undefined") {
+    throw new Error(message);
+  }
+}
+function warning(cond, message) {
+  if (!cond) {
+    if (typeof console !== "undefined") console.warn(message);
+    try {
+      throw new Error(message);
+    } catch (e) {
+    }
+  }
+}
+function createKey() {
+  return Math.random().toString(36).substring(2, 10);
+}
+function getHistoryState(location, index) {
+  return {
+    usr: location.state,
+    key: location.key,
+    idx: index
+  };
+}
+function createLocation(current, to, state = null, key) {
+  let location = {
+    pathname: typeof current === "string" ? current : current.pathname,
+    search: "",
+    hash: "",
+    ...typeof to === "string" ? parsePath(to) : to,
+    state,
+    // TODO: This could be cleaned up.  push/replace should probably just take
+    // full Locations now and avoid the need to run through this flow at all
+    // But that's a pretty big refactor to the current test suite so going to
+    // keep as is for the time being and just let any incoming keys take precedence
+    key: to && to.key || key || createKey()
+  };
+  return location;
+}
+function createPath({
+  pathname = "/",
+  search = "",
+  hash = ""
+}) {
+  if (search && search !== "?")
+    pathname += search.charAt(0) === "?" ? search : "?" + search;
+  if (hash && hash !== "#")
+    pathname += hash.charAt(0) === "#" ? hash : "#" + hash;
+  return pathname;
+}
+function parsePath(path) {
+  let parsedPath = {};
+  if (path) {
+    let hashIndex = path.indexOf("#");
+    if (hashIndex >= 0) {
+      parsedPath.hash = path.substring(hashIndex);
+      path = path.substring(0, hashIndex);
+    }
+    let searchIndex = path.indexOf("?");
+    if (searchIndex >= 0) {
+      parsedPath.search = path.substring(searchIndex);
+      path = path.substring(0, searchIndex);
+    }
+    if (path) {
+      parsedPath.pathname = path;
+    }
+  }
+  return parsedPath;
+}
+function getUrlBasedHistory(getLocation, createHref2, validateLocation, options = {}) {
+  let { window: window2 = document.defaultView, v5Compat = false } = options;
+  let globalHistory = window2.history;
+  let action = "POP" /* Pop */;
+  let listener = null;
+  let index = getIndex();
+  if (index == null) {
+    index = 0;
+    globalHistory.replaceState({ ...globalHistory.state, idx: index }, "");
+  }
+  function getIndex() {
+    let state = globalHistory.state || { idx: null };
+    return state.idx;
+  }
+  function handlePop() {
+    action = "POP" /* Pop */;
+    let nextIndex = getIndex();
+    let delta = nextIndex == null ? null : nextIndex - index;
+    index = nextIndex;
+    if (listener) {
+      listener({ action, location: history.location, delta });
+    }
+  }
+  function push(to, state) {
+    action = "PUSH" /* Push */;
+    let location = createLocation(history.location, to, state);
+    if (validateLocation) validateLocation(location, to);
+    index = getIndex() + 1;
+    let historyState = getHistoryState(location, index);
+    let url = history.createHref(location);
+    try {
+      globalHistory.pushState(historyState, "", url);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "DataCloneError") {
+        throw error;
+      }
+      window2.location.assign(url);
+    }
+    if (v5Compat && listener) {
+      listener({ action, location: history.location, delta: 1 });
+    }
+  }
+  function replace2(to, state) {
+    action = "REPLACE" /* Replace */;
+    let location = createLocation(history.location, to, state);
+    if (validateLocation) validateLocation(location, to);
+    index = getIndex();
+    let historyState = getHistoryState(location, index);
+    let url = history.createHref(location);
+    globalHistory.replaceState(historyState, "", url);
+    if (v5Compat && listener) {
+      listener({ action, location: history.location, delta: 0 });
+    }
+  }
+  function createURL(to) {
+    let base = window2.location.origin !== "null" ? window2.location.origin : window2.location.href;
+    let href = typeof to === "string" ? to : createPath(to);
+    href = href.replace(/ $/, "%20");
+    invariant(
+      base,
+      `No window.location.(origin|href) available to create URL for href: ${href}`
+    );
+    return new URL(href, base);
+  }
+  let history = {
+    get action() {
+      return action;
+    },
+    get location() {
+      return getLocation(window2, globalHistory);
+    },
+    listen(fn) {
+      if (listener) {
+        throw new Error("A history only accepts one active listener");
+      }
+      window2.addEventListener(PopStateEventType, handlePop);
+      listener = fn;
+      return () => {
+        window2.removeEventListener(PopStateEventType, handlePop);
+        listener = null;
+      };
+    },
+    createHref(to) {
+      return createHref2(window2, to);
+    },
+    createURL,
+    encodeLocation(to) {
+      let url = createURL(to);
+      return {
+        pathname: url.pathname,
+        search: url.search,
+        hash: url.hash
+      };
+    },
+    push,
+    replace: replace2,
+    go(n) {
+      return globalHistory.go(n);
+    }
+  };
+  return history;
+}
+
+// lib/router/utils.ts
+var immutableRouteKeys = /* @__PURE__ */ new Set([
+  "lazy",
+  "caseSensitive",
+  "path",
+  "id",
+  "index",
+  "children"
+]);
+function isIndexRoute(route) {
+  return route.index === true;
+}
+function convertRoutesToDataRoutes(routes, mapRouteProperties2, parentPath = [], manifest = {}) {
+  return routes.map((route, index) => {
+    let treePath = [...parentPath, String(index)];
+    let id = typeof route.id === "string" ? route.id : treePath.join("-");
+    invariant(
+      route.index !== true || !route.children,
+      `Cannot specify children on an index route`
+    );
+    invariant(
+      !manifest[id],
+      `Found a route id collision on id "${id}".  Route id's must be globally unique within Data Router usages`
+    );
+    if (isIndexRoute(route)) {
+      let indexRoute = {
+        ...route,
+        ...mapRouteProperties2(route),
+        id
+      };
+      manifest[id] = indexRoute;
+      return indexRoute;
+    } else {
+      let pathOrLayoutRoute = {
+        ...route,
+        ...mapRouteProperties2(route),
+        id,
+        children: void 0
+      };
+      manifest[id] = pathOrLayoutRoute;
+      if (route.children) {
+        pathOrLayoutRoute.children = convertRoutesToDataRoutes(
+          route.children,
+          mapRouteProperties2,
+          treePath,
+          manifest
+        );
+      }
+      return pathOrLayoutRoute;
+    }
+  });
+}
+function matchRoutes(routes, locationArg, basename = "/") {
+  return matchRoutesImpl(routes, locationArg, basename, false);
+}
+function matchRoutesImpl(routes, locationArg, basename, allowPartial) {
+  let location = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
+  let pathname = stripBasename(location.pathname || "/", basename);
+  if (pathname == null) {
+    return null;
+  }
+  let branches = flattenRoutes(routes);
+  rankRouteBranches(branches);
+  let matches = null;
+  for (let i = 0; matches == null && i < branches.length; ++i) {
+    let decoded = decodePath(pathname);
+    matches = matchRouteBranch(
+      branches[i],
+      decoded,
+      allowPartial
+    );
+  }
+  return matches;
+}
+function convertRouteMatchToUiMatch(match, loaderData) {
+  let { route, pathname, params } = match;
+  return {
+    id: route.id,
+    pathname,
+    params,
+    data: loaderData[route.id],
+    handle: route.handle
+  };
+}
+function flattenRoutes(routes, branches = [], parentsMeta = [], parentPath = "") {
+  let flattenRoute = (route, index, relativePath) => {
+    let meta = {
+      relativePath: relativePath === void 0 ? route.path || "" : relativePath,
+      caseSensitive: route.caseSensitive === true,
+      childrenIndex: index,
+      route
+    };
+    if (meta.relativePath.startsWith("/")) {
+      invariant(
+        meta.relativePath.startsWith(parentPath),
+        `Absolute route path "${meta.relativePath}" nested under path "${parentPath}" is not valid. An absolute child route path must start with the combined path of all its parent routes.`
+      );
+      meta.relativePath = meta.relativePath.slice(parentPath.length);
+    }
+    let path = joinPaths([parentPath, meta.relativePath]);
+    let routesMeta = parentsMeta.concat(meta);
+    if (route.children && route.children.length > 0) {
+      invariant(
+        // Our types know better, but runtime JS may not!
+        // @ts-expect-error
+        route.index !== true,
+        `Index routes must not have child routes. Please remove all child routes from route path "${path}".`
+      );
+      flattenRoutes(route.children, branches, routesMeta, path);
+    }
+    if (route.path == null && !route.index) {
+      return;
+    }
+    branches.push({
+      path,
+      score: computeScore(path, route.index),
+      routesMeta
+    });
+  };
+  routes.forEach((route, index) => {
+    if (route.path === "" || !route.path?.includes("?")) {
+      flattenRoute(route, index);
+    } else {
+      for (let exploded of explodeOptionalSegments(route.path)) {
+        flattenRoute(route, index, exploded);
+      }
+    }
+  });
+  return branches;
+}
+function explodeOptionalSegments(path) {
+  let segments = path.split("/");
+  if (segments.length === 0) return [];
+  let [first, ...rest] = segments;
+  let isOptional = first.endsWith("?");
+  let required = first.replace(/\?$/, "");
+  if (rest.length === 0) {
+    return isOptional ? [required, ""] : [required];
+  }
+  let restExploded = explodeOptionalSegments(rest.join("/"));
+  let result = [];
+  result.push(
+    ...restExploded.map(
+      (subpath) => subpath === "" ? required : [required, subpath].join("/")
+    )
+  );
+  if (isOptional) {
+    result.push(...restExploded);
+  }
+  return result.map(
+    (exploded) => path.startsWith("/") && exploded === "" ? "/" : exploded
+  );
+}
+function rankRouteBranches(branches) {
+  branches.sort(
+    (a, b) => a.score !== b.score ? b.score - a.score : compareIndexes(
+      a.routesMeta.map((meta) => meta.childrenIndex),
+      b.routesMeta.map((meta) => meta.childrenIndex)
+    )
+  );
+}
+var paramRe = /^:[\w-]+$/;
+var dynamicSegmentValue = 3;
+var indexRouteValue = 2;
+var emptySegmentValue = 1;
+var staticSegmentValue = 10;
+var splatPenalty = -2;
+var isSplat = (s) => s === "*";
+function computeScore(path, index) {
+  let segments = path.split("/");
+  let initialScore = segments.length;
+  if (segments.some(isSplat)) {
+    initialScore += splatPenalty;
+  }
+  if (index) {
+    initialScore += indexRouteValue;
+  }
+  return segments.filter((s) => !isSplat(s)).reduce(
+    (score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue),
+    initialScore
+  );
+}
+function compareIndexes(a, b) {
+  let siblings = a.length === b.length && a.slice(0, -1).every((n, i) => n === b[i]);
+  return siblings ? (
+    // If two routes are siblings, we should try to match the earlier sibling
+    // first. This allows people to have fine-grained control over the matching
+    // behavior by simply putting routes with identical paths in the order they
+    // want them tried.
+    a[a.length - 1] - b[b.length - 1]
+  ) : (
+    // Otherwise, it doesn't really make sense to rank non-siblings by index,
+    // so they sort equally.
+    0
+  );
+}
+function matchRouteBranch(branch, pathname, allowPartial = false) {
+  let { routesMeta } = branch;
+  let matchedParams = {};
+  let matchedPathname = "/";
+  let matches = [];
+  for (let i = 0; i < routesMeta.length; ++i) {
+    let meta = routesMeta[i];
+    let end = i === routesMeta.length - 1;
+    let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
+    let match = matchPath(
+      { path: meta.relativePath, caseSensitive: meta.caseSensitive, end },
+      remainingPathname
+    );
+    let route = meta.route;
+    if (!match && end && allowPartial && !routesMeta[routesMeta.length - 1].route.index) {
+      match = matchPath(
+        {
+          path: meta.relativePath,
+          caseSensitive: meta.caseSensitive,
+          end: false
+        },
+        remainingPathname
+      );
+    }
+    if (!match) {
+      return null;
+    }
+    Object.assign(matchedParams, match.params);
+    matches.push({
+      // TODO: Can this as be avoided?
+      params: matchedParams,
+      pathname: joinPaths([matchedPathname, match.pathname]),
+      pathnameBase: normalizePathname(
+        joinPaths([matchedPathname, match.pathnameBase])
+      ),
+      route
+    });
+    if (match.pathnameBase !== "/") {
+      matchedPathname = joinPaths([matchedPathname, match.pathnameBase]);
+    }
+  }
+  return matches;
+}
+function generatePath(originalPath, params = {}) {
+  let path = originalPath;
+  if (path.endsWith("*") && path !== "*" && !path.endsWith("/*")) {
+    warning(
+      false,
+      `Route path "${path}" will be treated as if it were "${path.replace(/\*$/, "/*")}" because the \`*\` character must always follow a \`/\` in the pattern. To get rid of this warning, please change the route path to "${path.replace(/\*$/, "/*")}".`
+    );
+    path = path.replace(/\*$/, "/*");
+  }
+  const prefix = path.startsWith("/") ? "/" : "";
+  const stringify = (p) => p == null ? "" : typeof p === "string" ? p : String(p);
+  const segments = path.split(/\/+/).map((segment, index, array) => {
+    const isLastSegment = index === array.length - 1;
+    if (isLastSegment && segment === "*") {
+      const star = "*";
+      return stringify(params[star]);
+    }
+    const keyMatch = segment.match(/^:([\w-]+)(\??)$/);
+    if (keyMatch) {
+      const [, key, optional] = keyMatch;
+      let param = params[key];
+      invariant(optional === "?" || param != null, `Missing ":${key}" param`);
+      return stringify(param);
+    }
+    return segment.replace(/\?$/g, "");
+  }).filter((segment) => !!segment);
+  return prefix + segments.join("/");
+}
+function matchPath(pattern, pathname) {
+  if (typeof pattern === "string") {
+    pattern = { path: pattern, caseSensitive: false, end: true };
+  }
+  let [matcher, compiledParams] = compilePath(
+    pattern.path,
+    pattern.caseSensitive,
+    pattern.end
+  );
+  let match = pathname.match(matcher);
+  if (!match) return null;
+  let matchedPathname = match[0];
+  let pathnameBase = matchedPathname.replace(/(.)\/+$/, "$1");
+  let captureGroups = match.slice(1);
+  let params = compiledParams.reduce(
+    (memo2, { paramName, isOptional }, index) => {
+      if (paramName === "*") {
+        let splatValue = captureGroups[index] || "";
+        pathnameBase = matchedPathname.slice(0, matchedPathname.length - splatValue.length).replace(/(.)\/+$/, "$1");
+      }
+      const value = captureGroups[index];
+      if (isOptional && !value) {
+        memo2[paramName] = void 0;
+      } else {
+        memo2[paramName] = (value || "").replace(/%2F/g, "/");
+      }
+      return memo2;
+    },
+    {}
+  );
+  return {
+    params,
+    pathname: matchedPathname,
+    pathnameBase,
+    pattern
+  };
+}
+function compilePath(path, caseSensitive = false, end = true) {
+  warning(
+    path === "*" || !path.endsWith("*") || path.endsWith("/*"),
+    `Route path "${path}" will be treated as if it were "${path.replace(/\*$/, "/*")}" because the \`*\` character must always follow a \`/\` in the pattern. To get rid of this warning, please change the route path to "${path.replace(/\*$/, "/*")}".`
+  );
+  let params = [];
+  let regexpSource = "^" + path.replace(/\/*\*?$/, "").replace(/^\/*/, "/").replace(/[\\.*+^${}|()[\]]/g, "\\$&").replace(
+    /\/:([\w-]+)(\?)?/g,
+    (_, paramName, isOptional) => {
+      params.push({ paramName, isOptional: isOptional != null });
+      return isOptional ? "/?([^\\/]+)?" : "/([^\\/]+)";
+    }
+  );
+  if (path.endsWith("*")) {
+    params.push({ paramName: "*" });
+    regexpSource += path === "*" || path === "/*" ? "(.*)$" : "(?:\\/(.+)|\\/*)$";
+  } else if (end) {
+    regexpSource += "\\/*$";
+  } else if (path !== "" && path !== "/") {
+    regexpSource += "(?:(?=\\/|$))";
+  } else {
+  }
+  let matcher = new RegExp(regexpSource, caseSensitive ? void 0 : "i");
+  return [matcher, params];
+}
+function decodePath(value) {
+  try {
+    return value.split("/").map((v) => decodeURIComponent(v).replace(/\//g, "%2F")).join("/");
+  } catch (error) {
+    warning(
+      false,
+      `The URL path "${value}" could not be decoded because it is is a malformed URL segment. This is probably due to a bad percent encoding (${error}).`
+    );
+    return value;
+  }
+}
+function stripBasename(pathname, basename) {
+  if (basename === "/") return pathname;
+  if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
+    return null;
+  }
+  let startIndex = basename.endsWith("/") ? basename.length - 1 : basename.length;
+  let nextChar = pathname.charAt(startIndex);
+  if (nextChar && nextChar !== "/") {
+    return null;
+  }
+  return pathname.slice(startIndex) || "/";
+}
+function resolvePath(to, fromPathname = "/") {
+  let {
+    pathname: toPathname,
+    search = "",
+    hash = ""
+  } = typeof to === "string" ? parsePath(to) : to;
+  let pathname = toPathname ? toPathname.startsWith("/") ? toPathname : resolvePathname(toPathname, fromPathname) : fromPathname;
+  return {
+    pathname,
+    search: normalizeSearch(search),
+    hash: normalizeHash(hash)
+  };
+}
+function resolvePathname(relativePath, fromPathname) {
+  let segments = fromPathname.replace(/\/+$/, "").split("/");
+  let relativeSegments = relativePath.split("/");
+  relativeSegments.forEach((segment) => {
+    if (segment === "..") {
+      if (segments.length > 1) segments.pop();
+    } else if (segment !== ".") {
+      segments.push(segment);
+    }
+  });
+  return segments.length > 1 ? segments.join("/") : "/";
+}
+function getInvalidPathError(char, field, dest, path) {
+  return `Cannot include a '${char}' character in a manually specified \`to.${field}\` field [${JSON.stringify(
+    path
+  )}].  Please separate it out to the \`to.${dest}\` field. Alternatively you may provide the full path as a string in <Link to="..."> and the router will parse it for you.`;
+}
+function getPathContributingMatches(matches) {
+  return matches.filter(
+    (match, index) => index === 0 || match.route.path && match.route.path.length > 0
+  );
+}
+function getResolveToMatches(matches) {
+  let pathMatches = getPathContributingMatches(matches);
+  return pathMatches.map(
+    (match, idx) => idx === pathMatches.length - 1 ? match.pathname : match.pathnameBase
+  );
+}
+function resolveTo(toArg, routePathnames, locationPathname, isPathRelative = false) {
+  let to;
+  if (typeof toArg === "string") {
+    to = parsePath(toArg);
+  } else {
+    to = { ...toArg };
+    invariant(
+      !to.pathname || !to.pathname.includes("?"),
+      getInvalidPathError("?", "pathname", "search", to)
+    );
+    invariant(
+      !to.pathname || !to.pathname.includes("#"),
+      getInvalidPathError("#", "pathname", "hash", to)
+    );
+    invariant(
+      !to.search || !to.search.includes("#"),
+      getInvalidPathError("#", "search", "hash", to)
+    );
+  }
+  let isEmptyPath = toArg === "" || to.pathname === "";
+  let toPathname = isEmptyPath ? "/" : to.pathname;
+  let from;
+  if (toPathname == null) {
+    from = locationPathname;
+  } else {
+    let routePathnameIndex = routePathnames.length - 1;
+    if (!isPathRelative && toPathname.startsWith("..")) {
+      let toSegments = toPathname.split("/");
+      while (toSegments[0] === "..") {
+        toSegments.shift();
+        routePathnameIndex -= 1;
+      }
+      to.pathname = toSegments.join("/");
+    }
+    from = routePathnameIndex >= 0 ? routePathnames[routePathnameIndex] : "/";
+  }
+  let path = resolvePath(to, from);
+  let hasExplicitTrailingSlash = toPathname && toPathname !== "/" && toPathname.endsWith("/");
+  let hasCurrentTrailingSlash = (isEmptyPath || toPathname === ".") && locationPathname.endsWith("/");
+  if (!path.pathname.endsWith("/") && (hasExplicitTrailingSlash || hasCurrentTrailingSlash)) {
+    path.pathname += "/";
+  }
+  return path;
+}
+var joinPaths = (paths) => paths.join("/").replace(/\/\/+/g, "/");
+var normalizePathname = (pathname) => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
+var normalizeSearch = (search) => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
+var normalizeHash = (hash) => !hash || hash === "#" ? "" : hash.startsWith("#") ? hash : "#" + hash;
+var DataWithResponseInit = class {
+  constructor(data2, init) {
+    this.type = "DataWithResponseInit";
+    this.data = data2;
+    this.init = init || null;
+  }
+};
+function data(data2, init) {
+  return new DataWithResponseInit(
+    data2,
+    typeof init === "number" ? { status: init } : init
+  );
+}
+var redirect = (url, init = 302) => {
+  let responseInit = init;
+  if (typeof responseInit === "number") {
+    responseInit = { status: responseInit };
+  } else if (typeof responseInit.status === "undefined") {
+    responseInit.status = 302;
+  }
+  let headers = new Headers(responseInit.headers);
+  headers.set("Location", url);
+  return new Response(null, {
+    ...responseInit,
+    headers
+  });
+};
+var redirectDocument = (url, init) => {
+  let response = redirect(url, init);
+  response.headers.set("X-Remix-Reload-Document", "true");
+  return response;
+};
+var replace = (url, init) => {
+  let response = redirect(url, init);
+  response.headers.set("X-Remix-Replace", "true");
+  return response;
+};
+var ErrorResponseImpl = class {
+  constructor(status, statusText, data2, internal = false) {
+    this.status = status;
+    this.statusText = statusText || "";
+    this.internal = internal;
+    if (data2 instanceof Error) {
+      this.data = data2.toString();
+      this.error = data2;
+    } else {
+      this.data = data2;
+    }
+  }
+};
+function isRouteErrorResponse(error) {
+  return error != null && typeof error.status === "number" && typeof error.statusText === "string" && typeof error.internal === "boolean" && "data" in error;
+}
+
+// lib/router/router.ts
+var validMutationMethodsArr = [
+  "POST",
+  "PUT",
+  "PATCH",
+  "DELETE"
+];
+var validMutationMethods = new Set(
+  validMutationMethodsArr
+);
+var validRequestMethodsArr = [
+  "GET",
+  ...validMutationMethodsArr
+];
+var validRequestMethods = new Set(validRequestMethodsArr);
+var redirectStatusCodes = /* @__PURE__ */ new Set([301, 302, 303, 307, 308]);
+var redirectPreserveMethodStatusCodes = /* @__PURE__ */ new Set([307, 308]);
+var IDLE_NAVIGATION = {
+  state: "idle",
+  location: void 0,
+  formMethod: void 0,
+  formAction: void 0,
+  formEncType: void 0,
+  formData: void 0,
+  json: void 0,
+  text: void 0
+};
+var IDLE_FETCHER = {
+  state: "idle",
+  data: void 0,
+  formMethod: void 0,
+  formAction: void 0,
+  formEncType: void 0,
+  formData: void 0,
+  json: void 0,
+  text: void 0
+};
+var IDLE_BLOCKER = {
+  state: "unblocked",
+  proceed: void 0,
+  reset: void 0,
+  location: void 0
+};
+var ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
+var defaultMapRouteProperties = (route) => ({
+  hasErrorBoundary: Boolean(route.hasErrorBoundary)
+});
+var TRANSITIONS_STORAGE_KEY = "remix-router-transitions";
+var ResetLoaderDataSymbol = Symbol("ResetLoaderData");
+function createRouter(init) {
+  const routerWindow = init.window ? init.window : typeof window !== "undefined" ? window : void 0;
+  const isBrowser2 = typeof routerWindow !== "undefined" && typeof routerWindow.document !== "undefined" && typeof routerWindow.document.createElement !== "undefined";
+  invariant(
+    init.routes.length > 0,
+    "You must provide a non-empty routes array to createRouter"
+  );
+  let mapRouteProperties2 = init.mapRouteProperties || defaultMapRouteProperties;
+  let manifest = {};
+  let dataRoutes = convertRoutesToDataRoutes(
+    init.routes,
+    mapRouteProperties2,
+    void 0,
+    manifest
+  );
+  let inFlightDataRoutes;
+  let basename = init.basename || "/";
+  let dataStrategyImpl = init.dataStrategy || defaultDataStrategy;
+  let patchRoutesOnNavigationImpl = init.patchRoutesOnNavigation;
+  let future = {
+    ...init.future
+  };
+  let unlistenHistory = null;
+  let subscribers = /* @__PURE__ */ new Set();
+  let savedScrollPositions2 = null;
+  let getScrollRestorationKey2 = null;
+  let getScrollPosition = null;
+  let initialScrollRestored = init.hydrationData != null;
+  let initialMatches = matchRoutes(dataRoutes, init.history.location, basename);
+  let initialErrors = null;
+  if (initialMatches == null && !patchRoutesOnNavigationImpl) {
+    let error = getInternalRouterError(404, {
+      pathname: init.history.location.pathname
+    });
+    let { matches, route } = getShortCircuitMatches(dataRoutes);
+    initialMatches = matches;
+    initialErrors = { [route.id]: error };
+  }
+  if (initialMatches && !init.hydrationData) {
+    let fogOfWar = checkFogOfWar(
+      initialMatches,
+      dataRoutes,
+      init.history.location.pathname
+    );
+    if (fogOfWar.active) {
+      initialMatches = null;
+    }
+  }
+  let initialized;
+  if (!initialMatches) {
+    initialized = false;
+    initialMatches = [];
+    let fogOfWar = checkFogOfWar(
+      null,
+      dataRoutes,
+      init.history.location.pathname
+    );
+    if (fogOfWar.active && fogOfWar.matches) {
+      initialMatches = fogOfWar.matches;
+    }
+  } else if (initialMatches.some((m) => m.route.lazy)) {
+    initialized = false;
+  } else if (!initialMatches.some((m) => m.route.loader)) {
+    initialized = true;
+  } else {
+    let loaderData = init.hydrationData ? init.hydrationData.loaderData : null;
+    let errors = init.hydrationData ? init.hydrationData.errors : null;
+    if (errors) {
+      let idx = initialMatches.findIndex(
+        (m) => errors[m.route.id] !== void 0
+      );
+      initialized = initialMatches.slice(0, idx + 1).every((m) => !shouldLoadRouteOnHydration(m.route, loaderData, errors));
+    } else {
+      initialized = initialMatches.every(
+        (m) => !shouldLoadRouteOnHydration(m.route, loaderData, errors)
+      );
+    }
+  }
+  let router;
+  let state = {
+    historyAction: init.history.action,
+    location: init.history.location,
+    matches: initialMatches,
+    initialized,
+    navigation: IDLE_NAVIGATION,
+    // Don't restore on initial updateState() if we were SSR'd
+    restoreScrollPosition: init.hydrationData != null ? false : null,
+    preventScrollReset: false,
+    revalidation: "idle",
+    loaderData: init.hydrationData && init.hydrationData.loaderData || {},
+    actionData: init.hydrationData && init.hydrationData.actionData || null,
+    errors: init.hydrationData && init.hydrationData.errors || initialErrors,
+    fetchers: /* @__PURE__ */ new Map(),
+    blockers: /* @__PURE__ */ new Map()
+  };
+  let pendingAction = "POP" /* Pop */;
+  let pendingPreventScrollReset = false;
+  let pendingNavigationController;
+  let pendingViewTransitionEnabled = false;
+  let appliedViewTransitions = /* @__PURE__ */ new Map();
+  let removePageHideEventListener = null;
+  let isUninterruptedRevalidation = false;
+  let isRevalidationRequired = false;
+  let cancelledFetcherLoads = /* @__PURE__ */ new Set();
+  let fetchControllers = /* @__PURE__ */ new Map();
+  let incrementingLoadId = 0;
+  let pendingNavigationLoadId = -1;
+  let fetchReloadIds = /* @__PURE__ */ new Map();
+  let fetchRedirectIds = /* @__PURE__ */ new Set();
+  let fetchLoadMatches = /* @__PURE__ */ new Map();
+  let activeFetchers = /* @__PURE__ */ new Map();
+  let fetchersQueuedForDeletion = /* @__PURE__ */ new Set();
+  let blockerFunctions = /* @__PURE__ */ new Map();
+  let unblockBlockerHistoryUpdate = void 0;
+  let pendingRevalidationDfd = null;
+  function initialize() {
+    unlistenHistory = init.history.listen(
+      ({ action: historyAction, location, delta }) => {
+        if (unblockBlockerHistoryUpdate) {
+          unblockBlockerHistoryUpdate();
+          unblockBlockerHistoryUpdate = void 0;
+          return;
+        }
+        warning(
+          blockerFunctions.size === 0 || delta != null,
+          "You are trying to use a blocker on a POP navigation to a location that was not created by @remix-run/router. This will fail silently in production. This can happen if you are navigating outside the router via `window.history.pushState`/`window.location.hash` instead of using router navigation APIs.  This can also happen if you are using createHashRouter and the user manually changes the URL."
+        );
+        let blockerKey = shouldBlockNavigation({
+          currentLocation: state.location,
+          nextLocation: location,
+          historyAction
+        });
+        if (blockerKey && delta != null) {
+          let nextHistoryUpdatePromise = new Promise((resolve) => {
+            unblockBlockerHistoryUpdate = resolve;
+          });
+          init.history.go(delta * -1);
+          updateBlocker(blockerKey, {
+            state: "blocked",
+            location,
+            proceed() {
+              updateBlocker(blockerKey, {
+                state: "proceeding",
+                proceed: void 0,
+                reset: void 0,
+                location
+              });
+              nextHistoryUpdatePromise.then(() => init.history.go(delta));
+            },
+            reset() {
+              let blockers = new Map(state.blockers);
+              blockers.set(blockerKey, IDLE_BLOCKER);
+              updateState({ blockers });
+            }
+          });
+          return;
+        }
+        return startNavigation(historyAction, location);
+      }
+    );
+    if (isBrowser2) {
+      restoreAppliedTransitions(routerWindow, appliedViewTransitions);
+      let _saveAppliedTransitions = () => persistAppliedTransitions(routerWindow, appliedViewTransitions);
+      routerWindow.addEventListener("pagehide", _saveAppliedTransitions);
+      removePageHideEventListener = () => routerWindow.removeEventListener("pagehide", _saveAppliedTransitions);
+    }
+    if (!state.initialized) {
+      startNavigation("POP" /* Pop */, state.location, {
+        initialHydration: true
+      });
+    }
+    return router;
+  }
+  function dispose() {
+    if (unlistenHistory) {
+      unlistenHistory();
+    }
+    if (removePageHideEventListener) {
+      removePageHideEventListener();
+    }
+    subscribers.clear();
+    pendingNavigationController && pendingNavigationController.abort();
+    state.fetchers.forEach((_, key) => deleteFetcher(key));
+    state.blockers.forEach((_, key) => deleteBlocker(key));
+  }
+  function subscribe(fn) {
+    subscribers.add(fn);
+    return () => subscribers.delete(fn);
+  }
+  function updateState(newState, opts = {}) {
+    state = {
+      ...state,
+      ...newState
+    };
+    let unmountedFetchers = [];
+    let mountedFetchers = [];
+    state.fetchers.forEach((fetcher, key) => {
+      if (fetcher.state === "idle") {
+        if (fetchersQueuedForDeletion.has(key)) {
+          unmountedFetchers.push(key);
+        } else {
+          mountedFetchers.push(key);
+        }
+      }
+    });
+    [...subscribers].forEach(
+      (subscriber) => subscriber(state, {
+        deletedFetchers: unmountedFetchers,
+        viewTransitionOpts: opts.viewTransitionOpts,
+        flushSync: opts.flushSync === true
+      })
+    );
+    unmountedFetchers.forEach((key) => deleteFetcher(key));
+    mountedFetchers.forEach((key) => state.fetchers.delete(key));
+  }
+  function completeNavigation(location, newState, { flushSync } = {}) {
+    let isActionReload = state.actionData != null && state.navigation.formMethod != null && isMutationMethod(state.navigation.formMethod) && state.navigation.state === "loading" && location.state?._isRedirect !== true;
+    let actionData;
+    if (newState.actionData) {
+      if (Object.keys(newState.actionData).length > 0) {
+        actionData = newState.actionData;
+      } else {
+        actionData = null;
+      }
+    } else if (isActionReload) {
+      actionData = state.actionData;
+    } else {
+      actionData = null;
+    }
+    let loaderData = newState.loaderData ? mergeLoaderData(
+      state.loaderData,
+      newState.loaderData,
+      newState.matches || [],
+      newState.errors
+    ) : state.loaderData;
+    let blockers = state.blockers;
+    if (blockers.size > 0) {
+      blockers = new Map(blockers);
+      blockers.forEach((_, k) => blockers.set(k, IDLE_BLOCKER));
+    }
+    let preventScrollReset = pendingPreventScrollReset === true || state.navigation.formMethod != null && isMutationMethod(state.navigation.formMethod) && location.state?._isRedirect !== true;
+    if (inFlightDataRoutes) {
+      dataRoutes = inFlightDataRoutes;
+      inFlightDataRoutes = void 0;
+    }
+    if (isUninterruptedRevalidation) {
+    } else if (pendingAction === "POP" /* Pop */) {
+    } else if (pendingAction === "PUSH" /* Push */) {
+      init.history.push(location, location.state);
+    } else if (pendingAction === "REPLACE" /* Replace */) {
+      init.history.replace(location, location.state);
+    }
+    let viewTransitionOpts;
+    if (pendingAction === "POP" /* Pop */) {
+      let priorPaths = appliedViewTransitions.get(state.location.pathname);
+      if (priorPaths && priorPaths.has(location.pathname)) {
+        viewTransitionOpts = {
+          currentLocation: state.location,
+          nextLocation: location
+        };
+      } else if (appliedViewTransitions.has(location.pathname)) {
+        viewTransitionOpts = {
+          currentLocation: location,
+          nextLocation: state.location
+        };
+      }
+    } else if (pendingViewTransitionEnabled) {
+      let toPaths = appliedViewTransitions.get(state.location.pathname);
+      if (toPaths) {
+        toPaths.add(location.pathname);
+      } else {
+        toPaths = /* @__PURE__ */ new Set([location.pathname]);
+        appliedViewTransitions.set(state.location.pathname, toPaths);
+      }
+      viewTransitionOpts = {
+        currentLocation: state.location,
+        nextLocation: location
+      };
+    }
+    updateState(
+      {
+        ...newState,
+        // matches, errors, fetchers go through as-is
+        actionData,
+        loaderData,
+        historyAction: pendingAction,
+        location,
+        initialized: true,
+        navigation: IDLE_NAVIGATION,
+        revalidation: "idle",
+        restoreScrollPosition: getSavedScrollPosition(
+          location,
+          newState.matches || state.matches
+        ),
+        preventScrollReset,
+        blockers
+      },
+      {
+        viewTransitionOpts,
+        flushSync: flushSync === true
+      }
+    );
+    pendingAction = "POP" /* Pop */;
+    pendingPreventScrollReset = false;
+    pendingViewTransitionEnabled = false;
+    isUninterruptedRevalidation = false;
+    isRevalidationRequired = false;
+    pendingRevalidationDfd?.resolve();
+    pendingRevalidationDfd = null;
+  }
+  async function navigate(to, opts) {
+    if (typeof to === "number") {
+      init.history.go(to);
+      return;
+    }
+    let normalizedPath = normalizeTo(
+      state.location,
+      state.matches,
+      basename,
+      to,
+      opts?.fromRouteId,
+      opts?.relative
+    );
+    let { path, submission, error } = normalizeNavigateOptions(
+      false,
+      normalizedPath,
+      opts
+    );
+    let currentLocation = state.location;
+    let nextLocation = createLocation(state.location, path, opts && opts.state);
+    nextLocation = {
+      ...nextLocation,
+      ...init.history.encodeLocation(nextLocation)
+    };
+    let userReplace = opts && opts.replace != null ? opts.replace : void 0;
+    let historyAction = "PUSH" /* Push */;
+    if (userReplace === true) {
+      historyAction = "REPLACE" /* Replace */;
+    } else if (userReplace === false) {
+    } else if (submission != null && isMutationMethod(submission.formMethod) && submission.formAction === state.location.pathname + state.location.search) {
+      historyAction = "REPLACE" /* Replace */;
+    }
+    let preventScrollReset = opts && "preventScrollReset" in opts ? opts.preventScrollReset === true : void 0;
+    let flushSync = (opts && opts.flushSync) === true;
+    let blockerKey = shouldBlockNavigation({
+      currentLocation,
+      nextLocation,
+      historyAction
+    });
+    if (blockerKey) {
+      updateBlocker(blockerKey, {
+        state: "blocked",
+        location: nextLocation,
+        proceed() {
+          updateBlocker(blockerKey, {
+            state: "proceeding",
+            proceed: void 0,
+            reset: void 0,
+            location: nextLocation
+          });
+          navigate(to, opts);
+        },
+        reset() {
+          let blockers = new Map(state.blockers);
+          blockers.set(blockerKey, IDLE_BLOCKER);
+          updateState({ blockers });
+        }
+      });
+      return;
+    }
+    await startNavigation(historyAction, nextLocation, {
+      submission,
+      // Send through the formData serialization error if we have one so we can
+      // render at the right error boundary after we match routes
+      pendingError: error,
+      preventScrollReset,
+      replace: opts && opts.replace,
+      enableViewTransition: opts && opts.viewTransition,
+      flushSync
+    });
+  }
+  function revalidate() {
+    if (!pendingRevalidationDfd) {
+      pendingRevalidationDfd = createDeferred();
+    }
+    interruptActiveLoads();
+    updateState({ revalidation: "loading" });
+    let promise = pendingRevalidationDfd.promise;
+    if (state.navigation.state === "submitting") {
+      return promise;
+    }
+    if (state.navigation.state === "idle") {
+      startNavigation(state.historyAction, state.location, {
+        startUninterruptedRevalidation: true
+      });
+      return promise;
+    }
+    startNavigation(
+      pendingAction || state.historyAction,
+      state.navigation.location,
+      {
+        overrideNavigation: state.navigation,
+        // Proxy through any rending view transition
+        enableViewTransition: pendingViewTransitionEnabled === true
+      }
+    );
+    return promise;
+  }
+  async function startNavigation(historyAction, location, opts) {
+    pendingNavigationController && pendingNavigationController.abort();
+    pendingNavigationController = null;
+    pendingAction = historyAction;
+    isUninterruptedRevalidation = (opts && opts.startUninterruptedRevalidation) === true;
+    saveScrollPosition(state.location, state.matches);
+    pendingPreventScrollReset = (opts && opts.preventScrollReset) === true;
+    pendingViewTransitionEnabled = (opts && opts.enableViewTransition) === true;
+    let routesToUse = inFlightDataRoutes || dataRoutes;
+    let loadingNavigation = opts && opts.overrideNavigation;
+    let matches = matchRoutes(routesToUse, location, basename);
+    let flushSync = (opts && opts.flushSync) === true;
+    let fogOfWar = checkFogOfWar(matches, routesToUse, location.pathname);
+    if (fogOfWar.active && fogOfWar.matches) {
+      matches = fogOfWar.matches;
+    }
+    if (!matches) {
+      let { error, notFoundMatches, route } = handleNavigational404(
+        location.pathname
+      );
+      completeNavigation(
+        location,
+        {
+          matches: notFoundMatches,
+          loaderData: {},
+          errors: {
+            [route.id]: error
+          }
+        },
+        { flushSync }
+      );
+      return;
+    }
+    if (state.initialized && !isRevalidationRequired && isHashChangeOnly(state.location, location) && !(opts && opts.submission && isMutationMethod(opts.submission.formMethod))) {
+      completeNavigation(location, { matches }, { flushSync });
+      return;
+    }
+    pendingNavigationController = new AbortController();
+    let request = createClientSideRequest(
+      init.history,
+      location,
+      pendingNavigationController.signal,
+      opts && opts.submission
+    );
+    let pendingActionResult;
+    if (opts && opts.pendingError) {
+      pendingActionResult = [
+        findNearestBoundary(matches).route.id,
+        { type: "error" /* error */, error: opts.pendingError }
+      ];
+    } else if (opts && opts.submission && isMutationMethod(opts.submission.formMethod)) {
+      let actionResult = await handleAction(
+        request,
+        location,
+        opts.submission,
+        matches,
+        fogOfWar.active,
+        { replace: opts.replace, flushSync }
+      );
+      if (actionResult.shortCircuited) {
+        return;
+      }
+      if (actionResult.pendingActionResult) {
+        let [routeId, result] = actionResult.pendingActionResult;
+        if (isErrorResult(result) && isRouteErrorResponse(result.error) && result.error.status === 404) {
+          pendingNavigationController = null;
+          completeNavigation(location, {
+            matches: actionResult.matches,
+            loaderData: {},
+            errors: {
+              [routeId]: result.error
+            }
+          });
+          return;
+        }
+      }
+      matches = actionResult.matches || matches;
+      pendingActionResult = actionResult.pendingActionResult;
+      loadingNavigation = getLoadingNavigation(location, opts.submission);
+      flushSync = false;
+      fogOfWar.active = false;
+      request = createClientSideRequest(
+        init.history,
+        request.url,
+        request.signal
+      );
+    }
+    let {
+      shortCircuited,
+      matches: updatedMatches,
+      loaderData,
+      errors
+    } = await handleLoaders(
+      request,
+      location,
+      matches,
+      fogOfWar.active,
+      loadingNavigation,
+      opts && opts.submission,
+      opts && opts.fetcherSubmission,
+      opts && opts.replace,
+      opts && opts.initialHydration === true,
+      flushSync,
+      pendingActionResult
+    );
+    if (shortCircuited) {
+      return;
+    }
+    pendingNavigationController = null;
+    completeNavigation(location, {
+      matches: updatedMatches || matches,
+      ...getActionDataForCommit(pendingActionResult),
+      loaderData,
+      errors
+    });
+  }
+  async function handleAction(request, location, submission, matches, isFogOfWar, opts = {}) {
+    interruptActiveLoads();
+    let navigation = getSubmittingNavigation(location, submission);
+    updateState({ navigation }, { flushSync: opts.flushSync === true });
+    if (isFogOfWar) {
+      let discoverResult = await discoverRoutes(
+        matches,
+        location.pathname,
+        request.signal
+      );
+      if (discoverResult.type === "aborted") {
+        return { shortCircuited: true };
+      } else if (discoverResult.type === "error") {
+        let boundaryId = findNearestBoundary(discoverResult.partialMatches).route.id;
+        return {
+          matches: discoverResult.partialMatches,
+          pendingActionResult: [
+            boundaryId,
+            {
+              type: "error" /* error */,
+              error: discoverResult.error
+            }
+          ]
+        };
+      } else if (!discoverResult.matches) {
+        let { notFoundMatches, error, route } = handleNavigational404(
+          location.pathname
+        );
+        return {
+          matches: notFoundMatches,
+          pendingActionResult: [
+            route.id,
+            {
+              type: "error" /* error */,
+              error
+            }
+          ]
+        };
+      } else {
+        matches = discoverResult.matches;
+      }
+    }
+    let result;
+    let actionMatch = getTargetMatch(matches, location);
+    if (!actionMatch.route.action && !actionMatch.route.lazy) {
+      result = {
+        type: "error" /* error */,
+        error: getInternalRouterError(405, {
+          method: request.method,
+          pathname: location.pathname,
+          routeId: actionMatch.route.id
+        })
+      };
+    } else {
+      let results = await callDataStrategy(
+        "action",
+        state,
+        request,
+        [actionMatch],
+        matches,
+        null
+      );
+      result = results[actionMatch.route.id];
+      if (request.signal.aborted) {
+        return { shortCircuited: true };
+      }
+    }
+    if (isRedirectResult(result)) {
+      let replace2;
+      if (opts && opts.replace != null) {
+        replace2 = opts.replace;
+      } else {
+        let location2 = normalizeRedirectLocation(
+          result.response.headers.get("Location"),
+          new URL(request.url),
+          basename
+        );
+        replace2 = location2 === state.location.pathname + state.location.search;
+      }
+      await startRedirectNavigation(request, result, true, {
+        submission,
+        replace: replace2
+      });
+      return { shortCircuited: true };
+    }
+    if (isErrorResult(result)) {
+      let boundaryMatch = findNearestBoundary(matches, actionMatch.route.id);
+      if ((opts && opts.replace) !== true) {
+        pendingAction = "PUSH" /* Push */;
+      }
+      return {
+        matches,
+        pendingActionResult: [boundaryMatch.route.id, result]
+      };
+    }
+    return {
+      matches,
+      pendingActionResult: [actionMatch.route.id, result]
+    };
+  }
+  async function handleLoaders(request, location, matches, isFogOfWar, overrideNavigation, submission, fetcherSubmission, replace2, initialHydration, flushSync, pendingActionResult) {
+    let loadingNavigation = overrideNavigation || getLoadingNavigation(location, submission);
+    let activeSubmission = submission || fetcherSubmission || getSubmissionFromNavigation(loadingNavigation);
+    let shouldUpdateNavigationState = !isUninterruptedRevalidation && !initialHydration;
+    if (isFogOfWar) {
+      if (shouldUpdateNavigationState) {
+        let actionData = getUpdatedActionData(pendingActionResult);
+        updateState(
+          {
+            navigation: loadingNavigation,
+            ...actionData !== void 0 ? { actionData } : {}
+          },
+          {
+            flushSync
+          }
+        );
+      }
+      let discoverResult = await discoverRoutes(
+        matches,
+        location.pathname,
+        request.signal
+      );
+      if (discoverResult.type === "aborted") {
+        return { shortCircuited: true };
+      } else if (discoverResult.type === "error") {
+        let boundaryId = findNearestBoundary(discoverResult.partialMatches).route.id;
+        return {
+          matches: discoverResult.partialMatches,
+          loaderData: {},
+          errors: {
+            [boundaryId]: discoverResult.error
+          }
+        };
+      } else if (!discoverResult.matches) {
+        let { error, notFoundMatches, route } = handleNavigational404(
+          location.pathname
+        );
+        return {
+          matches: notFoundMatches,
+          loaderData: {},
+          errors: {
+            [route.id]: error
+          }
+        };
+      } else {
+        matches = discoverResult.matches;
+      }
+    }
+    let routesToUse = inFlightDataRoutes || dataRoutes;
+    let [matchesToLoad, revalidatingFetchers] = getMatchesToLoad(
+      init.history,
+      state,
+      matches,
+      activeSubmission,
+      location,
+      initialHydration === true,
+      isRevalidationRequired,
+      cancelledFetcherLoads,
+      fetchersQueuedForDeletion,
+      fetchLoadMatches,
+      fetchRedirectIds,
+      routesToUse,
+      basename,
+      pendingActionResult
+    );
+    pendingNavigationLoadId = ++incrementingLoadId;
+    if (matchesToLoad.length === 0 && revalidatingFetchers.length === 0) {
+      let updatedFetchers2 = markFetchRedirectsDone();
+      completeNavigation(
+        location,
+        {
+          matches,
+          loaderData: {},
+          // Commit pending error if we're short circuiting
+          errors: pendingActionResult && isErrorResult(pendingActionResult[1]) ? { [pendingActionResult[0]]: pendingActionResult[1].error } : null,
+          ...getActionDataForCommit(pendingActionResult),
+          ...updatedFetchers2 ? { fetchers: new Map(state.fetchers) } : {}
+        },
+        { flushSync }
+      );
+      return { shortCircuited: true };
+    }
+    if (shouldUpdateNavigationState) {
+      let updates = {};
+      if (!isFogOfWar) {
+        updates.navigation = loadingNavigation;
+        let actionData = getUpdatedActionData(pendingActionResult);
+        if (actionData !== void 0) {
+          updates.actionData = actionData;
+        }
+      }
+      if (revalidatingFetchers.length > 0) {
+        updates.fetchers = getUpdatedRevalidatingFetchers(revalidatingFetchers);
+      }
+      updateState(updates, { flushSync });
+    }
+    revalidatingFetchers.forEach((rf) => {
+      abortFetcher(rf.key);
+      if (rf.controller) {
+        fetchControllers.set(rf.key, rf.controller);
+      }
+    });
+    let abortPendingFetchRevalidations = () => revalidatingFetchers.forEach((f) => abortFetcher(f.key));
+    if (pendingNavigationController) {
+      pendingNavigationController.signal.addEventListener(
+        "abort",
+        abortPendingFetchRevalidations
+      );
+    }
+    let { loaderResults, fetcherResults } = await callLoadersAndMaybeResolveData(
+      state,
+      matches,
+      matchesToLoad,
+      revalidatingFetchers,
+      request
+    );
+    if (request.signal.aborted) {
+      return { shortCircuited: true };
+    }
+    if (pendingNavigationController) {
+      pendingNavigationController.signal.removeEventListener(
+        "abort",
+        abortPendingFetchRevalidations
+      );
+    }
+    revalidatingFetchers.forEach((rf) => fetchControllers.delete(rf.key));
+    let redirect2 = findRedirect(loaderResults);
+    if (redirect2) {
+      await startRedirectNavigation(request, redirect2.result, true, {
+        replace: replace2
+      });
+      return { shortCircuited: true };
+    }
+    redirect2 = findRedirect(fetcherResults);
+    if (redirect2) {
+      fetchRedirectIds.add(redirect2.key);
+      await startRedirectNavigation(request, redirect2.result, true, {
+        replace: replace2
+      });
+      return { shortCircuited: true };
+    }
+    let { loaderData, errors } = processLoaderData(
+      state,
+      matches,
+      loaderResults,
+      pendingActionResult,
+      revalidatingFetchers,
+      fetcherResults
+    );
+    if (initialHydration && state.errors) {
+      errors = { ...state.errors, ...errors };
+    }
+    let updatedFetchers = markFetchRedirectsDone();
+    let didAbortFetchLoads = abortStaleFetchLoads(pendingNavigationLoadId);
+    let shouldUpdateFetchers = updatedFetchers || didAbortFetchLoads || revalidatingFetchers.length > 0;
+    return {
+      matches,
+      loaderData,
+      errors,
+      ...shouldUpdateFetchers ? { fetchers: new Map(state.fetchers) } : {}
+    };
+  }
+  function getUpdatedActionData(pendingActionResult) {
+    if (pendingActionResult && !isErrorResult(pendingActionResult[1])) {
+      return {
+        [pendingActionResult[0]]: pendingActionResult[1].data
+      };
+    } else if (state.actionData) {
+      if (Object.keys(state.actionData).length === 0) {
+        return null;
+      } else {
+        return state.actionData;
+      }
+    }
+  }
+  function getUpdatedRevalidatingFetchers(revalidatingFetchers) {
+    revalidatingFetchers.forEach((rf) => {
+      let fetcher = state.fetchers.get(rf.key);
+      let revalidatingFetcher = getLoadingFetcher(
+        void 0,
+        fetcher ? fetcher.data : void 0
+      );
+      state.fetchers.set(rf.key, revalidatingFetcher);
+    });
+    return new Map(state.fetchers);
+  }
+  async function fetch2(key, routeId, href, opts) {
+    abortFetcher(key);
+    let flushSync = (opts && opts.flushSync) === true;
+    let routesToUse = inFlightDataRoutes || dataRoutes;
+    let normalizedPath = normalizeTo(
+      state.location,
+      state.matches,
+      basename,
+      href,
+      routeId,
+      opts?.relative
+    );
+    let matches = matchRoutes(routesToUse, normalizedPath, basename);
+    let fogOfWar = checkFogOfWar(matches, routesToUse, normalizedPath);
+    if (fogOfWar.active && fogOfWar.matches) {
+      matches = fogOfWar.matches;
+    }
+    if (!matches) {
+      setFetcherError(
+        key,
+        routeId,
+        getInternalRouterError(404, { pathname: normalizedPath }),
+        { flushSync }
+      );
+      return;
+    }
+    let { path, submission, error } = normalizeNavigateOptions(
+      true,
+      normalizedPath,
+      opts
+    );
+    if (error) {
+      setFetcherError(key, routeId, error, { flushSync });
+      return;
+    }
+    let match = getTargetMatch(matches, path);
+    let preventScrollReset = (opts && opts.preventScrollReset) === true;
+    if (submission && isMutationMethod(submission.formMethod)) {
+      await handleFetcherAction(
+        key,
+        routeId,
+        path,
+        match,
+        matches,
+        fogOfWar.active,
+        flushSync,
+        preventScrollReset,
+        submission
+      );
+      return;
+    }
+    fetchLoadMatches.set(key, { routeId, path });
+    await handleFetcherLoader(
+      key,
+      routeId,
+      path,
+      match,
+      matches,
+      fogOfWar.active,
+      flushSync,
+      preventScrollReset,
+      submission
+    );
+  }
+  async function handleFetcherAction(key, routeId, path, match, requestMatches, isFogOfWar, flushSync, preventScrollReset, submission) {
+    interruptActiveLoads();
+    fetchLoadMatches.delete(key);
+    function detectAndHandle405Error(m) {
+      if (!m.route.action && !m.route.lazy) {
+        let error = getInternalRouterError(405, {
+          method: submission.formMethod,
+          pathname: path,
+          routeId
+        });
+        setFetcherError(key, routeId, error, { flushSync });
+        return true;
+      }
+      return false;
+    }
+    if (!isFogOfWar && detectAndHandle405Error(match)) {
+      return;
+    }
+    let existingFetcher = state.fetchers.get(key);
+    updateFetcherState(key, getSubmittingFetcher(submission, existingFetcher), {
+      flushSync
+    });
+    let abortController = new AbortController();
+    let fetchRequest = createClientSideRequest(
+      init.history,
+      path,
+      abortController.signal,
+      submission
+    );
+    if (isFogOfWar) {
+      let discoverResult = await discoverRoutes(
+        requestMatches,
+        path,
+        fetchRequest.signal
+      );
+      if (discoverResult.type === "aborted") {
+        return;
+      } else if (discoverResult.type === "error") {
+        setFetcherError(key, routeId, discoverResult.error, { flushSync });
+        return;
+      } else if (!discoverResult.matches) {
+        setFetcherError(
+          key,
+          routeId,
+          getInternalRouterError(404, { pathname: path }),
+          { flushSync }
+        );
+        return;
+      } else {
+        requestMatches = discoverResult.matches;
+        match = getTargetMatch(requestMatches, path);
+        if (detectAndHandle405Error(match)) {
+          return;
+        }
+      }
+    }
+    fetchControllers.set(key, abortController);
+    let originatingLoadId = incrementingLoadId;
+    let actionResults = await callDataStrategy(
+      "action",
+      state,
+      fetchRequest,
+      [match],
+      requestMatches,
+      key
+    );
+    let actionResult = actionResults[match.route.id];
+    if (fetchRequest.signal.aborted) {
+      if (fetchControllers.get(key) === abortController) {
+        fetchControllers.delete(key);
+      }
+      return;
+    }
+    if (fetchersQueuedForDeletion.has(key)) {
+      if (isRedirectResult(actionResult) || isErrorResult(actionResult)) {
+        updateFetcherState(key, getDoneFetcher(void 0));
+        return;
+      }
+    } else {
+      if (isRedirectResult(actionResult)) {
+        fetchControllers.delete(key);
+        if (pendingNavigationLoadId > originatingLoadId) {
+          updateFetcherState(key, getDoneFetcher(void 0));
+          return;
+        } else {
+          fetchRedirectIds.add(key);
+          updateFetcherState(key, getLoadingFetcher(submission));
+          return startRedirectNavigation(fetchRequest, actionResult, false, {
+            fetcherSubmission: submission,
+            preventScrollReset
+          });
+        }
+      }
+      if (isErrorResult(actionResult)) {
+        setFetcherError(key, routeId, actionResult.error);
+        return;
+      }
+    }
+    let nextLocation = state.navigation.location || state.location;
+    let revalidationRequest = createClientSideRequest(
+      init.history,
+      nextLocation,
+      abortController.signal
+    );
+    let routesToUse = inFlightDataRoutes || dataRoutes;
+    let matches = state.navigation.state !== "idle" ? matchRoutes(routesToUse, state.navigation.location, basename) : state.matches;
+    invariant(matches, "Didn't find any matches after fetcher action");
+    let loadId = ++incrementingLoadId;
+    fetchReloadIds.set(key, loadId);
+    let loadFetcher = getLoadingFetcher(submission, actionResult.data);
+    state.fetchers.set(key, loadFetcher);
+    let [matchesToLoad, revalidatingFetchers] = getMatchesToLoad(
+      init.history,
+      state,
+      matches,
+      submission,
+      nextLocation,
+      false,
+      isRevalidationRequired,
+      cancelledFetcherLoads,
+      fetchersQueuedForDeletion,
+      fetchLoadMatches,
+      fetchRedirectIds,
+      routesToUse,
+      basename,
+      [match.route.id, actionResult]
+    );
+    revalidatingFetchers.filter((rf) => rf.key !== key).forEach((rf) => {
+      let staleKey = rf.key;
+      let existingFetcher2 = state.fetchers.get(staleKey);
+      let revalidatingFetcher = getLoadingFetcher(
+        void 0,
+        existingFetcher2 ? existingFetcher2.data : void 0
+      );
+      state.fetchers.set(staleKey, revalidatingFetcher);
+      abortFetcher(staleKey);
+      if (rf.controller) {
+        fetchControllers.set(staleKey, rf.controller);
+      }
+    });
+    updateState({ fetchers: new Map(state.fetchers) });
+    let abortPendingFetchRevalidations = () => revalidatingFetchers.forEach((rf) => abortFetcher(rf.key));
+    abortController.signal.addEventListener(
+      "abort",
+      abortPendingFetchRevalidations
+    );
+    let { loaderResults, fetcherResults } = await callLoadersAndMaybeResolveData(
+      state,
+      matches,
+      matchesToLoad,
+      revalidatingFetchers,
+      revalidationRequest
+    );
+    if (abortController.signal.aborted) {
+      return;
+    }
+    abortController.signal.removeEventListener(
+      "abort",
+      abortPendingFetchRevalidations
+    );
+    fetchReloadIds.delete(key);
+    fetchControllers.delete(key);
+    revalidatingFetchers.forEach((r) => fetchControllers.delete(r.key));
+    let redirect2 = findRedirect(loaderResults);
+    if (redirect2) {
+      return startRedirectNavigation(
+        revalidationRequest,
+        redirect2.result,
+        false,
+        { preventScrollReset }
+      );
+    }
+    redirect2 = findRedirect(fetcherResults);
+    if (redirect2) {
+      fetchRedirectIds.add(redirect2.key);
+      return startRedirectNavigation(
+        revalidationRequest,
+        redirect2.result,
+        false,
+        { preventScrollReset }
+      );
+    }
+    let { loaderData, errors } = processLoaderData(
+      state,
+      matches,
+      loaderResults,
+      void 0,
+      revalidatingFetchers,
+      fetcherResults
+    );
+    if (state.fetchers.has(key)) {
+      let doneFetcher = getDoneFetcher(actionResult.data);
+      state.fetchers.set(key, doneFetcher);
+    }
+    abortStaleFetchLoads(loadId);
+    if (state.navigation.state === "loading" && loadId > pendingNavigationLoadId) {
+      invariant(pendingAction, "Expected pending action");
+      pendingNavigationController && pendingNavigationController.abort();
+      completeNavigation(state.navigation.location, {
+        matches,
+        loaderData,
+        errors,
+        fetchers: new Map(state.fetchers)
+      });
+    } else {
+      updateState({
+        errors,
+        loaderData: mergeLoaderData(
+          state.loaderData,
+          loaderData,
+          matches,
+          errors
+        ),
+        fetchers: new Map(state.fetchers)
+      });
+      isRevalidationRequired = false;
+    }
+  }
+  async function handleFetcherLoader(key, routeId, path, match, matches, isFogOfWar, flushSync, preventScrollReset, submission) {
+    let existingFetcher = state.fetchers.get(key);
+    updateFetcherState(
+      key,
+      getLoadingFetcher(
+        submission,
+        existingFetcher ? existingFetcher.data : void 0
+      ),
+      { flushSync }
+    );
+    let abortController = new AbortController();
+    let fetchRequest = createClientSideRequest(
+      init.history,
+      path,
+      abortController.signal
+    );
+    if (isFogOfWar) {
+      let discoverResult = await discoverRoutes(
+        matches,
+        path,
+        fetchRequest.signal
+      );
+      if (discoverResult.type === "aborted") {
+        return;
+      } else if (discoverResult.type === "error") {
+        setFetcherError(key, routeId, discoverResult.error, { flushSync });
+        return;
+      } else if (!discoverResult.matches) {
+        setFetcherError(
+          key,
+          routeId,
+          getInternalRouterError(404, { pathname: path }),
+          { flushSync }
+        );
+        return;
+      } else {
+        matches = discoverResult.matches;
+        match = getTargetMatch(matches, path);
+      }
+    }
+    fetchControllers.set(key, abortController);
+    let originatingLoadId = incrementingLoadId;
+    let results = await callDataStrategy(
+      "loader",
+      state,
+      fetchRequest,
+      [match],
+      matches,
+      key
+    );
+    let result = results[match.route.id];
+    if (fetchControllers.get(key) === abortController) {
+      fetchControllers.delete(key);
+    }
+    if (fetchRequest.signal.aborted) {
+      return;
+    }
+    if (fetchersQueuedForDeletion.has(key)) {
+      updateFetcherState(key, getDoneFetcher(void 0));
+      return;
+    }
+    if (isRedirectResult(result)) {
+      if (pendingNavigationLoadId > originatingLoadId) {
+        updateFetcherState(key, getDoneFetcher(void 0));
+        return;
+      } else {
+        fetchRedirectIds.add(key);
+        await startRedirectNavigation(fetchRequest, result, false, {
+          preventScrollReset
+        });
+        return;
+      }
+    }
+    if (isErrorResult(result)) {
+      setFetcherError(key, routeId, result.error);
+      return;
+    }
+    updateFetcherState(key, getDoneFetcher(result.data));
+  }
+  async function startRedirectNavigation(request, redirect2, isNavigation, {
+    submission,
+    fetcherSubmission,
+    preventScrollReset,
+    replace: replace2
+  } = {}) {
+    if (redirect2.response.headers.has("X-Remix-Revalidate")) {
+      isRevalidationRequired = true;
+    }
+    let location = redirect2.response.headers.get("Location");
+    invariant(location, "Expected a Location header on the redirect Response");
+    location = normalizeRedirectLocation(
+      location,
+      new URL(request.url),
+      basename
+    );
+    let redirectLocation = createLocation(state.location, location, {
+      _isRedirect: true
+    });
+    if (isBrowser2) {
+      let isDocumentReload = false;
+      if (redirect2.response.headers.has("X-Remix-Reload-Document")) {
+        isDocumentReload = true;
+      } else if (ABSOLUTE_URL_REGEX.test(location)) {
+        const url = init.history.createURL(location);
+        isDocumentReload = // Hard reload if it's an absolute URL to a new origin
+        url.origin !== routerWindow.location.origin || // Hard reload if it's an absolute URL that does not match our basename
+        stripBasename(url.pathname, basename) == null;
+      }
+      if (isDocumentReload) {
+        if (replace2) {
+          routerWindow.location.replace(location);
+        } else {
+          routerWindow.location.assign(location);
+        }
+        return;
+      }
+    }
+    pendingNavigationController = null;
+    let redirectNavigationType = replace2 === true || redirect2.response.headers.has("X-Remix-Replace") ? "REPLACE" /* Replace */ : "PUSH" /* Push */;
+    let { formMethod, formAction, formEncType } = state.navigation;
+    if (!submission && !fetcherSubmission && formMethod && formAction && formEncType) {
+      submission = getSubmissionFromNavigation(state.navigation);
+    }
+    let activeSubmission = submission || fetcherSubmission;
+    if (redirectPreserveMethodStatusCodes.has(redirect2.response.status) && activeSubmission && isMutationMethod(activeSubmission.formMethod)) {
+      await startNavigation(redirectNavigationType, redirectLocation, {
+        submission: {
+          ...activeSubmission,
+          formAction: location
+        },
+        // Preserve these flags across redirects
+        preventScrollReset: preventScrollReset || pendingPreventScrollReset,
+        enableViewTransition: isNavigation ? pendingViewTransitionEnabled : void 0
+      });
+    } else {
+      let overrideNavigation = getLoadingNavigation(
+        redirectLocation,
+        submission
+      );
+      await startNavigation(redirectNavigationType, redirectLocation, {
+        overrideNavigation,
+        // Send fetcher submissions through for shouldRevalidate
+        fetcherSubmission,
+        // Preserve these flags across redirects
+        preventScrollReset: preventScrollReset || pendingPreventScrollReset,
+        enableViewTransition: isNavigation ? pendingViewTransitionEnabled : void 0
+      });
+    }
+  }
+  async function callDataStrategy(type, state2, request, matchesToLoad, matches, fetcherKey) {
+    let results;
+    let dataResults = {};
+    try {
+      results = await callDataStrategyImpl(
+        dataStrategyImpl,
+        type,
+        state2,
+        request,
+        matchesToLoad,
+        matches,
+        fetcherKey,
+        manifest,
+        mapRouteProperties2
+      );
+    } catch (e) {
+      matchesToLoad.forEach((m) => {
+        dataResults[m.route.id] = {
+          type: "error" /* error */,
+          error: e
+        };
+      });
+      return dataResults;
+    }
+    for (let [routeId, result] of Object.entries(results)) {
+      if (isRedirectDataStrategyResult(result)) {
+        let response = result.result;
+        dataResults[routeId] = {
+          type: "redirect" /* redirect */,
+          response: normalizeRelativeRoutingRedirectResponse(
+            response,
+            request,
+            routeId,
+            matches,
+            basename
+          )
+        };
+      } else {
+        dataResults[routeId] = await convertDataStrategyResultToDataResult(
+          result
+        );
+      }
+    }
+    return dataResults;
+  }
+  async function callLoadersAndMaybeResolveData(state2, matches, matchesToLoad, fetchersToLoad, request) {
+    let loaderResultsPromise = callDataStrategy(
+      "loader",
+      state2,
+      request,
+      matchesToLoad,
+      matches,
+      null
+    );
+    let fetcherResultsPromise = Promise.all(
+      fetchersToLoad.map(async (f) => {
+        if (f.matches && f.match && f.controller) {
+          let results = await callDataStrategy(
+            "loader",
+            state2,
+            createClientSideRequest(init.history, f.path, f.controller.signal),
+            [f.match],
+            f.matches,
+            f.key
+          );
+          let result = results[f.match.route.id];
+          return { [f.key]: result };
+        } else {
+          return Promise.resolve({
+            [f.key]: {
+              type: "error" /* error */,
+              error: getInternalRouterError(404, {
+                pathname: f.path
+              })
+            }
+          });
+        }
+      })
+    );
+    let loaderResults = await loaderResultsPromise;
+    let fetcherResults = (await fetcherResultsPromise).reduce(
+      (acc, r) => Object.assign(acc, r),
+      {}
+    );
+    return {
+      loaderResults,
+      fetcherResults
+    };
+  }
+  function interruptActiveLoads() {
+    isRevalidationRequired = true;
+    fetchLoadMatches.forEach((_, key) => {
+      if (fetchControllers.has(key)) {
+        cancelledFetcherLoads.add(key);
+      }
+      abortFetcher(key);
+    });
+  }
+  function updateFetcherState(key, fetcher, opts = {}) {
+    state.fetchers.set(key, fetcher);
+    updateState(
+      { fetchers: new Map(state.fetchers) },
+      { flushSync: (opts && opts.flushSync) === true }
+    );
+  }
+  function setFetcherError(key, routeId, error, opts = {}) {
+    let boundaryMatch = findNearestBoundary(state.matches, routeId);
+    deleteFetcher(key);
+    updateState(
+      {
+        errors: {
+          [boundaryMatch.route.id]: error
+        },
+        fetchers: new Map(state.fetchers)
+      },
+      { flushSync: (opts && opts.flushSync) === true }
+    );
+  }
+  function getFetcher(key) {
+    activeFetchers.set(key, (activeFetchers.get(key) || 0) + 1);
+    if (fetchersQueuedForDeletion.has(key)) {
+      fetchersQueuedForDeletion.delete(key);
+    }
+    return state.fetchers.get(key) || IDLE_FETCHER;
+  }
+  function deleteFetcher(key) {
+    let fetcher = state.fetchers.get(key);
+    if (fetchControllers.has(key) && !(fetcher && fetcher.state === "loading" && fetchReloadIds.has(key))) {
+      abortFetcher(key);
+    }
+    fetchLoadMatches.delete(key);
+    fetchReloadIds.delete(key);
+    fetchRedirectIds.delete(key);
+    fetchersQueuedForDeletion.delete(key);
+    cancelledFetcherLoads.delete(key);
+    state.fetchers.delete(key);
+  }
+  function queueFetcherForDeletion(key) {
+    let count = (activeFetchers.get(key) || 0) - 1;
+    if (count <= 0) {
+      activeFetchers.delete(key);
+      fetchersQueuedForDeletion.add(key);
+    } else {
+      activeFetchers.set(key, count);
+    }
+    updateState({ fetchers: new Map(state.fetchers) });
+  }
+  function abortFetcher(key) {
+    let controller = fetchControllers.get(key);
+    if (controller) {
+      controller.abort();
+      fetchControllers.delete(key);
+    }
+  }
+  function markFetchersDone(keys) {
+    for (let key of keys) {
+      let fetcher = getFetcher(key);
+      let doneFetcher = getDoneFetcher(fetcher.data);
+      state.fetchers.set(key, doneFetcher);
+    }
+  }
+  function markFetchRedirectsDone() {
+    let doneKeys = [];
+    let updatedFetchers = false;
+    for (let key of fetchRedirectIds) {
+      let fetcher = state.fetchers.get(key);
+      invariant(fetcher, `Expected fetcher: ${key}`);
+      if (fetcher.state === "loading") {
+        fetchRedirectIds.delete(key);
+        doneKeys.push(key);
+        updatedFetchers = true;
+      }
+    }
+    markFetchersDone(doneKeys);
+    return updatedFetchers;
+  }
+  function abortStaleFetchLoads(landedId) {
+    let yeetedKeys = [];
+    for (let [key, id] of fetchReloadIds) {
+      if (id < landedId) {
+        let fetcher = state.fetchers.get(key);
+        invariant(fetcher, `Expected fetcher: ${key}`);
+        if (fetcher.state === "loading") {
+          abortFetcher(key);
+          fetchReloadIds.delete(key);
+          yeetedKeys.push(key);
+        }
+      }
+    }
+    markFetchersDone(yeetedKeys);
+    return yeetedKeys.length > 0;
+  }
+  function getBlocker(key, fn) {
+    let blocker = state.blockers.get(key) || IDLE_BLOCKER;
+    if (blockerFunctions.get(key) !== fn) {
+      blockerFunctions.set(key, fn);
+    }
+    return blocker;
+  }
+  function deleteBlocker(key) {
+    state.blockers.delete(key);
+    blockerFunctions.delete(key);
+  }
+  function updateBlocker(key, newBlocker) {
+    let blocker = state.blockers.get(key) || IDLE_BLOCKER;
+    invariant(
+      blocker.state === "unblocked" && newBlocker.state === "blocked" || blocker.state === "blocked" && newBlocker.state === "blocked" || blocker.state === "blocked" && newBlocker.state === "proceeding" || blocker.state === "blocked" && newBlocker.state === "unblocked" || blocker.state === "proceeding" && newBlocker.state === "unblocked",
+      `Invalid blocker state transition: ${blocker.state} -> ${newBlocker.state}`
+    );
+    let blockers = new Map(state.blockers);
+    blockers.set(key, newBlocker);
+    updateState({ blockers });
+  }
+  function shouldBlockNavigation({
+    currentLocation,
+    nextLocation,
+    historyAction
+  }) {
+    if (blockerFunctions.size === 0) {
+      return;
+    }
+    if (blockerFunctions.size > 1) {
+      warning(false, "A router only supports one blocker at a time");
+    }
+    let entries = Array.from(blockerFunctions.entries());
+    let [blockerKey, blockerFunction] = entries[entries.length - 1];
+    let blocker = state.blockers.get(blockerKey);
+    if (blocker && blocker.state === "proceeding") {
+      return;
+    }
+    if (blockerFunction({ currentLocation, nextLocation, historyAction })) {
+      return blockerKey;
+    }
+  }
+  function handleNavigational404(pathname) {
+    let error = getInternalRouterError(404, { pathname });
+    let routesToUse = inFlightDataRoutes || dataRoutes;
+    let { matches, route } = getShortCircuitMatches(routesToUse);
+    return { notFoundMatches: matches, route, error };
+  }
+  function enableScrollRestoration(positions, getPosition, getKey) {
+    savedScrollPositions2 = positions;
+    getScrollPosition = getPosition;
+    getScrollRestorationKey2 = getKey || null;
+    if (!initialScrollRestored && state.navigation === IDLE_NAVIGATION) {
+      initialScrollRestored = true;
+      let y = getSavedScrollPosition(state.location, state.matches);
+      if (y != null) {
+        updateState({ restoreScrollPosition: y });
+      }
+    }
+    return () => {
+      savedScrollPositions2 = null;
+      getScrollPosition = null;
+      getScrollRestorationKey2 = null;
+    };
+  }
+  function getScrollKey(location, matches) {
+    if (getScrollRestorationKey2) {
+      let key = getScrollRestorationKey2(
+        location,
+        matches.map((m) => convertRouteMatchToUiMatch(m, state.loaderData))
+      );
+      return key || location.key;
+    }
+    return location.key;
+  }
+  function saveScrollPosition(location, matches) {
+    if (savedScrollPositions2 && getScrollPosition) {
+      let key = getScrollKey(location, matches);
+      savedScrollPositions2[key] = getScrollPosition();
+    }
+  }
+  function getSavedScrollPosition(location, matches) {
+    if (savedScrollPositions2) {
+      let key = getScrollKey(location, matches);
+      let y = savedScrollPositions2[key];
+      if (typeof y === "number") {
+        return y;
+      }
+    }
+    return null;
+  }
+  function checkFogOfWar(matches, routesToUse, pathname) {
+    if (patchRoutesOnNavigationImpl) {
+      if (!matches) {
+        let fogMatches = matchRoutesImpl(
+          routesToUse,
+          pathname,
+          basename,
+          true
+        );
+        return { active: true, matches: fogMatches || [] };
+      } else {
+        if (Object.keys(matches[0].params).length > 0) {
+          let partialMatches = matchRoutesImpl(
+            routesToUse,
+            pathname,
+            basename,
+            true
+          );
+          return { active: true, matches: partialMatches };
+        }
+      }
+    }
+    return { active: false, matches: null };
+  }
+  async function discoverRoutes(matches, pathname, signal) {
+    if (!patchRoutesOnNavigationImpl) {
+      return { type: "success", matches };
+    }
+    let partialMatches = matches;
+    while (true) {
+      let isNonHMR = inFlightDataRoutes == null;
+      let routesToUse = inFlightDataRoutes || dataRoutes;
+      let localManifest = manifest;
+      try {
+        await patchRoutesOnNavigationImpl({
+          path: pathname,
+          matches: partialMatches,
+          patch: (routeId, children) => {
+            if (signal.aborted) return;
+            patchRoutesImpl(
+              routeId,
+              children,
+              routesToUse,
+              localManifest,
+              mapRouteProperties2
+            );
+          }
+        });
+      } catch (e) {
+        return { type: "error", error: e, partialMatches };
+      } finally {
+        if (isNonHMR && !signal.aborted) {
+          dataRoutes = [...dataRoutes];
+        }
+      }
+      if (signal.aborted) {
+        return { type: "aborted" };
+      }
+      let newMatches = matchRoutes(routesToUse, pathname, basename);
+      if (newMatches) {
+        return { type: "success", matches: newMatches };
+      }
+      let newPartialMatches = matchRoutesImpl(
+        routesToUse,
+        pathname,
+        basename,
+        true
+      );
+      if (!newPartialMatches || partialMatches.length === newPartialMatches.length && partialMatches.every(
+        (m, i) => m.route.id === newPartialMatches[i].route.id
+      )) {
+        return { type: "success", matches: null };
+      }
+      partialMatches = newPartialMatches;
+    }
+  }
+  function _internalSetRoutes(newRoutes) {
+    manifest = {};
+    inFlightDataRoutes = convertRoutesToDataRoutes(
+      newRoutes,
+      mapRouteProperties2,
+      void 0,
+      manifest
+    );
+  }
+  function patchRoutes(routeId, children) {
+    let isNonHMR = inFlightDataRoutes == null;
+    let routesToUse = inFlightDataRoutes || dataRoutes;
+    patchRoutesImpl(
+      routeId,
+      children,
+      routesToUse,
+      manifest,
+      mapRouteProperties2
+    );
+    if (isNonHMR) {
+      dataRoutes = [...dataRoutes];
+      updateState({});
+    }
+  }
+  router = {
+    get basename() {
+      return basename;
+    },
+    get future() {
+      return future;
+    },
+    get state() {
+      return state;
+    },
+    get routes() {
+      return dataRoutes;
+    },
+    get window() {
+      return routerWindow;
+    },
+    initialize,
+    subscribe,
+    enableScrollRestoration,
+    navigate,
+    fetch: fetch2,
+    revalidate,
+    // Passthrough to history-aware createHref used by useHref so we get proper
+    // hash-aware URLs in DOM paths
+    createHref: (to) => init.history.createHref(to),
+    encodeLocation: (to) => init.history.encodeLocation(to),
+    getFetcher,
+    deleteFetcher: queueFetcherForDeletion,
+    dispose,
+    getBlocker,
+    deleteBlocker,
+    patchRoutes,
+    _internalFetchControllers: fetchControllers,
+    // TODO: Remove setRoutes, it's temporary to avoid dealing with
+    // updating the tree while validating the update algorithm.
+    _internalSetRoutes
+  };
+  return router;
+}
+function createStaticHandler(routes, opts) {
+  invariant(
+    routes.length > 0,
+    "You must provide a non-empty routes array to createStaticHandler"
+  );
+  let manifest = {};
+  let basename = (opts ? opts.basename : null) || "/";
+  let mapRouteProperties2 = opts?.mapRouteProperties || defaultMapRouteProperties;
+  let dataRoutes = convertRoutesToDataRoutes(
+    routes,
+    mapRouteProperties2,
+    void 0,
+    manifest
+  );
+  async function query(request, {
+    requestContext,
+    skipLoaderErrorBubbling,
+    dataStrategy
+  } = {}) {
+    let url = new URL(request.url);
+    let method = request.method;
+    let location = createLocation("", createPath(url), null, "default");
+    let matches = matchRoutes(dataRoutes, location, basename);
+    if (!isValidMethod(method) && method !== "HEAD") {
+      let error = getInternalRouterError(405, { method });
+      let { matches: methodNotAllowedMatches, route } = getShortCircuitMatches(dataRoutes);
+      return {
+        basename,
+        location,
+        matches: methodNotAllowedMatches,
+        loaderData: {},
+        actionData: null,
+        errors: {
+          [route.id]: error
+        },
+        statusCode: error.status,
+        loaderHeaders: {},
+        actionHeaders: {}
+      };
+    } else if (!matches) {
+      let error = getInternalRouterError(404, { pathname: location.pathname });
+      let { matches: notFoundMatches, route } = getShortCircuitMatches(dataRoutes);
+      return {
+        basename,
+        location,
+        matches: notFoundMatches,
+        loaderData: {},
+        actionData: null,
+        errors: {
+          [route.id]: error
+        },
+        statusCode: error.status,
+        loaderHeaders: {},
+        actionHeaders: {}
+      };
+    }
+    let result = await queryImpl(
+      request,
+      location,
+      matches,
+      requestContext,
+      dataStrategy || null,
+      skipLoaderErrorBubbling === true,
+      null
+    );
+    if (isResponse(result)) {
+      return result;
+    }
+    return { location, basename, ...result };
+  }
+  async function queryRoute(request, {
+    routeId,
+    requestContext,
+    dataStrategy
+  } = {}) {
+    let url = new URL(request.url);
+    let method = request.method;
+    let location = createLocation("", createPath(url), null, "default");
+    let matches = matchRoutes(dataRoutes, location, basename);
+    if (!isValidMethod(method) && method !== "HEAD" && method !== "OPTIONS") {
+      throw getInternalRouterError(405, { method });
+    } else if (!matches) {
+      throw getInternalRouterError(404, { pathname: location.pathname });
+    }
+    let match = routeId ? matches.find((m) => m.route.id === routeId) : getTargetMatch(matches, location);
+    if (routeId && !match) {
+      throw getInternalRouterError(403, {
+        pathname: location.pathname,
+        routeId
+      });
+    } else if (!match) {
+      throw getInternalRouterError(404, { pathname: location.pathname });
+    }
+    let result = await queryImpl(
+      request,
+      location,
+      matches,
+      requestContext,
+      dataStrategy || null,
+      false,
+      match
+    );
+    if (isResponse(result)) {
+      return result;
+    }
+    let error = result.errors ? Object.values(result.errors)[0] : void 0;
+    if (error !== void 0) {
+      throw error;
+    }
+    if (result.actionData) {
+      return Object.values(result.actionData)[0];
+    }
+    if (result.loaderData) {
+      return Object.values(result.loaderData)[0];
+    }
+    return void 0;
+  }
+  async function queryImpl(request, location, matches, requestContext, dataStrategy, skipLoaderErrorBubbling, routeMatch) {
+    invariant(
+      request.signal,
+      "query()/queryRoute() requests must contain an AbortController signal"
+    );
+    try {
+      if (isMutationMethod(request.method)) {
+        let result2 = await submit(
+          request,
+          matches,
+          routeMatch || getTargetMatch(matches, location),
+          requestContext,
+          dataStrategy,
+          skipLoaderErrorBubbling,
+          routeMatch != null
+        );
+        return result2;
+      }
+      let result = await loadRouteData(
+        request,
+        matches,
+        requestContext,
+        dataStrategy,
+        skipLoaderErrorBubbling,
+        routeMatch
+      );
+      return isResponse(result) ? result : {
+        ...result,
+        actionData: null,
+        actionHeaders: {}
+      };
+    } catch (e) {
+      if (isDataStrategyResult(e) && isResponse(e.result)) {
+        if (e.type === "error" /* error */) {
+          throw e.result;
+        }
+        return e.result;
+      }
+      if (isRedirectResponse(e)) {
+        return e;
+      }
+      throw e;
+    }
+  }
+  async function submit(request, matches, actionMatch, requestContext, dataStrategy, skipLoaderErrorBubbling, isRouteRequest) {
+    let result;
+    if (!actionMatch.route.action && !actionMatch.route.lazy) {
+      let error = getInternalRouterError(405, {
+        method: request.method,
+        pathname: new URL(request.url).pathname,
+        routeId: actionMatch.route.id
+      });
+      if (isRouteRequest) {
+        throw error;
+      }
+      result = {
+        type: "error" /* error */,
+        error
+      };
+    } else {
+      let results = await callDataStrategy(
+        "action",
+        request,
+        [actionMatch],
+        matches,
+        isRouteRequest,
+        requestContext,
+        dataStrategy
+      );
+      result = results[actionMatch.route.id];
+      if (request.signal.aborted) {
+        throwStaticHandlerAbortedError(request, isRouteRequest);
+      }
+    }
+    if (isRedirectResult(result)) {
+      throw new Response(null, {
+        status: result.response.status,
+        headers: {
+          Location: result.response.headers.get("Location")
+        }
+      });
+    }
+    if (isRouteRequest) {
+      if (isErrorResult(result)) {
+        throw result.error;
+      }
+      return {
+        matches: [actionMatch],
+        loaderData: {},
+        actionData: { [actionMatch.route.id]: result.data },
+        errors: null,
+        // Note: statusCode + headers are unused here since queryRoute will
+        // return the raw Response or value
+        statusCode: 200,
+        loaderHeaders: {},
+        actionHeaders: {}
+      };
+    }
+    let loaderRequest = new Request(request.url, {
+      headers: request.headers,
+      redirect: request.redirect,
+      signal: request.signal
+    });
+    if (isErrorResult(result)) {
+      let boundaryMatch = skipLoaderErrorBubbling ? actionMatch : findNearestBoundary(matches, actionMatch.route.id);
+      let context2 = await loadRouteData(
+        loaderRequest,
+        matches,
+        requestContext,
+        dataStrategy,
+        skipLoaderErrorBubbling,
+        null,
+        [boundaryMatch.route.id, result]
+      );
+      return {
+        ...context2,
+        statusCode: isRouteErrorResponse(result.error) ? result.error.status : result.statusCode != null ? result.statusCode : 500,
+        actionData: null,
+        actionHeaders: {
+          ...result.headers ? { [actionMatch.route.id]: result.headers } : {}
+        }
+      };
+    }
+    let context = await loadRouteData(
+      loaderRequest,
+      matches,
+      requestContext,
+      dataStrategy,
+      skipLoaderErrorBubbling,
+      null
+    );
+    return {
+      ...context,
+      actionData: {
+        [actionMatch.route.id]: result.data
+      },
+      // action status codes take precedence over loader status codes
+      ...result.statusCode ? { statusCode: result.statusCode } : {},
+      actionHeaders: result.headers ? { [actionMatch.route.id]: result.headers } : {}
+    };
+  }
+  async function loadRouteData(request, matches, requestContext, dataStrategy, skipLoaderErrorBubbling, routeMatch, pendingActionResult) {
+    let isRouteRequest = routeMatch != null;
+    if (isRouteRequest && !routeMatch?.route.loader && !routeMatch?.route.lazy) {
+      throw getInternalRouterError(400, {
+        method: request.method,
+        pathname: new URL(request.url).pathname,
+        routeId: routeMatch?.route.id
+      });
+    }
+    let requestMatches = routeMatch ? [routeMatch] : pendingActionResult && isErrorResult(pendingActionResult[1]) ? getLoaderMatchesUntilBoundary(matches, pendingActionResult[0]) : matches;
+    let matchesToLoad = requestMatches.filter(
+      (m) => m.route.loader || m.route.lazy
+    );
+    if (matchesToLoad.length === 0) {
+      return {
+        matches,
+        // Add a null for all matched routes for proper revalidation on the client
+        loaderData: matches.reduce(
+          (acc, m) => Object.assign(acc, { [m.route.id]: null }),
+          {}
+        ),
+        errors: pendingActionResult && isErrorResult(pendingActionResult[1]) ? {
+          [pendingActionResult[0]]: pendingActionResult[1].error
+        } : null,
+        statusCode: 200,
+        loaderHeaders: {}
+      };
+    }
+    let results = await callDataStrategy(
+      "loader",
+      request,
+      matchesToLoad,
+      matches,
+      isRouteRequest,
+      requestContext,
+      dataStrategy
+    );
+    if (request.signal.aborted) {
+      throwStaticHandlerAbortedError(request, isRouteRequest);
+    }
+    let context = processRouteLoaderData(
+      matches,
+      results,
+      pendingActionResult,
+      true,
+      skipLoaderErrorBubbling
+    );
+    let executedLoaders = new Set(
+      matchesToLoad.map((match) => match.route.id)
+    );
+    matches.forEach((match) => {
+      if (!executedLoaders.has(match.route.id)) {
+        context.loaderData[match.route.id] = null;
+      }
+    });
+    return {
+      ...context,
+      matches
+    };
+  }
+  async function callDataStrategy(type, request, matchesToLoad, matches, isRouteRequest, requestContext, dataStrategy) {
+    let results = await callDataStrategyImpl(
+      dataStrategy || defaultDataStrategy,
+      type,
+      null,
+      request,
+      matchesToLoad,
+      matches,
+      null,
+      manifest,
+      mapRouteProperties2,
+      requestContext
+    );
+    let dataResults = {};
+    await Promise.all(
+      matches.map(async (match) => {
+        if (!(match.route.id in results)) {
+          return;
+        }
+        let result = results[match.route.id];
+        if (isRedirectDataStrategyResult(result)) {
+          let response = result.result;
+          throw normalizeRelativeRoutingRedirectResponse(
+            response,
+            request,
+            match.route.id,
+            matches,
+            basename
+          );
+        }
+        if (isResponse(result.result) && isRouteRequest) {
+          throw result;
+        }
+        dataResults[match.route.id] = await convertDataStrategyResultToDataResult(result);
+      })
+    );
+    return dataResults;
+  }
+  return {
+    dataRoutes,
+    query,
+    queryRoute
+  };
+}
+function getStaticContextFromError(routes, context, error) {
+  let newContext = {
+    ...context,
+    statusCode: isRouteErrorResponse(error) ? error.status : 500,
+    errors: {
+      [context._deepestRenderedBoundaryId || routes[0].id]: error
+    }
+  };
+  return newContext;
+}
+function throwStaticHandlerAbortedError(request, isRouteRequest) {
+  if (request.signal.reason !== void 0) {
+    throw request.signal.reason;
+  }
+  let method = isRouteRequest ? "queryRoute" : "query";
+  throw new Error(
+    `${method}() call aborted without an \`AbortSignal.reason\`: ${request.method} ${request.url}`
+  );
+}
+function isSubmissionNavigation(opts) {
+  return opts != null && ("formData" in opts && opts.formData != null || "body" in opts && opts.body !== void 0);
+}
+function normalizeTo(location, matches, basename, to, fromRouteId, relative) {
+  let contextualMatches;
+  let activeRouteMatch;
+  if (fromRouteId) {
+    contextualMatches = [];
+    for (let match of matches) {
+      contextualMatches.push(match);
+      if (match.route.id === fromRouteId) {
+        activeRouteMatch = match;
+        break;
+      }
+    }
+  } else {
+    contextualMatches = matches;
+    activeRouteMatch = matches[matches.length - 1];
+  }
+  let path = resolveTo(
+    to ? to : ".",
+    getResolveToMatches(contextualMatches),
+    stripBasename(location.pathname, basename) || location.pathname,
+    relative === "path"
+  );
+  if (to == null) {
+    path.search = location.search;
+    path.hash = location.hash;
+  }
+  if ((to == null || to === "" || to === ".") && activeRouteMatch) {
+    let nakedIndex = hasNakedIndexQuery(path.search);
+    if (activeRouteMatch.route.index && !nakedIndex) {
+      path.search = path.search ? path.search.replace(/^\?/, "?index&") : "?index";
+    } else if (!activeRouteMatch.route.index && nakedIndex) {
+      let params = new URLSearchParams(path.search);
+      let indexValues = params.getAll("index");
+      params.delete("index");
+      indexValues.filter((v) => v).forEach((v) => params.append("index", v));
+      let qs = params.toString();
+      path.search = qs ? `?${qs}` : "";
+    }
+  }
+  if (basename !== "/") {
+    path.pathname = path.pathname === "/" ? basename : joinPaths([basename, path.pathname]);
+  }
+  return createPath(path);
+}
+function normalizeNavigateOptions(isFetcher, path, opts) {
+  if (!opts || !isSubmissionNavigation(opts)) {
+    return { path };
+  }
+  if (opts.formMethod && !isValidMethod(opts.formMethod)) {
+    return {
+      path,
+      error: getInternalRouterError(405, { method: opts.formMethod })
+    };
+  }
+  let getInvalidBodyError = () => ({
+    path,
+    error: getInternalRouterError(400, { type: "invalid-body" })
+  });
+  let rawFormMethod = opts.formMethod || "get";
+  let formMethod = rawFormMethod.toUpperCase();
+  let formAction = stripHashFromPath(path);
+  if (opts.body !== void 0) {
+    if (opts.formEncType === "text/plain") {
+      if (!isMutationMethod(formMethod)) {
+        return getInvalidBodyError();
+      }
+      let text = typeof opts.body === "string" ? opts.body : opts.body instanceof FormData || opts.body instanceof URLSearchParams ? (
+        // https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#plain-text-form-data
+        Array.from(opts.body.entries()).reduce(
+          (acc, [name, value]) => `${acc}${name}=${value}
+`,
+          ""
+        )
+      ) : String(opts.body);
+      return {
+        path,
+        submission: {
+          formMethod,
+          formAction,
+          formEncType: opts.formEncType,
+          formData: void 0,
+          json: void 0,
+          text
+        }
+      };
+    } else if (opts.formEncType === "application/json") {
+      if (!isMutationMethod(formMethod)) {
+        return getInvalidBodyError();
+      }
+      try {
+        let json = typeof opts.body === "string" ? JSON.parse(opts.body) : opts.body;
+        return {
+          path,
+          submission: {
+            formMethod,
+            formAction,
+            formEncType: opts.formEncType,
+            formData: void 0,
+            json,
+            text: void 0
+          }
+        };
+      } catch (e) {
+        return getInvalidBodyError();
+      }
+    }
+  }
+  invariant(
+    typeof FormData === "function",
+    "FormData is not available in this environment"
+  );
+  let searchParams;
+  let formData;
+  if (opts.formData) {
+    searchParams = convertFormDataToSearchParams(opts.formData);
+    formData = opts.formData;
+  } else if (opts.body instanceof FormData) {
+    searchParams = convertFormDataToSearchParams(opts.body);
+    formData = opts.body;
+  } else if (opts.body instanceof URLSearchParams) {
+    searchParams = opts.body;
+    formData = convertSearchParamsToFormData(searchParams);
+  } else if (opts.body == null) {
+    searchParams = new URLSearchParams();
+    formData = new FormData();
+  } else {
+    try {
+      searchParams = new URLSearchParams(opts.body);
+      formData = convertSearchParamsToFormData(searchParams);
+    } catch (e) {
+      return getInvalidBodyError();
+    }
+  }
+  let submission = {
+    formMethod,
+    formAction,
+    formEncType: opts && opts.formEncType || "application/x-www-form-urlencoded",
+    formData,
+    json: void 0,
+    text: void 0
+  };
+  if (isMutationMethod(submission.formMethod)) {
+    return { path, submission };
+  }
+  let parsedPath = parsePath(path);
+  if (isFetcher && parsedPath.search && hasNakedIndexQuery(parsedPath.search)) {
+    searchParams.append("index", "");
+  }
+  parsedPath.search = `?${searchParams}`;
+  return { path: createPath(parsedPath), submission };
+}
+function getLoaderMatchesUntilBoundary(matches, boundaryId, includeBoundary = false) {
+  let index = matches.findIndex((m) => m.route.id === boundaryId);
+  if (index >= 0) {
+    return matches.slice(0, includeBoundary ? index + 1 : index);
+  }
+  return matches;
+}
+function getMatchesToLoad(history, state, matches, submission, location, initialHydration, isRevalidationRequired, cancelledFetcherLoads, fetchersQueuedForDeletion, fetchLoadMatches, fetchRedirectIds, routesToUse, basename, pendingActionResult) {
+  let actionResult = pendingActionResult ? isErrorResult(pendingActionResult[1]) ? pendingActionResult[1].error : pendingActionResult[1].data : void 0;
+  let currentUrl = history.createURL(state.location);
+  let nextUrl = history.createURL(location);
+  let boundaryMatches = matches;
+  if (initialHydration && state.errors) {
+    boundaryMatches = getLoaderMatchesUntilBoundary(
+      matches,
+      Object.keys(state.errors)[0],
+      true
+    );
+  } else if (pendingActionResult && isErrorResult(pendingActionResult[1])) {
+    boundaryMatches = getLoaderMatchesUntilBoundary(
+      matches,
+      pendingActionResult[0]
+    );
+  }
+  let actionStatus = pendingActionResult ? pendingActionResult[1].statusCode : void 0;
+  let shouldSkipRevalidation = actionStatus && actionStatus >= 400;
+  let navigationMatches = boundaryMatches.filter((match, index) => {
+    let { route } = match;
+    if (route.lazy) {
+      return true;
+    }
+    if (route.loader == null) {
+      return false;
+    }
+    if (initialHydration) {
+      return shouldLoadRouteOnHydration(route, state.loaderData, state.errors);
+    }
+    if (isNewLoader(state.loaderData, state.matches[index], match)) {
+      return true;
+    }
+    let currentRouteMatch = state.matches[index];
+    let nextRouteMatch = match;
+    return shouldRevalidateLoader(match, {
+      currentUrl,
+      currentParams: currentRouteMatch.params,
+      nextUrl,
+      nextParams: nextRouteMatch.params,
+      ...submission,
+      actionResult,
+      actionStatus,
+      defaultShouldRevalidate: shouldSkipRevalidation ? false : (
+        // Forced revalidation due to submission, useRevalidator, or X-Remix-Revalidate
+        isRevalidationRequired || currentUrl.pathname + currentUrl.search === nextUrl.pathname + nextUrl.search || // Search params affect all loaders
+        currentUrl.search !== nextUrl.search || isNewRouteInstance(currentRouteMatch, nextRouteMatch)
+      )
+    });
+  });
+  let revalidatingFetchers = [];
+  fetchLoadMatches.forEach((f, key) => {
+    if (initialHydration || !matches.some((m) => m.route.id === f.routeId) || fetchersQueuedForDeletion.has(key)) {
+      return;
+    }
+    let fetcherMatches = matchRoutes(routesToUse, f.path, basename);
+    if (!fetcherMatches) {
+      revalidatingFetchers.push({
+        key,
+        routeId: f.routeId,
+        path: f.path,
+        matches: null,
+        match: null,
+        controller: null
+      });
+      return;
+    }
+    let fetcher = state.fetchers.get(key);
+    let fetcherMatch = getTargetMatch(fetcherMatches, f.path);
+    let shouldRevalidate = false;
+    if (fetchRedirectIds.has(key)) {
+      shouldRevalidate = false;
+    } else if (cancelledFetcherLoads.has(key)) {
+      cancelledFetcherLoads.delete(key);
+      shouldRevalidate = true;
+    } else if (fetcher && fetcher.state !== "idle" && fetcher.data === void 0) {
+      shouldRevalidate = isRevalidationRequired;
+    } else {
+      shouldRevalidate = shouldRevalidateLoader(fetcherMatch, {
+        currentUrl,
+        currentParams: state.matches[state.matches.length - 1].params,
+        nextUrl,
+        nextParams: matches[matches.length - 1].params,
+        ...submission,
+        actionResult,
+        actionStatus,
+        defaultShouldRevalidate: shouldSkipRevalidation ? false : isRevalidationRequired
+      });
+    }
+    if (shouldRevalidate) {
+      revalidatingFetchers.push({
+        key,
+        routeId: f.routeId,
+        path: f.path,
+        matches: fetcherMatches,
+        match: fetcherMatch,
+        controller: new AbortController()
+      });
+    }
+  });
+  return [navigationMatches, revalidatingFetchers];
+}
+function shouldLoadRouteOnHydration(route, loaderData, errors) {
+  if (route.lazy) {
+    return true;
+  }
+  if (!route.loader) {
+    return false;
+  }
+  let hasData = loaderData != null && loaderData[route.id] !== void 0;
+  let hasError = errors != null && errors[route.id] !== void 0;
+  if (!hasData && hasError) {
+    return false;
+  }
+  if (typeof route.loader === "function" && route.loader.hydrate === true) {
+    return true;
+  }
+  return !hasData && !hasError;
+}
+function isNewLoader(currentLoaderData, currentMatch, match) {
+  let isNew = (
+    // [a] -> [a, b]
+    !currentMatch || // [a, b] -> [a, c]
+    match.route.id !== currentMatch.route.id
+  );
+  let isMissingData = !currentLoaderData.hasOwnProperty(match.route.id);
+  return isNew || isMissingData;
+}
+function isNewRouteInstance(currentMatch, match) {
+  let currentPath = currentMatch.route.path;
+  return (
+    // param change for this match, /users/123 -> /users/456
+    currentMatch.pathname !== match.pathname || // splat param changed, which is not present in match.path
+    // e.g. /files/images/avatar.jpg -> files/finances.xls
+    currentPath != null && currentPath.endsWith("*") && currentMatch.params["*"] !== match.params["*"]
+  );
+}
+function shouldRevalidateLoader(loaderMatch, arg) {
+  if (loaderMatch.route.shouldRevalidate) {
+    let routeChoice = loaderMatch.route.shouldRevalidate(arg);
+    if (typeof routeChoice === "boolean") {
+      return routeChoice;
+    }
+  }
+  return arg.defaultShouldRevalidate;
+}
+function patchRoutesImpl(routeId, children, routesToUse, manifest, mapRouteProperties2) {
+  let childrenToPatch;
+  if (routeId) {
+    let route = manifest[routeId];
+    invariant(
+      route,
+      `No route found to patch children into: routeId = ${routeId}`
+    );
+    if (!route.children) {
+      route.children = [];
+    }
+    childrenToPatch = route.children;
+  } else {
+    childrenToPatch = routesToUse;
+  }
+  let uniqueChildren = children.filter(
+    (newRoute) => !childrenToPatch.some(
+      (existingRoute) => isSameRoute(newRoute, existingRoute)
+    )
+  );
+  let newRoutes = convertRoutesToDataRoutes(
+    uniqueChildren,
+    mapRouteProperties2,
+    [routeId || "_", "patch", String(childrenToPatch?.length || "0")],
+    manifest
+  );
+  childrenToPatch.push(...newRoutes);
+}
+function isSameRoute(newRoute, existingRoute) {
+  if ("id" in newRoute && "id" in existingRoute && newRoute.id === existingRoute.id) {
+    return true;
+  }
+  if (!(newRoute.index === existingRoute.index && newRoute.path === existingRoute.path && newRoute.caseSensitive === existingRoute.caseSensitive)) {
+    return false;
+  }
+  if ((!newRoute.children || newRoute.children.length === 0) && (!existingRoute.children || existingRoute.children.length === 0)) {
+    return true;
+  }
+  return newRoute.children.every(
+    (aChild, i) => existingRoute.children?.some((bChild) => isSameRoute(aChild, bChild))
+  );
+}
+async function loadLazyRouteModule(route, mapRouteProperties2, manifest) {
+  if (!route.lazy) {
+    return;
+  }
+  let lazyRoute = await route.lazy();
+  if (!route.lazy) {
+    return;
+  }
+  let routeToUpdate = manifest[route.id];
+  invariant(routeToUpdate, "No route found in manifest");
+  let routeUpdates = {};
+  for (let lazyRouteProperty in lazyRoute) {
+    let staticRouteValue = routeToUpdate[lazyRouteProperty];
+    let isPropertyStaticallyDefined = staticRouteValue !== void 0 && // This property isn't static since it should always be updated based
+    // on the route updates
+    lazyRouteProperty !== "hasErrorBoundary";
+    warning(
+      !isPropertyStaticallyDefined,
+      `Route "${routeToUpdate.id}" has a static property "${lazyRouteProperty}" defined but its lazy function is also returning a value for this property. The lazy route property "${lazyRouteProperty}" will be ignored.`
+    );
+    if (!isPropertyStaticallyDefined && !immutableRouteKeys.has(lazyRouteProperty)) {
+      routeUpdates[lazyRouteProperty] = lazyRoute[lazyRouteProperty];
+    }
+  }
+  Object.assign(routeToUpdate, routeUpdates);
+  Object.assign(routeToUpdate, {
+    // To keep things framework agnostic, we use the provided `mapRouteProperties`
+    // function to set the framework-aware properties (`element`/`hasErrorBoundary`)
+    // since the logic will differ between frameworks.
+    ...mapRouteProperties2(routeToUpdate),
+    lazy: void 0
+  });
+}
+async function defaultDataStrategy({
+  matches
+}) {
+  let matchesToLoad = matches.filter((m) => m.shouldLoad);
+  let results = await Promise.all(matchesToLoad.map((m) => m.resolve()));
+  return results.reduce(
+    (acc, result, i) => Object.assign(acc, { [matchesToLoad[i].route.id]: result }),
+    {}
+  );
+}
+async function callDataStrategyImpl(dataStrategyImpl, type, state, request, matchesToLoad, matches, fetcherKey, manifest, mapRouteProperties2, requestContext) {
+  let loadRouteDefinitionsPromises = matches.map(
+    (m) => m.route.lazy ? loadLazyRouteModule(m.route, mapRouteProperties2, manifest) : void 0
+  );
+  let dsMatches = matches.map((match, i) => {
+    let loadRoutePromise = loadRouteDefinitionsPromises[i];
+    let shouldLoad = matchesToLoad.some((m) => m.route.id === match.route.id);
+    let resolve = async (handlerOverride) => {
+      if (handlerOverride && request.method === "GET" && (match.route.lazy || match.route.loader)) {
+        shouldLoad = true;
+      }
+      return shouldLoad ? callLoaderOrAction(
+        type,
+        request,
+        match,
+        loadRoutePromise,
+        handlerOverride,
+        requestContext
+      ) : Promise.resolve({ type: "data" /* data */, result: void 0 });
+    };
+    return {
+      ...match,
+      shouldLoad,
+      resolve
+    };
+  });
+  let results = await dataStrategyImpl({
+    matches: dsMatches,
+    request,
+    params: matches[0].params,
+    fetcherKey,
+    context: requestContext
+  });
+  try {
+    await Promise.all(loadRouteDefinitionsPromises);
+  } catch (e) {
+  }
+  return results;
+}
+async function callLoaderOrAction(type, request, match, loadRoutePromise, handlerOverride, staticContext) {
+  let result;
+  let onReject;
+  let runHandler = (handler) => {
+    let reject;
+    let abortPromise = new Promise((_, r) => reject = r);
+    onReject = () => reject();
+    request.signal.addEventListener("abort", onReject);
+    let actualHandler = (ctx) => {
+      if (typeof handler !== "function") {
+        return Promise.reject(
+          new Error(
+            `You cannot call the handler for a route which defines a boolean "${type}" [routeId: ${match.route.id}]`
+          )
+        );
+      }
+      return handler(
+        {
+          request,
+          params: match.params,
+          context: staticContext
+        },
+        ...ctx !== void 0 ? [ctx] : []
+      );
+    };
+    let handlerPromise = (async () => {
+      try {
+        let val = await (handlerOverride ? handlerOverride((ctx) => actualHandler(ctx)) : actualHandler());
+        return { type: "data", result: val };
+      } catch (e) {
+        return { type: "error", result: e };
+      }
+    })();
+    return Promise.race([handlerPromise, abortPromise]);
+  };
+  try {
+    let handler = match.route[type];
+    if (loadRoutePromise) {
+      if (handler) {
+        let handlerError;
+        let [value] = await Promise.all([
+          // If the handler throws, don't let it immediately bubble out,
+          // since we need to let the lazy() execution finish so we know if this
+          // route has a boundary that can handle the error
+          runHandler(handler).catch((e) => {
+            handlerError = e;
+          }),
+          loadRoutePromise
+        ]);
+        if (handlerError !== void 0) {
+          throw handlerError;
+        }
+        result = value;
+      } else {
+        await loadRoutePromise;
+        handler = match.route[type];
+        if (handler) {
+          result = await runHandler(handler);
+        } else if (type === "action") {
+          let url = new URL(request.url);
+          let pathname = url.pathname + url.search;
+          throw getInternalRouterError(405, {
+            method: request.method,
+            pathname,
+            routeId: match.route.id
+          });
+        } else {
+          return { type: "data" /* data */, result: void 0 };
+        }
+      }
+    } else if (!handler) {
+      let url = new URL(request.url);
+      let pathname = url.pathname + url.search;
+      throw getInternalRouterError(404, {
+        pathname
+      });
+    } else {
+      result = await runHandler(handler);
+    }
+  } catch (e) {
+    return { type: "error" /* error */, result: e };
+  } finally {
+    if (onReject) {
+      request.signal.removeEventListener("abort", onReject);
+    }
+  }
+  return result;
+}
+async function convertDataStrategyResultToDataResult(dataStrategyResult) {
+  let { result, type } = dataStrategyResult;
+  if (isResponse(result)) {
+    let data2;
+    try {
+      let contentType = result.headers.get("Content-Type");
+      if (contentType && /\bapplication\/json\b/.test(contentType)) {
+        if (result.body == null) {
+          data2 = null;
+        } else {
+          data2 = await result.json();
+        }
+      } else {
+        data2 = await result.text();
+      }
+    } catch (e) {
+      return { type: "error" /* error */, error: e };
+    }
+    if (type === "error" /* error */) {
+      return {
+        type: "error" /* error */,
+        error: new ErrorResponseImpl(result.status, result.statusText, data2),
+        statusCode: result.status,
+        headers: result.headers
+      };
+    }
+    return {
+      type: "data" /* data */,
+      data: data2,
+      statusCode: result.status,
+      headers: result.headers
+    };
+  }
+  if (type === "error" /* error */) {
+    if (isDataWithResponseInit(result)) {
+      if (result.data instanceof Error) {
+        return {
+          type: "error" /* error */,
+          error: result.data,
+          statusCode: result.init?.status
+        };
+      }
+      result = new ErrorResponseImpl(
+        result.init?.status || 500,
+        void 0,
+        result.data
+      );
+    }
+    return {
+      type: "error" /* error */,
+      error: result,
+      statusCode: isRouteErrorResponse(result) ? result.status : void 0
+    };
+  }
+  if (isDataWithResponseInit(result)) {
+    return {
+      type: "data" /* data */,
+      data: result.data,
+      statusCode: result.init?.status,
+      headers: result.init?.headers ? new Headers(result.init.headers) : void 0
+    };
+  }
+  return { type: "data" /* data */, data: result };
+}
+function normalizeRelativeRoutingRedirectResponse(response, request, routeId, matches, basename) {
+  let location = response.headers.get("Location");
+  invariant(
+    location,
+    "Redirects returned/thrown from loaders/actions must have a Location header"
+  );
+  if (!ABSOLUTE_URL_REGEX.test(location)) {
+    let trimmedMatches = matches.slice(
+      0,
+      matches.findIndex((m) => m.route.id === routeId) + 1
+    );
+    location = normalizeTo(
+      new URL(request.url),
+      trimmedMatches,
+      basename,
+      location
+    );
+    response.headers.set("Location", location);
+  }
+  return response;
+}
+function normalizeRedirectLocation(location, currentUrl, basename) {
+  if (ABSOLUTE_URL_REGEX.test(location)) {
+    let normalizedLocation = location;
+    let url = normalizedLocation.startsWith("//") ? new URL(currentUrl.protocol + normalizedLocation) : new URL(normalizedLocation);
+    let isSameBasename = stripBasename(url.pathname, basename) != null;
+    if (url.origin === currentUrl.origin && isSameBasename) {
+      return url.pathname + url.search + url.hash;
+    }
+  }
+  return location;
+}
+function createClientSideRequest(history, location, signal, submission) {
+  let url = history.createURL(stripHashFromPath(location)).toString();
+  let init = { signal };
+  if (submission && isMutationMethod(submission.formMethod)) {
+    let { formMethod, formEncType } = submission;
+    init.method = formMethod.toUpperCase();
+    if (formEncType === "application/json") {
+      init.headers = new Headers({ "Content-Type": formEncType });
+      init.body = JSON.stringify(submission.json);
+    } else if (formEncType === "text/plain") {
+      init.body = submission.text;
+    } else if (formEncType === "application/x-www-form-urlencoded" && submission.formData) {
+      init.body = convertFormDataToSearchParams(submission.formData);
+    } else {
+      init.body = submission.formData;
+    }
+  }
+  return new Request(url, init);
+}
+function convertFormDataToSearchParams(formData) {
+  let searchParams = new URLSearchParams();
+  for (let [key, value] of formData.entries()) {
+    searchParams.append(key, typeof value === "string" ? value : value.name);
+  }
+  return searchParams;
+}
+function convertSearchParamsToFormData(searchParams) {
+  let formData = new FormData();
+  for (let [key, value] of searchParams.entries()) {
+    formData.append(key, value);
+  }
+  return formData;
+}
+function processRouteLoaderData(matches, results, pendingActionResult, isStaticHandler = false, skipLoaderErrorBubbling = false) {
+  let loaderData = {};
+  let errors = null;
+  let statusCode;
+  let foundError = false;
+  let loaderHeaders = {};
+  let pendingError = pendingActionResult && isErrorResult(pendingActionResult[1]) ? pendingActionResult[1].error : void 0;
+  matches.forEach((match) => {
+    if (!(match.route.id in results)) {
+      return;
+    }
+    let id = match.route.id;
+    let result = results[id];
+    invariant(
+      !isRedirectResult(result),
+      "Cannot handle redirect results in processLoaderData"
+    );
+    if (isErrorResult(result)) {
+      let error = result.error;
+      if (pendingError !== void 0) {
+        error = pendingError;
+        pendingError = void 0;
+      }
+      errors = errors || {};
+      if (skipLoaderErrorBubbling) {
+        errors[id] = error;
+      } else {
+        let boundaryMatch = findNearestBoundary(matches, id);
+        if (errors[boundaryMatch.route.id] == null) {
+          errors[boundaryMatch.route.id] = error;
+        }
+      }
+      if (!isStaticHandler) {
+        loaderData[id] = ResetLoaderDataSymbol;
+      }
+      if (!foundError) {
+        foundError = true;
+        statusCode = isRouteErrorResponse(result.error) ? result.error.status : 500;
+      }
+      if (result.headers) {
+        loaderHeaders[id] = result.headers;
+      }
+    } else {
+      loaderData[id] = result.data;
+      if (result.statusCode && result.statusCode !== 200 && !foundError) {
+        statusCode = result.statusCode;
+      }
+      if (result.headers) {
+        loaderHeaders[id] = result.headers;
+      }
+    }
+  });
+  if (pendingError !== void 0 && pendingActionResult) {
+    errors = { [pendingActionResult[0]]: pendingError };
+    loaderData[pendingActionResult[0]] = void 0;
+  }
+  return {
+    loaderData,
+    errors,
+    statusCode: statusCode || 200,
+    loaderHeaders
+  };
+}
+function processLoaderData(state, matches, results, pendingActionResult, revalidatingFetchers, fetcherResults) {
+  let { loaderData, errors } = processRouteLoaderData(
+    matches,
+    results,
+    pendingActionResult
+  );
+  revalidatingFetchers.forEach((rf) => {
+    let { key, match, controller } = rf;
+    let result = fetcherResults[key];
+    invariant(result, "Did not find corresponding fetcher result");
+    if (controller && controller.signal.aborted) {
+      return;
+    } else if (isErrorResult(result)) {
+      let boundaryMatch = findNearestBoundary(state.matches, match?.route.id);
+      if (!(errors && errors[boundaryMatch.route.id])) {
+        errors = {
+          ...errors,
+          [boundaryMatch.route.id]: result.error
+        };
+      }
+      state.fetchers.delete(key);
+    } else if (isRedirectResult(result)) {
+      invariant(false, "Unhandled fetcher revalidation redirect");
+    } else {
+      let doneFetcher = getDoneFetcher(result.data);
+      state.fetchers.set(key, doneFetcher);
+    }
+  });
+  return { loaderData, errors };
+}
+function mergeLoaderData(loaderData, newLoaderData, matches, errors) {
+  let mergedLoaderData = Object.entries(newLoaderData).filter(([, v]) => v !== ResetLoaderDataSymbol).reduce((merged, [k, v]) => {
+    merged[k] = v;
+    return merged;
+  }, {});
+  for (let match of matches) {
+    let id = match.route.id;
+    if (!newLoaderData.hasOwnProperty(id) && loaderData.hasOwnProperty(id) && match.route.loader) {
+      mergedLoaderData[id] = loaderData[id];
+    }
+    if (errors && errors.hasOwnProperty(id)) {
+      break;
+    }
+  }
+  return mergedLoaderData;
+}
+function getActionDataForCommit(pendingActionResult) {
+  if (!pendingActionResult) {
+    return {};
+  }
+  return isErrorResult(pendingActionResult[1]) ? {
+    // Clear out prior actionData on errors
+    actionData: {}
+  } : {
+    actionData: {
+      [pendingActionResult[0]]: pendingActionResult[1].data
+    }
+  };
+}
+function findNearestBoundary(matches, routeId) {
+  let eligibleMatches = routeId ? matches.slice(0, matches.findIndex((m) => m.route.id === routeId) + 1) : [...matches];
+  return eligibleMatches.reverse().find((m) => m.route.hasErrorBoundary === true) || matches[0];
+}
+function getShortCircuitMatches(routes) {
+  let route = routes.length === 1 ? routes[0] : routes.find((r) => r.index || !r.path || r.path === "/") || {
+    id: `__shim-error-route__`
+  };
+  return {
+    matches: [
+      {
+        params: {},
+        pathname: "",
+        pathnameBase: "",
+        route
+      }
+    ],
+    route
+  };
+}
+function getInternalRouterError(status, {
+  pathname,
+  routeId,
+  method,
+  type,
+  message
+} = {}) {
+  let statusText = "Unknown Server Error";
+  let errorMessage = "Unknown @remix-run/router error";
+  if (status === 400) {
+    statusText = "Bad Request";
+    if (method && pathname && routeId) {
+      errorMessage = `You made a ${method} request to "${pathname}" but did not provide a \`loader\` for route "${routeId}", so there is no way to handle the request.`;
+    } else if (type === "invalid-body") {
+      errorMessage = "Unable to encode submission body";
+    }
+  } else if (status === 403) {
+    statusText = "Forbidden";
+    errorMessage = `Route "${routeId}" does not match URL "${pathname}"`;
+  } else if (status === 404) {
+    statusText = "Not Found";
+    errorMessage = `No route matches URL "${pathname}"`;
+  } else if (status === 405) {
+    statusText = "Method Not Allowed";
+    if (method && pathname && routeId) {
+      errorMessage = `You made a ${method.toUpperCase()} request to "${pathname}" but did not provide an \`action\` for route "${routeId}", so there is no way to handle the request.`;
+    } else if (method) {
+      errorMessage = `Invalid request method "${method.toUpperCase()}"`;
+    }
+  }
+  return new ErrorResponseImpl(
+    status || 500,
+    statusText,
+    new Error(errorMessage),
+    true
+  );
+}
+function findRedirect(results) {
+  let entries = Object.entries(results);
+  for (let i = entries.length - 1; i >= 0; i--) {
+    let [key, result] = entries[i];
+    if (isRedirectResult(result)) {
+      return { key, result };
+    }
+  }
+}
+function stripHashFromPath(path) {
+  let parsedPath = typeof path === "string" ? parsePath(path) : path;
+  return createPath({ ...parsedPath, hash: "" });
+}
+function isHashChangeOnly(a, b) {
+  if (a.pathname !== b.pathname || a.search !== b.search) {
+    return false;
+  }
+  if (a.hash === "") {
+    return b.hash !== "";
+  } else if (a.hash === b.hash) {
+    return true;
+  } else if (b.hash !== "") {
+    return true;
+  }
+  return false;
+}
+function isDataStrategyResult(result) {
+  return result != null && typeof result === "object" && "type" in result && "result" in result && (result.type === "data" /* data */ || result.type === "error" /* error */);
+}
+function isRedirectDataStrategyResult(result) {
+  return isResponse(result.result) && redirectStatusCodes.has(result.result.status);
+}
+function isErrorResult(result) {
+  return result.type === "error" /* error */;
+}
+function isRedirectResult(result) {
+  return (result && result.type) === "redirect" /* redirect */;
+}
+function isDataWithResponseInit(value) {
+  return typeof value === "object" && value != null && "type" in value && "data" in value && "init" in value && value.type === "DataWithResponseInit";
+}
+function isResponse(value) {
+  return value != null && typeof value.status === "number" && typeof value.statusText === "string" && typeof value.headers === "object" && typeof value.body !== "undefined";
+}
+function isRedirectStatusCode(statusCode) {
+  return redirectStatusCodes.has(statusCode);
+}
+function isRedirectResponse(result) {
+  return isResponse(result) && isRedirectStatusCode(result.status) && result.headers.has("Location");
+}
+function isValidMethod(method) {
+  return validRequestMethods.has(method.toUpperCase());
+}
+function isMutationMethod(method) {
+  return validMutationMethods.has(method.toUpperCase());
+}
+function hasNakedIndexQuery(search) {
+  return new URLSearchParams(search).getAll("index").some((v) => v === "");
+}
+function getTargetMatch(matches, location) {
+  let search = typeof location === "string" ? parsePath(location).search : location.search;
+  if (matches[matches.length - 1].route.index && hasNakedIndexQuery(search || "")) {
+    return matches[matches.length - 1];
+  }
+  let pathMatches = getPathContributingMatches(matches);
+  return pathMatches[pathMatches.length - 1];
+}
+function getSubmissionFromNavigation(navigation) {
+  let { formMethod, formAction, formEncType, text, formData, json } = navigation;
+  if (!formMethod || !formAction || !formEncType) {
+    return;
+  }
+  if (text != null) {
+    return {
+      formMethod,
+      formAction,
+      formEncType,
+      formData: void 0,
+      json: void 0,
+      text
+    };
+  } else if (formData != null) {
+    return {
+      formMethod,
+      formAction,
+      formEncType,
+      formData,
+      json: void 0,
+      text: void 0
+    };
+  } else if (json !== void 0) {
+    return {
+      formMethod,
+      formAction,
+      formEncType,
+      formData: void 0,
+      json,
+      text: void 0
+    };
+  }
+}
+function getLoadingNavigation(location, submission) {
+  if (submission) {
+    let navigation = {
+      state: "loading",
+      location,
+      formMethod: submission.formMethod,
+      formAction: submission.formAction,
+      formEncType: submission.formEncType,
+      formData: submission.formData,
+      json: submission.json,
+      text: submission.text
+    };
+    return navigation;
+  } else {
+    let navigation = {
+      state: "loading",
+      location,
+      formMethod: void 0,
+      formAction: void 0,
+      formEncType: void 0,
+      formData: void 0,
+      json: void 0,
+      text: void 0
+    };
+    return navigation;
+  }
+}
+function getSubmittingNavigation(location, submission) {
+  let navigation = {
+    state: "submitting",
+    location,
+    formMethod: submission.formMethod,
+    formAction: submission.formAction,
+    formEncType: submission.formEncType,
+    formData: submission.formData,
+    json: submission.json,
+    text: submission.text
+  };
+  return navigation;
+}
+function getLoadingFetcher(submission, data2) {
+  if (submission) {
+    let fetcher = {
+      state: "loading",
+      formMethod: submission.formMethod,
+      formAction: submission.formAction,
+      formEncType: submission.formEncType,
+      formData: submission.formData,
+      json: submission.json,
+      text: submission.text,
+      data: data2
+    };
+    return fetcher;
+  } else {
+    let fetcher = {
+      state: "loading",
+      formMethod: void 0,
+      formAction: void 0,
+      formEncType: void 0,
+      formData: void 0,
+      json: void 0,
+      text: void 0,
+      data: data2
+    };
+    return fetcher;
+  }
+}
+function getSubmittingFetcher(submission, existingFetcher) {
+  let fetcher = {
+    state: "submitting",
+    formMethod: submission.formMethod,
+    formAction: submission.formAction,
+    formEncType: submission.formEncType,
+    formData: submission.formData,
+    json: submission.json,
+    text: submission.text,
+    data: existingFetcher ? existingFetcher.data : void 0
+  };
+  return fetcher;
+}
+function getDoneFetcher(data2) {
+  let fetcher = {
+    state: "idle",
+    formMethod: void 0,
+    formAction: void 0,
+    formEncType: void 0,
+    formData: void 0,
+    json: void 0,
+    text: void 0,
+    data: data2
+  };
+  return fetcher;
+}
+function restoreAppliedTransitions(_window, transitions) {
+  try {
+    let sessionPositions = _window.sessionStorage.getItem(
+      TRANSITIONS_STORAGE_KEY
+    );
+    if (sessionPositions) {
+      let json = JSON.parse(sessionPositions);
+      for (let [k, v] of Object.entries(json || {})) {
+        if (v && Array.isArray(v)) {
+          transitions.set(k, new Set(v || []));
+        }
+      }
+    }
+  } catch (e) {
+  }
+}
+function persistAppliedTransitions(_window, transitions) {
+  if (transitions.size > 0) {
+    let json = {};
+    for (let [k, v] of transitions) {
+      json[k] = [...v];
+    }
+    try {
+      _window.sessionStorage.setItem(
+        TRANSITIONS_STORAGE_KEY,
+        JSON.stringify(json)
+      );
+    } catch (error) {
+      warning(
+        false,
+        `Failed to save applied view transitions in sessionStorage (${error}).`
+      );
+    }
+  }
+}
+function createDeferred() {
+  let resolve;
+  let reject;
+  let promise = new Promise((res, rej) => {
+    resolve = async (val) => {
+      res(val);
+      try {
+        await promise;
+      } catch (e) {
+      }
+    };
+    reject = async (error) => {
+      rej(error);
+      try {
+        await promise;
+      } catch (e) {
+      }
+    };
+  });
+  return {
+    promise,
+    //@ts-ignore
+    resolve,
+    //@ts-ignore
+    reject
+  };
+}
+
+// lib/components.tsx
+
+
+// lib/context.ts
+
+var DataRouterContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
+DataRouterContext.displayName = "DataRouter";
+var DataRouterStateContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
+DataRouterStateContext.displayName = "DataRouterState";
+var ViewTransitionContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext({
+  isTransitioning: false
+});
+ViewTransitionContext.displayName = "ViewTransition";
+var FetchersContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(
+  /* @__PURE__ */ new Map()
+);
+FetchersContext.displayName = "Fetchers";
+var AwaitContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
+AwaitContext.displayName = "Await";
+var NavigationContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(
+  null
+);
+NavigationContext.displayName = "Navigation";
+var LocationContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(
+  null
+);
+LocationContext.displayName = "Location";
+var RouteContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext({
+  outlet: null,
+  matches: [],
+  isDataRoute: false
+});
+RouteContext.displayName = "Route";
+var RouteErrorContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
+RouteErrorContext.displayName = "RouteError";
+
+// lib/hooks.tsx
+
+var ENABLE_DEV_WARNINGS = true;
+function useHref(to, { relative } = {}) {
+  invariant(
+    useInRouterContext(),
+    // TODO: This error is probably because they somehow have 2 versions of the
+    // router loaded. We can help them understand how to avoid that.
+    `useHref() may be used only in the context of a <Router> component.`
+  );
+  let { basename, navigator: navigator2 } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
+  let { hash, pathname, search } = useResolvedPath(to, { relative });
+  let joinedPathname = pathname;
+  if (basename !== "/") {
+    joinedPathname = pathname === "/" ? basename : joinPaths([basename, pathname]);
+  }
+  return navigator2.createHref({ pathname: joinedPathname, search, hash });
+}
+function useInRouterContext() {
+  return react__WEBPACK_IMPORTED_MODULE_0__.useContext(LocationContext) != null;
+}
+function useLocation() {
+  invariant(
+    useInRouterContext(),
+    // TODO: This error is probably because they somehow have 2 versions of the
+    // router loaded. We can help them understand how to avoid that.
+    `useLocation() may be used only in the context of a <Router> component.`
+  );
+  return react__WEBPACK_IMPORTED_MODULE_0__.useContext(LocationContext).location;
+}
+function useNavigationType() {
+  return react__WEBPACK_IMPORTED_MODULE_0__.useContext(LocationContext).navigationType;
+}
+function useMatch(pattern) {
+  invariant(
+    useInRouterContext(),
+    // TODO: This error is probably because they somehow have 2 versions of the
+    // router loaded. We can help them understand how to avoid that.
+    `useMatch() may be used only in the context of a <Router> component.`
+  );
+  let { pathname } = useLocation();
+  return react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => matchPath(pattern, decodePath(pathname)),
+    [pathname, pattern]
+  );
+}
+var navigateEffectWarning = `You should call navigate() in a React.useEffect(), not when your component is first rendered.`;
+function useIsomorphicLayoutEffect(cb) {
+  let isStatic = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext).static;
+  if (!isStatic) {
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(cb);
+  }
+}
+function useNavigate() {
+  let { isDataRoute } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
+  return isDataRoute ? useNavigateStable() : useNavigateUnstable();
+}
+function useNavigateUnstable() {
+  invariant(
+    useInRouterContext(),
+    // TODO: This error is probably because they somehow have 2 versions of the
+    // router loaded. We can help them understand how to avoid that.
+    `useNavigate() may be used only in the context of a <Router> component.`
+  );
+  let dataRouterContext = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterContext);
+  let { basename, navigator: navigator2 } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
+  let { matches } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
+  let { pathname: locationPathname } = useLocation();
+  let routePathnamesJson = JSON.stringify(getResolveToMatches(matches));
+  let activeRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
+  useIsomorphicLayoutEffect(() => {
+    activeRef.current = true;
+  });
+  let navigate = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    (to, options = {}) => {
+      warning(activeRef.current, navigateEffectWarning);
+      if (!activeRef.current) return;
+      if (typeof to === "number") {
+        navigator2.go(to);
+        return;
+      }
+      let path = resolveTo(
+        to,
+        JSON.parse(routePathnamesJson),
+        locationPathname,
+        options.relative === "path"
+      );
+      if (dataRouterContext == null && basename !== "/") {
+        path.pathname = path.pathname === "/" ? basename : joinPaths([basename, path.pathname]);
+      }
+      (!!options.replace ? navigator2.replace : navigator2.push)(
+        path,
+        options.state,
+        options
+      );
+    },
+    [
+      basename,
+      navigator2,
+      routePathnamesJson,
+      locationPathname,
+      dataRouterContext
+    ]
+  );
+  return navigate;
+}
+var OutletContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
+function useOutletContext() {
+  return react__WEBPACK_IMPORTED_MODULE_0__.useContext(OutletContext);
+}
+function useOutlet(context) {
+  let outlet = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext).outlet;
+  if (outlet) {
+    return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(OutletContext.Provider, { value: context }, outlet);
+  }
+  return outlet;
+}
+function useParams() {
+  let { matches } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
+  let routeMatch = matches[matches.length - 1];
+  return routeMatch ? routeMatch.params : {};
+}
+function useResolvedPath(to, { relative } = {}) {
+  let { matches } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
+  let { pathname: locationPathname } = useLocation();
+  let routePathnamesJson = JSON.stringify(getResolveToMatches(matches));
+  return react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => resolveTo(
+      to,
+      JSON.parse(routePathnamesJson),
+      locationPathname,
+      relative === "path"
+    ),
+    [to, routePathnamesJson, locationPathname, relative]
+  );
+}
+function useRoutes(routes, locationArg) {
+  return useRoutesImpl(routes, locationArg);
+}
+function useRoutesImpl(routes, locationArg, dataRouterState, future) {
+  invariant(
+    useInRouterContext(),
+    // TODO: This error is probably because they somehow have 2 versions of the
+    // router loaded. We can help them understand how to avoid that.
+    `useRoutes() may be used only in the context of a <Router> component.`
+  );
+  let { navigator: navigator2 } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
+  let { matches: parentMatches } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
+  let routeMatch = parentMatches[parentMatches.length - 1];
+  let parentParams = routeMatch ? routeMatch.params : {};
+  let parentPathname = routeMatch ? routeMatch.pathname : "/";
+  let parentPathnameBase = routeMatch ? routeMatch.pathnameBase : "/";
+  let parentRoute = routeMatch && routeMatch.route;
+  if (ENABLE_DEV_WARNINGS) {
+    let parentPath = parentRoute && parentRoute.path || "";
+    warningOnce(
+      parentPathname,
+      !parentRoute || parentPath.endsWith("*") || parentPath.endsWith("*?"),
+      `You rendered descendant <Routes> (or called \`useRoutes()\`) at "${parentPathname}" (under <Route path="${parentPath}">) but the parent route path has no trailing "*". This means if you navigate deeper, the parent won't match anymore and therefore the child routes will never render.
+
+Please change the parent <Route path="${parentPath}"> to <Route path="${parentPath === "/" ? "*" : `${parentPath}/*`}">.`
+    );
+  }
+  let locationFromContext = useLocation();
+  let location;
+  if (locationArg) {
+    let parsedLocationArg = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
+    invariant(
+      parentPathnameBase === "/" || parsedLocationArg.pathname?.startsWith(parentPathnameBase),
+      `When overriding the location using \`<Routes location>\` or \`useRoutes(routes, location)\`, the location pathname must begin with the portion of the URL pathname that was matched by all parent routes. The current pathname base is "${parentPathnameBase}" but pathname "${parsedLocationArg.pathname}" was given in the \`location\` prop.`
+    );
+    location = parsedLocationArg;
+  } else {
+    location = locationFromContext;
+  }
+  let pathname = location.pathname || "/";
+  let remainingPathname = pathname;
+  if (parentPathnameBase !== "/") {
+    let parentSegments = parentPathnameBase.replace(/^\//, "").split("/");
+    let segments = pathname.replace(/^\//, "").split("/");
+    remainingPathname = "/" + segments.slice(parentSegments.length).join("/");
+  }
+  let matches = matchRoutes(routes, { pathname: remainingPathname });
+  if (ENABLE_DEV_WARNINGS) {
+    warning(
+      parentRoute || matches != null,
+      `No routes matched location "${location.pathname}${location.search}${location.hash}" `
+    );
+    warning(
+      matches == null || matches[matches.length - 1].route.element !== void 0 || matches[matches.length - 1].route.Component !== void 0 || matches[matches.length - 1].route.lazy !== void 0,
+      `Matched leaf route at location "${location.pathname}${location.search}${location.hash}" does not have an element or Component. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.`
+    );
+  }
+  let renderedMatches = _renderMatches(
+    matches && matches.map(
+      (match) => Object.assign({}, match, {
+        params: Object.assign({}, parentParams, match.params),
+        pathname: joinPaths([
+          parentPathnameBase,
+          // Re-encode pathnames that were decoded inside matchRoutes
+          navigator2.encodeLocation ? navigator2.encodeLocation(match.pathname).pathname : match.pathname
+        ]),
+        pathnameBase: match.pathnameBase === "/" ? parentPathnameBase : joinPaths([
+          parentPathnameBase,
+          // Re-encode pathnames that were decoded inside matchRoutes
+          navigator2.encodeLocation ? navigator2.encodeLocation(match.pathnameBase).pathname : match.pathnameBase
+        ])
+      })
+    ),
+    parentMatches,
+    dataRouterState,
+    future
+  );
+  if (locationArg && renderedMatches) {
+    return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      LocationContext.Provider,
+      {
+        value: {
+          location: {
+            pathname: "/",
+            search: "",
+            hash: "",
+            state: null,
+            key: "default",
+            ...location
+          },
+          navigationType: "POP" /* Pop */
+        }
+      },
+      renderedMatches
+    );
+  }
+  return renderedMatches;
+}
+function DefaultErrorComponent() {
+  let error = useRouteError();
+  let message = isRouteErrorResponse(error) ? `${error.status} ${error.statusText}` : error instanceof Error ? error.message : JSON.stringify(error);
+  let stack = error instanceof Error ? error.stack : null;
+  let lightgrey = "rgba(200,200,200, 0.5)";
+  let preStyles = { padding: "0.5rem", backgroundColor: lightgrey };
+  let codeStyles = { padding: "2px 4px", backgroundColor: lightgrey };
+  let devInfo = null;
+  if (ENABLE_DEV_WARNINGS) {
+    console.error(
+      "Error handled by React Router default ErrorBoundary:",
+      error
+    );
+    devInfo = /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "\u{1F4BF} Hey developer \u{1F44B}"), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "You can provide a way better UX than this when your app throws errors by providing your own ", /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("code", { style: codeStyles }, "ErrorBoundary"), " or", " ", /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("code", { style: codeStyles }, "errorElement"), " prop on your route."));
+  }
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Unexpected Application Error!"), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", { style: { fontStyle: "italic" } }, message), stack ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("pre", { style: preStyles }, stack) : null, devInfo);
+}
+var defaultErrorElement = /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(DefaultErrorComponent, null);
+var RenderErrorBoundary = class extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      location: props.location,
+      revalidation: props.revalidation,
+      error: props.error
+    };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  static getDerivedStateFromProps(props, state) {
+    if (state.location !== props.location || state.revalidation !== "idle" && props.revalidation === "idle") {
+      return {
+        error: props.error,
+        location: props.location,
+        revalidation: props.revalidation
+      };
+    }
+    return {
+      error: props.error !== void 0 ? props.error : state.error,
+      location: state.location,
+      revalidation: props.revalidation || state.revalidation
+    };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error(
+      "React Router caught the following error during render",
+      error,
+      errorInfo
+    );
+  }
+  render() {
+    return this.state.error !== void 0 ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(RouteContext.Provider, { value: this.props.routeContext }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      RouteErrorContext.Provider,
+      {
+        value: this.state.error,
+        children: this.props.component
+      }
+    )) : this.props.children;
+  }
+};
+function RenderedRoute({ routeContext, match, children }) {
+  let dataRouterContext = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterContext);
+  if (dataRouterContext && dataRouterContext.static && dataRouterContext.staticContext && (match.route.errorElement || match.route.ErrorBoundary)) {
+    dataRouterContext.staticContext._deepestRenderedBoundaryId = match.route.id;
+  }
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(RouteContext.Provider, { value: routeContext }, children);
+}
+function _renderMatches(matches, parentMatches = [], dataRouterState = null, future = null) {
+  if (matches == null) {
+    if (!dataRouterState) {
+      return null;
+    }
+    if (dataRouterState.errors) {
+      matches = dataRouterState.matches;
+    } else if (parentMatches.length === 0 && !dataRouterState.initialized && dataRouterState.matches.length > 0) {
+      matches = dataRouterState.matches;
+    } else {
+      return null;
+    }
+  }
+  let renderedMatches = matches;
+  let errors = dataRouterState?.errors;
+  if (errors != null) {
+    let errorIndex = renderedMatches.findIndex(
+      (m) => m.route.id && errors?.[m.route.id] !== void 0
+    );
+    invariant(
+      errorIndex >= 0,
+      `Could not find a matching route for errors on route IDs: ${Object.keys(
+        errors
+      ).join(",")}`
+    );
+    renderedMatches = renderedMatches.slice(
+      0,
+      Math.min(renderedMatches.length, errorIndex + 1)
+    );
+  }
+  let renderFallback = false;
+  let fallbackIndex = -1;
+  if (dataRouterState) {
+    for (let i = 0; i < renderedMatches.length; i++) {
+      let match = renderedMatches[i];
+      if (match.route.HydrateFallback || match.route.hydrateFallbackElement) {
+        fallbackIndex = i;
+      }
+      if (match.route.id) {
+        let { loaderData, errors: errors2 } = dataRouterState;
+        let needsToRunLoader = match.route.loader && !loaderData.hasOwnProperty(match.route.id) && (!errors2 || errors2[match.route.id] === void 0);
+        if (match.route.lazy || needsToRunLoader) {
+          renderFallback = true;
+          if (fallbackIndex >= 0) {
+            renderedMatches = renderedMatches.slice(0, fallbackIndex + 1);
+          } else {
+            renderedMatches = [renderedMatches[0]];
+          }
+          break;
+        }
+      }
+    }
+  }
+  return renderedMatches.reduceRight((outlet, match, index) => {
+    let error;
+    let shouldRenderHydrateFallback = false;
+    let errorElement = null;
+    let hydrateFallbackElement = null;
+    if (dataRouterState) {
+      error = errors && match.route.id ? errors[match.route.id] : void 0;
+      errorElement = match.route.errorElement || defaultErrorElement;
+      if (renderFallback) {
+        if (fallbackIndex < 0 && index === 0) {
+          warningOnce(
+            "route-fallback",
+            false,
+            "No `HydrateFallback` element provided to render during initial hydration"
+          );
+          shouldRenderHydrateFallback = true;
+          hydrateFallbackElement = null;
+        } else if (fallbackIndex === index) {
+          shouldRenderHydrateFallback = true;
+          hydrateFallbackElement = match.route.hydrateFallbackElement || null;
+        }
+      }
+    }
+    let matches2 = parentMatches.concat(renderedMatches.slice(0, index + 1));
+    let getChildren = () => {
+      let children;
+      if (error) {
+        children = errorElement;
+      } else if (shouldRenderHydrateFallback) {
+        children = hydrateFallbackElement;
+      } else if (match.route.Component) {
+        children = /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(match.route.Component, null);
+      } else if (match.route.element) {
+        children = match.route.element;
+      } else {
+        children = outlet;
+      }
+      return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+        RenderedRoute,
+        {
+          match,
+          routeContext: {
+            outlet,
+            matches: matches2,
+            isDataRoute: dataRouterState != null
+          },
+          children
+        }
+      );
+    };
+    return dataRouterState && (match.route.ErrorBoundary || match.route.errorElement || index === 0) ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      RenderErrorBoundary,
+      {
+        location: dataRouterState.location,
+        revalidation: dataRouterState.revalidation,
+        component: errorElement,
+        error,
+        children: getChildren(),
+        routeContext: { outlet: null, matches: matches2, isDataRoute: true }
+      }
+    ) : getChildren();
+  }, null);
+}
+function getDataRouterConsoleError(hookName) {
+  return `${hookName} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`;
+}
+function useDataRouterContext(hookName) {
+  let ctx = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterContext);
+  invariant(ctx, getDataRouterConsoleError(hookName));
+  return ctx;
+}
+function useDataRouterState(hookName) {
+  let state = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterStateContext);
+  invariant(state, getDataRouterConsoleError(hookName));
+  return state;
+}
+function useRouteContext(hookName) {
+  let route = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
+  invariant(route, getDataRouterConsoleError(hookName));
+  return route;
+}
+function useCurrentRouteId(hookName) {
+  let route = useRouteContext(hookName);
+  let thisRoute = route.matches[route.matches.length - 1];
+  invariant(
+    thisRoute.route.id,
+    `${hookName} can only be used on routes that contain a unique "id"`
+  );
+  return thisRoute.route.id;
+}
+function useRouteId() {
+  return useCurrentRouteId("useRouteId" /* UseRouteId */);
+}
+function useNavigation() {
+  let state = useDataRouterState("useNavigation" /* UseNavigation */);
+  return state.navigation;
+}
+function useRevalidator() {
+  let dataRouterContext = useDataRouterContext("useRevalidator" /* UseRevalidator */);
+  let state = useDataRouterState("useRevalidator" /* UseRevalidator */);
+  return react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => ({
+      async revalidate() {
+        await dataRouterContext.router.revalidate();
+      },
+      state: state.revalidation
+    }),
+    [dataRouterContext.router, state.revalidation]
+  );
+}
+function useMatches() {
+  let { matches, loaderData } = useDataRouterState(
+    "useMatches" /* UseMatches */
+  );
+  return react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => matches.map((m) => convertRouteMatchToUiMatch(m, loaderData)),
+    [matches, loaderData]
+  );
+}
+function useLoaderData() {
+  let state = useDataRouterState("useLoaderData" /* UseLoaderData */);
+  let routeId = useCurrentRouteId("useLoaderData" /* UseLoaderData */);
+  return state.loaderData[routeId];
+}
+function useRouteLoaderData(routeId) {
+  let state = useDataRouterState("useRouteLoaderData" /* UseRouteLoaderData */);
+  return state.loaderData[routeId];
+}
+function useActionData() {
+  let state = useDataRouterState("useActionData" /* UseActionData */);
+  let routeId = useCurrentRouteId("useLoaderData" /* UseLoaderData */);
+  return state.actionData ? state.actionData[routeId] : void 0;
+}
+function useRouteError() {
+  let error = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteErrorContext);
+  let state = useDataRouterState("useRouteError" /* UseRouteError */);
+  let routeId = useCurrentRouteId("useRouteError" /* UseRouteError */);
+  if (error !== void 0) {
+    return error;
+  }
+  return state.errors?.[routeId];
+}
+function useAsyncValue() {
+  let value = react__WEBPACK_IMPORTED_MODULE_0__.useContext(AwaitContext);
+  return value?._data;
+}
+function useAsyncError() {
+  let value = react__WEBPACK_IMPORTED_MODULE_0__.useContext(AwaitContext);
+  return value?._error;
+}
+var blockerId = 0;
+function useBlocker(shouldBlock) {
+  let { router, basename } = useDataRouterContext("useBlocker" /* UseBlocker */);
+  let state = useDataRouterState("useBlocker" /* UseBlocker */);
+  let [blockerKey, setBlockerKey] = react__WEBPACK_IMPORTED_MODULE_0__.useState("");
+  let blockerFunction = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    (arg) => {
+      if (typeof shouldBlock !== "function") {
+        return !!shouldBlock;
+      }
+      if (basename === "/") {
+        return shouldBlock(arg);
+      }
+      let { currentLocation, nextLocation, historyAction } = arg;
+      return shouldBlock({
+        currentLocation: {
+          ...currentLocation,
+          pathname: stripBasename(currentLocation.pathname, basename) || currentLocation.pathname
+        },
+        nextLocation: {
+          ...nextLocation,
+          pathname: stripBasename(nextLocation.pathname, basename) || nextLocation.pathname
+        },
+        historyAction
+      });
+    },
+    [basename, shouldBlock]
+  );
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    let key = String(++blockerId);
+    setBlockerKey(key);
+    return () => router.deleteBlocker(key);
+  }, [router]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (blockerKey !== "") {
+      router.getBlocker(blockerKey, blockerFunction);
+    }
+  }, [router, blockerKey, blockerFunction]);
+  return blockerKey && state.blockers.has(blockerKey) ? state.blockers.get(blockerKey) : IDLE_BLOCKER;
+}
+function useNavigateStable() {
+  let { router } = useDataRouterContext("useNavigate" /* UseNavigateStable */);
+  let id = useCurrentRouteId("useNavigate" /* UseNavigateStable */);
+  let activeRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
+  useIsomorphicLayoutEffect(() => {
+    activeRef.current = true;
+  });
+  let navigate = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    async (to, options = {}) => {
+      warning(activeRef.current, navigateEffectWarning);
+      if (!activeRef.current) return;
+      if (typeof to === "number") {
+        router.navigate(to);
+      } else {
+        await router.navigate(to, { fromRouteId: id, ...options });
+      }
+    },
+    [router, id]
+  );
+  return navigate;
+}
+var alreadyWarned = {};
+function warningOnce(key, cond, message) {
+  if (!cond && !alreadyWarned[key]) {
+    alreadyWarned[key] = true;
+    warning(false, message);
+  }
+}
+
+// lib/server-runtime/warnings.ts
+var alreadyWarned2 = {};
+function warnOnce(condition, message) {
+  if (!condition && !alreadyWarned2[message]) {
+    alreadyWarned2[message] = true;
+    console.warn(message);
+  }
+}
+
+// lib/components.tsx
+var ENABLE_DEV_WARNINGS2 = true;
+function mapRouteProperties(route) {
+  let updates = {
+    // Note: this check also occurs in createRoutesFromChildren so update
+    // there if you change this -- please and thank you!
+    hasErrorBoundary: route.hasErrorBoundary || route.ErrorBoundary != null || route.errorElement != null
+  };
+  if (route.Component) {
+    if (ENABLE_DEV_WARNINGS2) {
+      if (route.element) {
+        warning(
+          false,
+          "You should not include both `Component` and `element` on your route - `Component` will be used."
+        );
+      }
+    }
+    Object.assign(updates, {
+      element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(route.Component),
+      Component: void 0
+    });
+  }
+  if (route.HydrateFallback) {
+    if (ENABLE_DEV_WARNINGS2) {
+      if (route.hydrateFallbackElement) {
+        warning(
+          false,
+          "You should not include both `HydrateFallback` and `hydrateFallbackElement` on your route - `HydrateFallback` will be used."
+        );
+      }
+    }
+    Object.assign(updates, {
+      hydrateFallbackElement: react__WEBPACK_IMPORTED_MODULE_0__.createElement(route.HydrateFallback),
+      HydrateFallback: void 0
+    });
+  }
+  if (route.ErrorBoundary) {
+    if (ENABLE_DEV_WARNINGS2) {
+      if (route.errorElement) {
+        warning(
+          false,
+          "You should not include both `ErrorBoundary` and `errorElement` on your route - `ErrorBoundary` will be used."
+        );
+      }
+    }
+    Object.assign(updates, {
+      errorElement: react__WEBPACK_IMPORTED_MODULE_0__.createElement(route.ErrorBoundary),
+      ErrorBoundary: void 0
+    });
+  }
+  return updates;
+}
+function createMemoryRouter(routes, opts) {
+  return createRouter({
+    basename: opts?.basename,
+    future: opts?.future,
+    history: createMemoryHistory({
+      initialEntries: opts?.initialEntries,
+      initialIndex: opts?.initialIndex
+    }),
+    hydrationData: opts?.hydrationData,
+    routes,
+    mapRouteProperties,
+    dataStrategy: opts?.dataStrategy,
+    patchRoutesOnNavigation: opts?.patchRoutesOnNavigation
+  }).initialize();
+}
+var Deferred = class {
+  constructor() {
+    this.status = "pending";
+    this.promise = new Promise((resolve, reject) => {
+      this.resolve = (value) => {
+        if (this.status === "pending") {
+          this.status = "resolved";
+          resolve(value);
+        }
+      };
+      this.reject = (reason) => {
+        if (this.status === "pending") {
+          this.status = "rejected";
+          reject(reason);
+        }
+      };
+    });
+  }
+};
+function RouterProvider({
+  router,
+  flushSync: reactDomFlushSyncImpl
+}) {
+  let [state, setStateImpl] = react__WEBPACK_IMPORTED_MODULE_0__.useState(router.state);
+  let [pendingState, setPendingState] = react__WEBPACK_IMPORTED_MODULE_0__.useState();
+  let [vtContext, setVtContext] = react__WEBPACK_IMPORTED_MODULE_0__.useState({
+    isTransitioning: false
+  });
+  let [renderDfd, setRenderDfd] = react__WEBPACK_IMPORTED_MODULE_0__.useState();
+  let [transition, setTransition] = react__WEBPACK_IMPORTED_MODULE_0__.useState();
+  let [interruption, setInterruption] = react__WEBPACK_IMPORTED_MODULE_0__.useState();
+  let fetcherData = react__WEBPACK_IMPORTED_MODULE_0__.useRef(/* @__PURE__ */ new Map());
+  let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    (newState, { deletedFetchers, flushSync, viewTransitionOpts }) => {
+      deletedFetchers.forEach((key) => fetcherData.current.delete(key));
+      newState.fetchers.forEach((fetcher, key) => {
+        if (fetcher.data !== void 0) {
+          fetcherData.current.set(key, fetcher.data);
+        }
+      });
+      warnOnce(
+        flushSync === false || reactDomFlushSyncImpl != null,
+        'You provided the `flushSync` option to a router update, but you are not using the `<RouterProvider>` from `react-router/dom` so `ReactDOM.flushSync()` is unavailable.  Please update your app to `import { RouterProvider } from "react-router/dom"` and ensure you have `react-dom` installed as a dependency to use the `flushSync` option.'
+      );
+      let isViewTransitionAvailable = router.window != null && router.window.document != null && typeof router.window.document.startViewTransition === "function";
+      warnOnce(
+        viewTransitionOpts == null || isViewTransitionAvailable,
+        "You provided the `viewTransition` option to a router update, but you do not appear to be running in a DOM environment as `window.startViewTransition` is not available."
+      );
+      if (!viewTransitionOpts || !isViewTransitionAvailable) {
+        if (reactDomFlushSyncImpl && flushSync) {
+          reactDomFlushSyncImpl(() => setStateImpl(newState));
+        } else {
+          react__WEBPACK_IMPORTED_MODULE_0__.startTransition(() => setStateImpl(newState));
+        }
+        return;
+      }
+      if (reactDomFlushSyncImpl && flushSync) {
+        reactDomFlushSyncImpl(() => {
+          if (transition) {
+            renderDfd && renderDfd.resolve();
+            transition.skipTransition();
+          }
+          setVtContext({
+            isTransitioning: true,
+            flushSync: true,
+            currentLocation: viewTransitionOpts.currentLocation,
+            nextLocation: viewTransitionOpts.nextLocation
+          });
+        });
+        let t = router.window.document.startViewTransition(() => {
+          reactDomFlushSyncImpl(() => setStateImpl(newState));
+        });
+        t.finished.finally(() => {
+          reactDomFlushSyncImpl(() => {
+            setRenderDfd(void 0);
+            setTransition(void 0);
+            setPendingState(void 0);
+            setVtContext({ isTransitioning: false });
+          });
+        });
+        reactDomFlushSyncImpl(() => setTransition(t));
+        return;
+      }
+      if (transition) {
+        renderDfd && renderDfd.resolve();
+        transition.skipTransition();
+        setInterruption({
+          state: newState,
+          currentLocation: viewTransitionOpts.currentLocation,
+          nextLocation: viewTransitionOpts.nextLocation
+        });
+      } else {
+        setPendingState(newState);
+        setVtContext({
+          isTransitioning: true,
+          flushSync: false,
+          currentLocation: viewTransitionOpts.currentLocation,
+          nextLocation: viewTransitionOpts.nextLocation
+        });
+      }
+    },
+    [router.window, reactDomFlushSyncImpl, transition, renderDfd]
+  );
+  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => router.subscribe(setState), [router, setState]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (vtContext.isTransitioning && !vtContext.flushSync) {
+      setRenderDfd(new Deferred());
+    }
+  }, [vtContext]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (renderDfd && pendingState && router.window) {
+      let newState = pendingState;
+      let renderPromise = renderDfd.promise;
+      let transition2 = router.window.document.startViewTransition(async () => {
+        react__WEBPACK_IMPORTED_MODULE_0__.startTransition(() => setStateImpl(newState));
+        await renderPromise;
+      });
+      transition2.finished.finally(() => {
+        setRenderDfd(void 0);
+        setTransition(void 0);
+        setPendingState(void 0);
+        setVtContext({ isTransitioning: false });
+      });
+      setTransition(transition2);
+    }
+  }, [pendingState, renderDfd, router.window]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (renderDfd && pendingState && state.location.key === pendingState.location.key) {
+      renderDfd.resolve();
+    }
+  }, [renderDfd, transition, state.location, pendingState]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (!vtContext.isTransitioning && interruption) {
+      setPendingState(interruption.state);
+      setVtContext({
+        isTransitioning: true,
+        flushSync: false,
+        currentLocation: interruption.currentLocation,
+        nextLocation: interruption.nextLocation
+      });
+      setInterruption(void 0);
+    }
+  }, [vtContext.isTransitioning, interruption]);
+  let navigator2 = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
+    return {
+      createHref: router.createHref,
+      encodeLocation: router.encodeLocation,
+      go: (n) => router.navigate(n),
+      push: (to, state2, opts) => router.navigate(to, {
+        state: state2,
+        preventScrollReset: opts?.preventScrollReset
+      }),
+      replace: (to, state2, opts) => router.navigate(to, {
+        replace: true,
+        state: state2,
+        preventScrollReset: opts?.preventScrollReset
+      })
+    };
+  }, [router]);
+  let basename = router.basename || "/";
+  let dataRouterContext = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => ({
+      router,
+      navigator: navigator2,
+      static: false,
+      basename
+    }),
+    [router, navigator2, basename]
+  );
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(DataRouterContext.Provider, { value: dataRouterContext }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(DataRouterStateContext.Provider, { value: state }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(FetchersContext.Provider, { value: fetcherData.current }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(ViewTransitionContext.Provider, { value: vtContext }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    Router,
+    {
+      basename,
+      location: state.location,
+      navigationType: state.historyAction,
+      navigator: navigator2
+    },
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      MemoizedDataRoutes,
+      {
+        routes: router.routes,
+        future: router.future,
+        state
+      }
+    )
+  ))))), null);
+}
+var MemoizedDataRoutes = react__WEBPACK_IMPORTED_MODULE_0__.memo(DataRoutes);
+function DataRoutes({
+  routes,
+  future,
+  state
+}) {
+  return useRoutesImpl(routes, void 0, state, future);
+}
+function MemoryRouter({
+  basename,
+  children,
+  initialEntries,
+  initialIndex
+}) {
+  let historyRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+  if (historyRef.current == null) {
+    historyRef.current = createMemoryHistory({
+      initialEntries,
+      initialIndex,
+      v5Compat: true
+    });
+  }
+  let history = historyRef.current;
+  let [state, setStateImpl] = react__WEBPACK_IMPORTED_MODULE_0__.useState({
+    action: history.action,
+    location: history.location
+  });
+  let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    (newState) => {
+      react__WEBPACK_IMPORTED_MODULE_0__.startTransition(() => setStateImpl(newState));
+    },
+    [setStateImpl]
+  );
+  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    Router,
+    {
+      basename,
+      children,
+      location: state.location,
+      navigationType: state.action,
+      navigator: history
+    }
+  );
+}
+function Navigate({
+  to,
+  replace: replace2,
+  state,
+  relative
+}) {
+  invariant(
+    useInRouterContext(),
+    // TODO: This error is probably because they somehow have 2 versions of
+    // the router loaded. We can help them understand how to avoid that.
+    `<Navigate> may be used only in the context of a <Router> component.`
+  );
+  let { static: isStatic } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
+  warning(
+    !isStatic,
+    `<Navigate> must not be used on the initial render in a <StaticRouter>. This is a no-op, but you should modify your code so the <Navigate> is only ever rendered in response to some user interaction or state change.`
+  );
+  let { matches } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
+  let { pathname: locationPathname } = useLocation();
+  let navigate = useNavigate();
+  let path = resolveTo(
+    to,
+    getResolveToMatches(matches),
+    locationPathname,
+    relative === "path"
+  );
+  let jsonPath = JSON.stringify(path);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    navigate(JSON.parse(jsonPath), { replace: replace2, state, relative });
+  }, [navigate, jsonPath, relative, replace2, state]);
+  return null;
+}
+function Outlet(props) {
+  return useOutlet(props.context);
+}
+function Route(_props) {
+  invariant(
+    false,
+    `A <Route> is only ever to be used as the child of <Routes> element, never rendered directly. Please wrap your <Route> in a <Routes>.`
+  );
+}
+function Router({
+  basename: basenameProp = "/",
+  children = null,
+  location: locationProp,
+  navigationType = "POP" /* Pop */,
+  navigator: navigator2,
+  static: staticProp = false
+}) {
+  invariant(
+    !useInRouterContext(),
+    `You cannot render a <Router> inside another <Router>. You should never have more than one in your app.`
+  );
+  let basename = basenameProp.replace(/^\/*/, "/");
+  let navigationContext = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => ({
+      basename,
+      navigator: navigator2,
+      static: staticProp,
+      future: {}
+    }),
+    [basename, navigator2, staticProp]
+  );
+  if (typeof locationProp === "string") {
+    locationProp = parsePath(locationProp);
+  }
+  let {
+    pathname = "/",
+    search = "",
+    hash = "",
+    state = null,
+    key = "default"
+  } = locationProp;
+  let locationContext = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
+    let trailingPathname = stripBasename(pathname, basename);
+    if (trailingPathname == null) {
+      return null;
+    }
+    return {
+      location: {
+        pathname: trailingPathname,
+        search,
+        hash,
+        state,
+        key
+      },
+      navigationType
+    };
+  }, [basename, pathname, search, hash, state, key, navigationType]);
+  warning(
+    locationContext != null,
+    `<Router basename="${basename}"> is not able to match the URL "${pathname}${search}${hash}" because it does not start with the basename, so the <Router> won't render anything.`
+  );
+  if (locationContext == null) {
+    return null;
+  }
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavigationContext.Provider, { value: navigationContext }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(LocationContext.Provider, { children, value: locationContext }));
+}
+function Routes({
+  children,
+  location
+}) {
+  return useRoutes(createRoutesFromChildren(children), location);
+}
+function Await({
+  children,
+  errorElement,
+  resolve
+}) {
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(AwaitErrorBoundary, { resolve, errorElement }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(ResolveAwait, null, children));
+}
+var AwaitErrorBoundary = class extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error(
+      "<Await> caught the following error during render",
+      error,
+      errorInfo
+    );
+  }
+  render() {
+    let { children, errorElement, resolve } = this.props;
+    let promise = null;
+    let status = 0 /* pending */;
+    if (!(resolve instanceof Promise)) {
+      status = 1 /* success */;
+      promise = Promise.resolve();
+      Object.defineProperty(promise, "_tracked", { get: () => true });
+      Object.defineProperty(promise, "_data", { get: () => resolve });
+    } else if (this.state.error) {
+      status = 2 /* error */;
+      let renderError = this.state.error;
+      promise = Promise.reject().catch(() => {
+      });
+      Object.defineProperty(promise, "_tracked", { get: () => true });
+      Object.defineProperty(promise, "_error", { get: () => renderError });
+    } else if (resolve._tracked) {
+      promise = resolve;
+      status = "_error" in promise ? 2 /* error */ : "_data" in promise ? 1 /* success */ : 0 /* pending */;
+    } else {
+      status = 0 /* pending */;
+      Object.defineProperty(resolve, "_tracked", { get: () => true });
+      promise = resolve.then(
+        (data2) => Object.defineProperty(resolve, "_data", { get: () => data2 }),
+        (error) => Object.defineProperty(resolve, "_error", { get: () => error })
+      );
+    }
+    if (status === 2 /* error */ && !errorElement) {
+      throw promise._error;
+    }
+    if (status === 2 /* error */) {
+      return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(AwaitContext.Provider, { value: promise, children: errorElement });
+    }
+    if (status === 1 /* success */) {
+      return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(AwaitContext.Provider, { value: promise, children });
+    }
+    throw promise;
+  }
+};
+function ResolveAwait({
+  children
+}) {
+  let data2 = useAsyncValue();
+  let toRender = typeof children === "function" ? children(data2) : children;
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, toRender);
+}
+function createRoutesFromChildren(children, parentPath = []) {
+  let routes = [];
+  react__WEBPACK_IMPORTED_MODULE_0__.Children.forEach(children, (element, index) => {
+    if (!react__WEBPACK_IMPORTED_MODULE_0__.isValidElement(element)) {
+      return;
+    }
+    let treePath = [...parentPath, index];
+    if (element.type === react__WEBPACK_IMPORTED_MODULE_0__.Fragment) {
+      routes.push.apply(
+        routes,
+        createRoutesFromChildren(element.props.children, treePath)
+      );
+      return;
+    }
+    invariant(
+      element.type === Route,
+      `[${typeof element.type === "string" ? element.type : element.type.name}] is not a <Route> component. All component children of <Routes> must be a <Route> or <React.Fragment>`
+    );
+    invariant(
+      !element.props.index || !element.props.children,
+      "An index route cannot have child routes."
+    );
+    let route = {
+      id: element.props.id || treePath.join("-"),
+      caseSensitive: element.props.caseSensitive,
+      element: element.props.element,
+      Component: element.props.Component,
+      index: element.props.index,
+      path: element.props.path,
+      loader: element.props.loader,
+      action: element.props.action,
+      hydrateFallbackElement: element.props.hydrateFallbackElement,
+      HydrateFallback: element.props.HydrateFallback,
+      errorElement: element.props.errorElement,
+      ErrorBoundary: element.props.ErrorBoundary,
+      hasErrorBoundary: element.props.hasErrorBoundary === true || element.props.ErrorBoundary != null || element.props.errorElement != null,
+      shouldRevalidate: element.props.shouldRevalidate,
+      handle: element.props.handle,
+      lazy: element.props.lazy
+    };
+    if (element.props.children) {
+      route.children = createRoutesFromChildren(
+        element.props.children,
+        treePath
+      );
+    }
+    routes.push(route);
+  });
+  return routes;
+}
+var createRoutesFromElements = createRoutesFromChildren;
+function renderMatches(matches) {
+  return _renderMatches(matches);
+}
+
+// lib/dom/lib.tsx
+
+
+// lib/dom/dom.ts
+var defaultMethod = "get";
+var defaultEncType = "application/x-www-form-urlencoded";
+function isHtmlElement(object) {
+  return object != null && typeof object.tagName === "string";
+}
+function isButtonElement(object) {
+  return isHtmlElement(object) && object.tagName.toLowerCase() === "button";
+}
+function isFormElement(object) {
+  return isHtmlElement(object) && object.tagName.toLowerCase() === "form";
+}
+function isInputElement(object) {
+  return isHtmlElement(object) && object.tagName.toLowerCase() === "input";
+}
+function isModifiedEvent(event) {
+  return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
+}
+function shouldProcessLinkClick(event, target) {
+  return event.button === 0 && // Ignore everything but left clicks
+  (!target || target === "_self") && // Let browser handle "target=_blank" etc.
+  !isModifiedEvent(event);
+}
+function createSearchParams(init = "") {
+  return new URLSearchParams(
+    typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo2, key) => {
+      let value = init[key];
+      return memo2.concat(
+        Array.isArray(value) ? value.map((v) => [key, v]) : [[key, value]]
+      );
+    }, [])
+  );
+}
+function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
+  let searchParams = createSearchParams(locationSearch);
+  if (defaultSearchParams) {
+    defaultSearchParams.forEach((_, key) => {
+      if (!searchParams.has(key)) {
+        defaultSearchParams.getAll(key).forEach((value) => {
+          searchParams.append(key, value);
+        });
+      }
+    });
+  }
+  return searchParams;
+}
+var _formDataSupportsSubmitter = null;
+function isFormDataSubmitterSupported() {
+  if (_formDataSupportsSubmitter === null) {
+    try {
+      new FormData(
+        document.createElement("form"),
+        // @ts-expect-error if FormData supports the submitter parameter, this will throw
+        0
+      );
+      _formDataSupportsSubmitter = false;
+    } catch (e) {
+      _formDataSupportsSubmitter = true;
+    }
+  }
+  return _formDataSupportsSubmitter;
+}
+var supportedFormEncTypes = /* @__PURE__ */ new Set([
+  "application/x-www-form-urlencoded",
+  "multipart/form-data",
+  "text/plain"
+]);
+function getFormEncType(encType) {
+  if (encType != null && !supportedFormEncTypes.has(encType)) {
+    warning(
+      false,
+      `"${encType}" is not a valid \`encType\` for \`<Form>\`/\`<fetcher.Form>\` and will default to "${defaultEncType}"`
+    );
+    return null;
+  }
+  return encType;
+}
+function getFormSubmissionInfo(target, basename) {
+  let method;
+  let action;
+  let encType;
+  let formData;
+  let body;
+  if (isFormElement(target)) {
+    let attr = target.getAttribute("action");
+    action = attr ? stripBasename(attr, basename) : null;
+    method = target.getAttribute("method") || defaultMethod;
+    encType = getFormEncType(target.getAttribute("enctype")) || defaultEncType;
+    formData = new FormData(target);
+  } else if (isButtonElement(target) || isInputElement(target) && (target.type === "submit" || target.type === "image")) {
+    let form = target.form;
+    if (form == null) {
+      throw new Error(
+        `Cannot submit a <button> or <input type="submit"> without a <form>`
+      );
+    }
+    let attr = target.getAttribute("formaction") || form.getAttribute("action");
+    action = attr ? stripBasename(attr, basename) : null;
+    method = target.getAttribute("formmethod") || form.getAttribute("method") || defaultMethod;
+    encType = getFormEncType(target.getAttribute("formenctype")) || getFormEncType(form.getAttribute("enctype")) || defaultEncType;
+    formData = new FormData(form, target);
+    if (!isFormDataSubmitterSupported()) {
+      let { name, type, value } = target;
+      if (type === "image") {
+        let prefix = name ? `${name}.` : "";
+        formData.append(`${prefix}x`, "0");
+        formData.append(`${prefix}y`, "0");
+      } else if (name) {
+        formData.append(name, value);
+      }
+    }
+  } else if (isHtmlElement(target)) {
+    throw new Error(
+      `Cannot submit element that is not <form>, <button>, or <input type="submit|image">`
+    );
+  } else {
+    method = defaultMethod;
+    action = null;
+    encType = defaultEncType;
+    body = target;
+  }
+  if (formData && encType === "text/plain") {
+    body = formData;
+    formData = void 0;
+  }
+  return { action, method: method.toLowerCase(), encType, formData, body };
+}
+
+// lib/dom/ssr/components.tsx
+
+
+// lib/dom/ssr/invariant.ts
+function invariant2(value, message) {
+  if (value === false || value === null || typeof value === "undefined") {
+    throw new Error(message);
+  }
+}
+
+// lib/dom/ssr/routeModules.ts
+async function loadRouteModule(route, routeModulesCache) {
+  if (route.id in routeModulesCache) {
+    return routeModulesCache[route.id];
+  }
+  try {
+    let routeModule = await import(
+      /* @vite-ignore */
+      /* webpackIgnore: true */
+      route.module
+    );
+    routeModulesCache[route.id] = routeModule;
+    return routeModule;
+  } catch (error) {
+    console.error(
+      `Error loading route module \`${route.module}\`, reloading page...`
+    );
+    console.error(error);
+    if (window.__reactRouterContext && window.__reactRouterContext.isSpaMode && // @ts-expect-error
+    /* unsupported import.meta.hot */ undefined) {}
+    window.location.reload();
+    return new Promise(() => {
+    });
+  }
+}
+
+// lib/dom/ssr/links.ts
+function getKeyedLinksForMatches(matches, routeModules, manifest) {
+  let descriptors = matches.map((match) => {
+    let module = routeModules[match.route.id];
+    let route = manifest.routes[match.route.id];
+    return [
+      route && route.css ? route.css.map((href) => ({ rel: "stylesheet", href })) : [],
+      module?.links?.() || []
+    ];
+  }).flat(2);
+  let preloads = getCurrentPageModulePreloadHrefs(matches, manifest);
+  return dedupeLinkDescriptors(descriptors, preloads);
+}
+async function prefetchStyleLinks(route, routeModule) {
+  if (!route.css && !routeModule.links || !isPreloadSupported()) return;
+  let descriptors = [];
+  if (route.css) {
+    descriptors.push(...route.css.map((href) => ({ rel: "stylesheet", href })));
+  }
+  if (routeModule.links) {
+    descriptors.push(...routeModule.links());
+  }
+  if (descriptors.length === 0) return;
+  let styleLinks = [];
+  for (let descriptor of descriptors) {
+    if (!isPageLinkDescriptor(descriptor) && descriptor.rel === "stylesheet") {
+      styleLinks.push({
+        ...descriptor,
+        rel: "preload",
+        as: "style"
+      });
+    }
+  }
+  let matchingLinks = styleLinks.filter(
+    (link) => (!link.media || window.matchMedia(link.media).matches) && !document.querySelector(`link[rel="stylesheet"][href="${link.href}"]`)
+  );
+  await Promise.all(matchingLinks.map(prefetchStyleLink));
+}
+async function prefetchStyleLink(descriptor) {
+  return new Promise((resolve) => {
+    let link = document.createElement("link");
+    Object.assign(link, descriptor);
+    function removeLink() {
+      if (document.head.contains(link)) {
+        document.head.removeChild(link);
+      }
+    }
+    link.onload = () => {
+      removeLink();
+      resolve();
+    };
+    link.onerror = () => {
+      removeLink();
+      resolve();
+    };
+    document.head.appendChild(link);
+  });
+}
+function isPageLinkDescriptor(object) {
+  return object != null && typeof object.page === "string";
+}
+function isHtmlLinkDescriptor(object) {
+  if (object == null) {
+    return false;
+  }
+  if (object.href == null) {
+    return object.rel === "preload" && typeof object.imageSrcSet === "string" && typeof object.imageSizes === "string";
+  }
+  return typeof object.rel === "string" && typeof object.href === "string";
+}
+async function getKeyedPrefetchLinks(matches, manifest, routeModules) {
+  let links = await Promise.all(
+    matches.map(async (match) => {
+      let route = manifest.routes[match.route.id];
+      if (route) {
+        let mod = await loadRouteModule(route, routeModules);
+        return mod.links ? mod.links() : [];
+      }
+      return [];
+    })
+  );
+  return dedupeLinkDescriptors(
+    links.flat(1).filter(isHtmlLinkDescriptor).filter((link) => link.rel === "stylesheet" || link.rel === "preload").map(
+      (link) => link.rel === "stylesheet" ? { ...link, rel: "prefetch", as: "style" } : { ...link, rel: "prefetch" }
+    )
+  );
+}
+function getNewMatchesForLinks(page, nextMatches, currentMatches, manifest, location, mode) {
+  let isNew = (match, index) => {
+    if (!currentMatches[index]) return true;
+    return match.route.id !== currentMatches[index].route.id;
+  };
+  let matchPathChanged = (match, index) => {
+    return (
+      // param change, /users/123 -> /users/456
+      currentMatches[index].pathname !== match.pathname || // splat param changed, which is not present in match.path
+      // e.g. /files/images/avatar.jpg -> files/finances.xls
+      currentMatches[index].route.path?.endsWith("*") && currentMatches[index].params["*"] !== match.params["*"]
+    );
+  };
+  if (mode === "assets") {
+    return nextMatches.filter(
+      (match, index) => isNew(match, index) || matchPathChanged(match, index)
+    );
+  }
+  if (mode === "data") {
+    return nextMatches.filter((match, index) => {
+      let manifestRoute = manifest.routes[match.route.id];
+      if (!manifestRoute || !manifestRoute.hasLoader) {
+        return false;
+      }
+      if (isNew(match, index) || matchPathChanged(match, index)) {
+        return true;
+      }
+      if (match.route.shouldRevalidate) {
+        let routeChoice = match.route.shouldRevalidate({
+          currentUrl: new URL(
+            location.pathname + location.search + location.hash,
+            window.origin
+          ),
+          currentParams: currentMatches[0]?.params || {},
+          nextUrl: new URL(page, window.origin),
+          nextParams: match.params,
+          defaultShouldRevalidate: true
+        });
+        if (typeof routeChoice === "boolean") {
+          return routeChoice;
+        }
+      }
+      return true;
+    });
+  }
+  return [];
+}
+function getModuleLinkHrefs(matches, manifestPatch) {
+  return dedupeHrefs(
+    matches.map((match) => {
+      let route = manifestPatch.routes[match.route.id];
+      if (!route) return [];
+      let hrefs = [route.module];
+      if (route.imports) {
+        hrefs = hrefs.concat(route.imports);
+      }
+      return hrefs;
+    }).flat(1)
+  );
+}
+function getCurrentPageModulePreloadHrefs(matches, manifest) {
+  return dedupeHrefs(
+    matches.map((match) => {
+      let route = manifest.routes[match.route.id];
+      if (!route) return [];
+      let hrefs = [route.module];
+      if (route.imports) {
+        hrefs = hrefs.concat(route.imports);
+      }
+      return hrefs;
+    }).flat(1)
+  );
+}
+function dedupeHrefs(hrefs) {
+  return [...new Set(hrefs)];
+}
+function sortKeys(obj) {
+  let sorted = {};
+  let keys = Object.keys(obj).sort();
+  for (let key of keys) {
+    sorted[key] = obj[key];
+  }
+  return sorted;
+}
+function dedupeLinkDescriptors(descriptors, preloads) {
+  let set = /* @__PURE__ */ new Set();
+  let preloadsSet = new Set(preloads);
+  return descriptors.reduce((deduped, descriptor) => {
+    let alreadyModulePreload = preloads && !isPageLinkDescriptor(descriptor) && descriptor.as === "script" && descriptor.href && preloadsSet.has(descriptor.href);
+    if (alreadyModulePreload) {
+      return deduped;
+    }
+    let key = JSON.stringify(sortKeys(descriptor));
+    if (!set.has(key)) {
+      set.add(key);
+      deduped.push({ key, link: descriptor });
+    }
+    return deduped;
+  }, []);
+}
+var _isPreloadSupported;
+function isPreloadSupported() {
+  if (_isPreloadSupported !== void 0) {
+    return _isPreloadSupported;
+  }
+  let el = document.createElement("link");
+  _isPreloadSupported = el.relList.supports("preload");
+  el = null;
+  return _isPreloadSupported;
+}
+
+// lib/dom/ssr/markup.ts
+var ESCAPE_LOOKUP = {
+  "&": "\\u0026",
+  ">": "\\u003e",
+  "<": "\\u003c",
+  "\u2028": "\\u2028",
+  "\u2029": "\\u2029"
+};
+var ESCAPE_REGEX = /[&><\u2028\u2029]/g;
+function escapeHtml(html) {
+  return html.replace(ESCAPE_REGEX, (match) => ESCAPE_LOOKUP[match]);
+}
+function createHtml(html) {
+  return { __html: html };
+}
+
+// lib/dom/ssr/single-fetch.tsx
+
+
+
+// lib/dom/ssr/data.ts
+async function createRequestInit(request) {
+  let init = { signal: request.signal };
+  if (request.method !== "GET") {
+    init.method = request.method;
+    let contentType = request.headers.get("Content-Type");
+    if (contentType && /\bapplication\/json\b/.test(contentType)) {
+      init.headers = { "Content-Type": contentType };
+      init.body = JSON.stringify(await request.json());
+    } else if (contentType && /\btext\/plain\b/.test(contentType)) {
+      init.headers = { "Content-Type": contentType };
+      init.body = await request.text();
+    } else if (contentType && /\bapplication\/x-www-form-urlencoded\b/.test(contentType)) {
+      init.body = new URLSearchParams(await request.text());
+    } else {
+      init.body = await request.formData();
+    }
+  }
+  return init;
+}
+
+// lib/dom/ssr/single-fetch.tsx
+var SingleFetchRedirectSymbol = Symbol("SingleFetchRedirect");
+function StreamTransfer({
+  context,
+  identifier,
+  reader,
+  textDecoder,
+  nonce
+}) {
+  if (!context.renderMeta || !context.renderMeta.didRenderScripts) {
+    return null;
+  }
+  if (!context.renderMeta.streamCache) {
+    context.renderMeta.streamCache = {};
+  }
+  let { streamCache } = context.renderMeta;
+  let promise = streamCache[identifier];
+  if (!promise) {
+    promise = streamCache[identifier] = reader.read().then((result) => {
+      streamCache[identifier].result = {
+        done: result.done,
+        value: textDecoder.decode(result.value, { stream: true })
+      };
+    }).catch((e) => {
+      streamCache[identifier].error = e;
+    });
+  }
+  if (promise.error) {
+    throw promise.error;
+  }
+  if (promise.result === void 0) {
+    throw promise;
+  }
+  let { done, value } = promise.result;
+  let scriptTag = value ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    "script",
+    {
+      nonce,
+      dangerouslySetInnerHTML: {
+        __html: `window.__reactRouterContext.streamController.enqueue(${escapeHtml(
+          JSON.stringify(value)
+        )});`
+      }
+    }
+  ) : null;
+  if (done) {
+    return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, scriptTag, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "script",
+      {
+        nonce,
+        dangerouslySetInnerHTML: {
+          __html: `window.__reactRouterContext.streamController.close();`
+        }
+      }
+    ));
+  } else {
+    return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, scriptTag, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      StreamTransfer,
+      {
+        context,
+        identifier: identifier + 1,
+        reader,
+        textDecoder,
+        nonce
+      }
+    )));
+  }
+}
+function getSingleFetchDataStrategy(manifest, routeModules, getRouter) {
+  return async ({ request, matches, fetcherKey }) => {
+    if (request.method !== "GET") {
+      return singleFetchActionStrategy(request, matches);
+    }
+    if (fetcherKey) {
+      return singleFetchLoaderFetcherStrategy(request, matches);
+    }
+    return singleFetchLoaderNavigationStrategy(
+      manifest,
+      routeModules,
+      getRouter(),
+      request,
+      matches
+    );
+  };
+}
+async function singleFetchActionStrategy(request, matches) {
+  let actionMatch = matches.find((m) => m.shouldLoad);
+  invariant2(actionMatch, "No action match found");
+  let actionStatus = void 0;
+  let result = await actionMatch.resolve(async (handler) => {
+    let result2 = await handler(async () => {
+      let url = singleFetchUrl(request.url);
+      let init = await createRequestInit(request);
+      let { data: data2, status } = await fetchAndDecode(url, init);
+      actionStatus = status;
+      return unwrapSingleFetchResult(
+        data2,
+        actionMatch.route.id
+      );
+    });
+    return result2;
+  });
+  if (isResponse(result.result) || isRouteErrorResponse(result.result)) {
+    return { [actionMatch.route.id]: result };
+  }
+  return {
+    [actionMatch.route.id]: {
+      type: result.type,
+      result: data(result.result, actionStatus)
+    }
+  };
+}
+async function singleFetchLoaderNavigationStrategy(manifest, routeModules, router, request, matches) {
+  let routesParams = /* @__PURE__ */ new Set();
+  let foundOptOutRoute = false;
+  let routeDfds = matches.map(() => createDeferred2());
+  let routesLoadedPromise = Promise.all(routeDfds.map((d) => d.promise));
+  let singleFetchDfd = createDeferred2();
+  let url = stripIndexParam(singleFetchUrl(request.url));
+  let init = await createRequestInit(request);
+  let results = {};
+  let resolvePromise = Promise.all(
+    matches.map(
+      async (m, i) => m.resolve(async (handler) => {
+        routeDfds[i].resolve();
+        let manifestRoute = manifest.routes[m.route.id];
+        if (!m.shouldLoad) {
+          if (!router.state.initialized) {
+            return;
+          }
+          if (m.route.id in router.state.loaderData && manifestRoute && manifestRoute.hasLoader && routeModules[m.route.id]?.shouldRevalidate) {
+            foundOptOutRoute = true;
+            return;
+          }
+        }
+        if (manifestRoute && manifestRoute.hasClientLoader) {
+          if (manifestRoute.hasLoader) {
+            foundOptOutRoute = true;
+          }
+          try {
+            let result = await fetchSingleLoader(
+              handler,
+              url,
+              init,
+              m.route.id
+            );
+            results[m.route.id] = { type: "data", result };
+          } catch (e) {
+            results[m.route.id] = { type: "error", result: e };
+          }
+          return;
+        }
+        if (manifestRoute && manifestRoute.hasLoader) {
+          routesParams.add(m.route.id);
+        }
+        try {
+          let result = await handler(async () => {
+            let data2 = await singleFetchDfd.promise;
+            return unwrapSingleFetchResults(data2, m.route.id);
+          });
+          results[m.route.id] = {
+            type: "data",
+            result
+          };
+        } catch (e) {
+          results[m.route.id] = {
+            type: "error",
+            result: e
+          };
+        }
+      })
+    )
+  );
+  await routesLoadedPromise;
+  if ((!router.state.initialized || routesParams.size === 0) && !window.__reactRouterHdrActive) {
+    singleFetchDfd.resolve({});
+  } else {
+    try {
+      if (foundOptOutRoute && routesParams.size > 0) {
+        url.searchParams.set(
+          "_routes",
+          matches.filter((m) => routesParams.has(m.route.id)).map((m) => m.route.id).join(",")
+        );
+      }
+      let data2 = await fetchAndDecode(url, init);
+      singleFetchDfd.resolve(data2.data);
+    } catch (e) {
+      singleFetchDfd.reject(e);
+    }
+  }
+  await resolvePromise;
+  return results;
+}
+async function singleFetchLoaderFetcherStrategy(request, matches) {
+  let fetcherMatch = matches.find((m) => m.shouldLoad);
+  invariant2(fetcherMatch, "No fetcher match found");
+  let result = await fetcherMatch.resolve(async (handler) => {
+    let url = stripIndexParam(singleFetchUrl(request.url));
+    let init = await createRequestInit(request);
+    return fetchSingleLoader(handler, url, init, fetcherMatch.route.id);
+  });
+  return { [fetcherMatch.route.id]: result };
+}
+function fetchSingleLoader(handler, url, init, routeId) {
+  return handler(async () => {
+    let singleLoaderUrl = new URL(url);
+    singleLoaderUrl.searchParams.set("_routes", routeId);
+    let { data: data2 } = await fetchAndDecode(singleLoaderUrl, init);
+    return unwrapSingleFetchResults(data2, routeId);
+  });
+}
+function stripIndexParam(url) {
+  let indexValues = url.searchParams.getAll("index");
+  url.searchParams.delete("index");
+  let indexValuesToKeep = [];
+  for (let indexValue of indexValues) {
+    if (indexValue) {
+      indexValuesToKeep.push(indexValue);
+    }
+  }
+  for (let toKeep of indexValuesToKeep) {
+    url.searchParams.append("index", toKeep);
+  }
+  return url;
+}
+function singleFetchUrl(reqUrl) {
+  let url = typeof reqUrl === "string" ? new URL(
+    reqUrl,
+    // This can be called during the SSR flow via PrefetchPageLinksImpl so
+    // don't assume window is available
+    typeof window === "undefined" ? "server://singlefetch/" : window.location.origin
+  ) : reqUrl;
+  if (url.pathname === "/") {
+    url.pathname = "_root.data";
+  } else {
+    url.pathname = `${url.pathname.replace(/\/$/, "")}.data`;
+  }
+  return url;
+}
+async function fetchAndDecode(url, init) {
+  let res = await fetch(url, init);
+  if (res.status === 404 && !res.headers.has("X-Remix-Response")) {
+    throw new ErrorResponseImpl(404, "Not Found", true);
+  }
+  invariant2(res.body, "No response body to decode");
+  try {
+    let decoded = await decodeViaTurboStream(res.body, window);
+    return { status: res.status, data: decoded.value };
+  } catch (e) {
+    throw new Error("Unable to decode turbo-stream response");
+  }
+}
+function decodeViaTurboStream(body, global2) {
+  return (0,turbo_stream__WEBPACK_IMPORTED_MODULE_1__.decode)(body, {
+    plugins: [
+      (type, ...rest) => {
+        if (type === "SanitizedError") {
+          let [name, message, stack] = rest;
+          let Constructor = Error;
+          if (name && name in global2 && typeof global2[name] === "function") {
+            Constructor = global2[name];
+          }
+          let error = new Constructor(message);
+          error.stack = stack;
+          return { value: error };
+        }
+        if (type === "ErrorResponse") {
+          let [data2, status, statusText] = rest;
+          return {
+            value: new ErrorResponseImpl(status, statusText, data2)
+          };
+        }
+        if (type === "SingleFetchRedirect") {
+          return { value: { [SingleFetchRedirectSymbol]: rest[0] } };
+        }
+        if (type === "SingleFetchClassInstance") {
+          return { value: rest[0] };
+        }
+        if (type === "SingleFetchFallback") {
+          return { value: void 0 };
+        }
+      }
+    ]
+  });
+}
+function unwrapSingleFetchResults(results, routeId) {
+  let redirect2 = results[SingleFetchRedirectSymbol];
+  if (redirect2) {
+    return unwrapSingleFetchResult(redirect2, routeId);
+  }
+  return results[routeId] !== void 0 ? unwrapSingleFetchResult(results[routeId], routeId) : null;
+}
+function unwrapSingleFetchResult(result, routeId) {
+  if ("error" in result) {
+    throw result.error;
+  } else if ("redirect" in result) {
+    let headers = {};
+    if (result.revalidate) {
+      headers["X-Remix-Revalidate"] = "yes";
+    }
+    if (result.reload) {
+      headers["X-Remix-Reload-Document"] = "yes";
+    }
+    if (result.replace) {
+      headers["X-Remix-Replace"] = "yes";
+    }
+    throw redirect(result.redirect, { status: result.status, headers });
+  } else if ("data" in result) {
+    return result.data;
+  } else {
+    throw new Error(`No response found for routeId "${routeId}"`);
+  }
+}
+function createDeferred2() {
+  let resolve;
+  let reject;
+  let promise = new Promise((res, rej) => {
+    resolve = async (val) => {
+      res(val);
+      try {
+        await promise;
+      } catch (e) {
+      }
+    };
+    reject = async (error) => {
+      rej(error);
+      try {
+        await promise;
+      } catch (e) {
+      }
+    };
+  });
+  return {
+    promise,
+    //@ts-ignore
+    resolve,
+    //@ts-ignore
+    reject
+  };
+}
+
+// lib/dom/ssr/fog-of-war.ts
+
+
+// lib/dom/ssr/routes.tsx
+
+
+// lib/dom/ssr/errorBoundaries.tsx
+
+var RemixErrorBoundary = class extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: props.error || null, location: props.location };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  static getDerivedStateFromProps(props, state) {
+    if (state.location !== props.location) {
+      return { error: props.error || null, location: props.location };
+    }
+    return { error: props.error || state.error, location: state.location };
+  }
+  render() {
+    if (this.state.error) {
+      return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+        RemixRootDefaultErrorBoundary,
+        {
+          error: this.state.error,
+          isOutsideRemixApp: true
+        }
+      );
+    } else {
+      return this.props.children;
+    }
+  }
+};
+function RemixRootDefaultErrorBoundary({
+  error,
+  isOutsideRemixApp
+}) {
+  console.error(error);
+  let heyDeveloper = /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    "script",
+    {
+      dangerouslySetInnerHTML: {
+        __html: `
+        console.log(
+          "\u{1F4BF} Hey developer \u{1F44B}. You can provide a way better UX than this when your app throws errors. Check out https://remix.run/guides/errors for more information."
+        );
+      `
+      }
+    }
+  );
+  if (isRouteErrorResponse(error)) {
+    return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(BoundaryShell, { title: "Unhandled Thrown Response!" }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", { style: { fontSize: "24px" } }, error.status, " ", error.statusText), heyDeveloper);
+  }
+  let errorInstance;
+  if (error instanceof Error) {
+    errorInstance = error;
+  } else {
+    let errorString = error == null ? "Unknown Error" : typeof error === "object" && "toString" in error ? error.toString() : JSON.stringify(error);
+    errorInstance = new Error(errorString);
+  }
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    BoundaryShell,
+    {
+      title: "Application Error!",
+      isOutsideRemixApp
+    },
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", { style: { fontSize: "24px" } }, "Application Error"),
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "pre",
+      {
+        style: {
+          padding: "2rem",
+          background: "hsla(10, 50%, 50%, 0.1)",
+          color: "red",
+          overflow: "auto"
+        }
+      },
+      errorInstance.stack
+    ),
+    heyDeveloper
+  );
+}
+function BoundaryShell({
+  title,
+  renderScripts,
+  isOutsideRemixApp,
+  children
+}) {
+  let { routeModules } = useFrameworkContext();
+  if (routeModules.root?.Layout && !isOutsideRemixApp) {
+    return children;
+  }
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("html", { lang: "en" }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("head", null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("meta", { charSet: "utf-8" }), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    "meta",
+    {
+      name: "viewport",
+      content: "width=device-width,initial-scale=1,viewport-fit=cover"
+    }
+  ), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", null, title)), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("body", null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("main", { style: { fontFamily: "system-ui, sans-serif", padding: "2rem" } }, children, renderScripts ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(Scripts, null) : null)));
+}
+
+// lib/dom/ssr/fallback.tsx
+
+function RemixRootDefaultHydrateFallback() {
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(BoundaryShell, { title: "Loading...", renderScripts: true }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    "script",
+    {
+      dangerouslySetInnerHTML: {
+        __html: `
+              console.log(
+                "\u{1F4BF} Hey developer \u{1F44B}. You can provide a way better UX than this " +
+                "when your app is loading JS modules and/or running \`clientLoader\` " +
+                "functions. Check out https://remix.run/route/hydrate-fallback " +
+                "for more information."
+              );
+            `
+      }
+    }
+  ));
+}
+
+// lib/dom/ssr/routes.tsx
+function groupRoutesByParentId(manifest) {
+  let routes = {};
+  Object.values(manifest).forEach((route) => {
+    if (route) {
+      let parentId = route.parentId || "";
+      if (!routes[parentId]) {
+        routes[parentId] = [];
+      }
+      routes[parentId].push(route);
+    }
+  });
+  return routes;
+}
+function getRouteComponents(route, routeModule, isSpaMode) {
+  let Component4 = getRouteModuleComponent(routeModule);
+  let HydrateFallback = routeModule.HydrateFallback && (!isSpaMode || route.id === "root") ? routeModule.HydrateFallback : route.id === "root" ? RemixRootDefaultHydrateFallback : void 0;
+  let ErrorBoundary = routeModule.ErrorBoundary ? routeModule.ErrorBoundary : route.id === "root" ? () => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(RemixRootDefaultErrorBoundary, { error: useRouteError() }) : void 0;
+  if (route.id === "root" && routeModule.Layout) {
+    return {
+      ...Component4 ? {
+        element: /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(routeModule.Layout, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component4, null))
+      } : { Component: Component4 },
+      ...ErrorBoundary ? {
+        errorElement: /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(routeModule.Layout, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(ErrorBoundary, null))
+      } : { ErrorBoundary },
+      ...HydrateFallback ? {
+        hydrateFallbackElement: /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(routeModule.Layout, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(HydrateFallback, null))
+      } : { HydrateFallback }
+    };
+  }
+  return { Component: Component4, ErrorBoundary, HydrateFallback };
+}
+function createServerRoutes(manifest, routeModules, future, isSpaMode, parentId = "", routesByParentId = groupRoutesByParentId(manifest), spaModeLazyPromise = Promise.resolve({ Component: () => null })) {
+  return (routesByParentId[parentId] || []).map((route) => {
+    let routeModule = routeModules[route.id];
+    invariant2(
+      routeModule,
+      "No `routeModule` available to create server routes"
+    );
+    let dataRoute = {
+      ...getRouteComponents(route, routeModule, isSpaMode),
+      caseSensitive: route.caseSensitive,
+      id: route.id,
+      index: route.index,
+      path: route.path,
+      handle: routeModule.handle,
+      // For SPA Mode, all routes are lazy except root.  However we tell the
+      // router root is also lazy here too since we don't need a full
+      // implementation - we just need a `lazy` prop to tell the RR rendering
+      // where to stop which is always at the root route in SPA mode
+      lazy: isSpaMode ? () => spaModeLazyPromise : void 0,
+      // For partial hydration rendering, we need to indicate when the route
+      // has a loader/clientLoader, but it won't ever be called during the static
+      // render, so just give it a no-op function so we can render down to the
+      // proper fallback
+      loader: route.hasLoader || route.hasClientLoader ? () => null : void 0
+      // We don't need action/shouldRevalidate on these routes since they're
+      // for a static render
+    };
+    let children = createServerRoutes(
+      manifest,
+      routeModules,
+      future,
+      isSpaMode,
+      route.id,
+      routesByParentId,
+      spaModeLazyPromise
+    );
+    if (children.length > 0) dataRoute.children = children;
+    return dataRoute;
+  });
+}
+function createClientRoutesWithHMRRevalidationOptOut(needsRevalidation, manifest, routeModulesCache, initialState, future, isSpaMode) {
+  return createClientRoutes(
+    manifest,
+    routeModulesCache,
+    initialState,
+    isSpaMode,
+    "",
+    groupRoutesByParentId(manifest),
+    needsRevalidation
+  );
+}
+function preventInvalidServerHandlerCall(type, route, isSpaMode) {
+  if (isSpaMode) {
+    let fn2 = type === "action" ? "serverAction()" : "serverLoader()";
+    let msg2 = `You cannot call ${fn2} in SPA Mode (routeId: "${route.id}")`;
+    console.error(msg2);
+    throw new ErrorResponseImpl(400, "Bad Request", new Error(msg2), true);
+  }
+  let fn = type === "action" ? "serverAction()" : "serverLoader()";
+  let msg = `You are trying to call ${fn} on a route that does not have a server ${type} (routeId: "${route.id}")`;
+  if (type === "loader" && !route.hasLoader || type === "action" && !route.hasAction) {
+    console.error(msg);
+    throw new ErrorResponseImpl(400, "Bad Request", new Error(msg), true);
+  }
+}
+function noActionDefinedError(type, routeId) {
+  let article = type === "clientAction" ? "a" : "an";
+  let msg = `Route "${routeId}" does not have ${article} ${type}, but you are trying to submit to it. To fix this, please add ${article} \`${type}\` function to the route`;
+  console.error(msg);
+  throw new ErrorResponseImpl(405, "Method Not Allowed", new Error(msg), true);
+}
+function createClientRoutes(manifest, routeModulesCache, initialState, isSpaMode, parentId = "", routesByParentId = groupRoutesByParentId(manifest), needsRevalidation) {
+  return (routesByParentId[parentId] || []).map((route) => {
+    let routeModule = routeModulesCache[route.id];
+    function fetchServerHandler(singleFetch) {
+      invariant2(
+        typeof singleFetch === "function",
+        "No single fetch function available for route handler"
+      );
+      return singleFetch();
+    }
+    function fetchServerLoader(singleFetch) {
+      if (!route.hasLoader) return Promise.resolve(null);
+      return fetchServerHandler(singleFetch);
+    }
+    function fetchServerAction(singleFetch) {
+      if (!route.hasAction) {
+        throw noActionDefinedError("action", route.id);
+      }
+      return fetchServerHandler(singleFetch);
+    }
+    async function prefetchStylesAndCallHandler(handler) {
+      let cachedModule = routeModulesCache[route.id];
+      let linkPrefetchPromise = cachedModule ? prefetchStyleLinks(route, cachedModule) : Promise.resolve();
+      try {
+        return handler();
+      } finally {
+        await linkPrefetchPromise;
+      }
+    }
+    let dataRoute = {
+      id: route.id,
+      index: route.index,
+      path: route.path
+    };
+    if (routeModule) {
+      Object.assign(dataRoute, {
+        ...dataRoute,
+        ...getRouteComponents(route, routeModule, isSpaMode),
+        handle: routeModule.handle,
+        shouldRevalidate: getShouldRevalidateFunction(
+          routeModule,
+          route.id,
+          needsRevalidation
+        )
+      });
+      let hasInitialData = initialState && initialState.loaderData && route.id in initialState.loaderData;
+      let initialData = hasInitialData ? initialState?.loaderData?.[route.id] : void 0;
+      let hasInitialError = initialState && initialState.errors && route.id in initialState.errors;
+      let initialError = hasInitialError ? initialState?.errors?.[route.id] : void 0;
+      let isHydrationRequest = needsRevalidation == null && (routeModule.clientLoader?.hydrate === true || !route.hasLoader);
+      dataRoute.loader = async ({ request, params }, singleFetch) => {
+        try {
+          let result = await prefetchStylesAndCallHandler(async () => {
+            invariant2(
+              routeModule,
+              "No `routeModule` available for critical-route loader"
+            );
+            if (!routeModule.clientLoader) {
+              if (isSpaMode) return null;
+              return fetchServerLoader(singleFetch);
+            }
+            return routeModule.clientLoader({
+              request,
+              params,
+              async serverLoader() {
+                preventInvalidServerHandlerCall("loader", route, isSpaMode);
+                if (isHydrationRequest) {
+                  if (hasInitialData) {
+                    return initialData;
+                  }
+                  if (hasInitialError) {
+                    throw initialError;
+                  }
+                }
+                return fetchServerLoader(singleFetch);
+              }
+            });
+          });
+          return result;
+        } finally {
+          isHydrationRequest = false;
+        }
+      };
+      dataRoute.loader.hydrate = shouldHydrateRouteLoader(
+        route,
+        routeModule,
+        isSpaMode
+      );
+      dataRoute.action = ({ request, params }, singleFetch) => {
+        return prefetchStylesAndCallHandler(async () => {
+          invariant2(
+            routeModule,
+            "No `routeModule` available for critical-route action"
+          );
+          if (!routeModule.clientAction) {
+            if (isSpaMode) {
+              throw noActionDefinedError("clientAction", route.id);
+            }
+            return fetchServerAction(singleFetch);
+          }
+          return routeModule.clientAction({
+            request,
+            params,
+            async serverAction() {
+              preventInvalidServerHandlerCall("action", route, isSpaMode);
+              return fetchServerAction(singleFetch);
+            }
+          });
+        });
+      };
+    } else {
+      if (!route.hasClientLoader) {
+        dataRoute.loader = ({ request }, singleFetch) => prefetchStylesAndCallHandler(() => {
+          if (isSpaMode) return Promise.resolve(null);
+          return fetchServerLoader(singleFetch);
+        });
+      }
+      if (!route.hasClientAction) {
+        dataRoute.action = ({ request }, singleFetch) => prefetchStylesAndCallHandler(() => {
+          if (isSpaMode) {
+            throw noActionDefinedError("clientAction", route.id);
+          }
+          return fetchServerAction(singleFetch);
+        });
+      }
+      dataRoute.lazy = async () => {
+        let mod = await loadRouteModuleWithBlockingLinks(
+          route,
+          routeModulesCache
+        );
+        let lazyRoute = { ...mod };
+        if (mod.clientLoader) {
+          let clientLoader = mod.clientLoader;
+          lazyRoute.loader = (args, singleFetch) => clientLoader({
+            ...args,
+            async serverLoader() {
+              preventInvalidServerHandlerCall("loader", route, isSpaMode);
+              return fetchServerLoader(singleFetch);
+            }
+          });
+        }
+        if (mod.clientAction) {
+          let clientAction = mod.clientAction;
+          lazyRoute.action = (args, singleFetch) => clientAction({
+            ...args,
+            async serverAction() {
+              preventInvalidServerHandlerCall("action", route, isSpaMode);
+              return fetchServerAction(singleFetch);
+            }
+          });
+        }
+        return {
+          ...lazyRoute.loader ? { loader: lazyRoute.loader } : {},
+          ...lazyRoute.action ? { action: lazyRoute.action } : {},
+          hasErrorBoundary: lazyRoute.hasErrorBoundary,
+          shouldRevalidate: getShouldRevalidateFunction(
+            lazyRoute,
+            route.id,
+            needsRevalidation
+          ),
+          handle: lazyRoute.handle,
+          // No need to wrap these in layout since the root route is never
+          // loaded via route.lazy()
+          Component: lazyRoute.Component,
+          ErrorBoundary: lazyRoute.ErrorBoundary
+        };
+      };
+    }
+    let children = createClientRoutes(
+      manifest,
+      routeModulesCache,
+      initialState,
+      isSpaMode,
+      route.id,
+      routesByParentId,
+      needsRevalidation
+    );
+    if (children.length > 0) dataRoute.children = children;
+    return dataRoute;
+  });
+}
+function getShouldRevalidateFunction(route, routeId, needsRevalidation) {
+  if (needsRevalidation) {
+    return wrapShouldRevalidateForHdr(
+      routeId,
+      route.shouldRevalidate,
+      needsRevalidation
+    );
+  }
+  if (route.shouldRevalidate) {
+    let fn = route.shouldRevalidate;
+    return (opts) => fn({ ...opts, defaultShouldRevalidate: true });
+  }
+  return route.shouldRevalidate;
+}
+function wrapShouldRevalidateForHdr(routeId, routeShouldRevalidate, needsRevalidation) {
+  let handledRevalidation = false;
+  return (arg) => {
+    if (!handledRevalidation) {
+      handledRevalidation = true;
+      return needsRevalidation.has(routeId);
+    }
+    return routeShouldRevalidate ? routeShouldRevalidate(arg) : arg.defaultShouldRevalidate;
+  };
+}
+async function loadRouteModuleWithBlockingLinks(route, routeModules) {
+  let routeModule = await loadRouteModule(route, routeModules);
+  await prefetchStyleLinks(route, routeModule);
+  return {
+    Component: getRouteModuleComponent(routeModule),
+    ErrorBoundary: routeModule.ErrorBoundary,
+    clientAction: routeModule.clientAction,
+    clientLoader: routeModule.clientLoader,
+    handle: routeModule.handle,
+    links: routeModule.links,
+    meta: routeModule.meta,
+    shouldRevalidate: routeModule.shouldRevalidate
+  };
+}
+function getRouteModuleComponent(routeModule) {
+  if (routeModule.default == null) return void 0;
+  let isEmptyObject = typeof routeModule.default === "object" && Object.keys(routeModule.default).length === 0;
+  if (!isEmptyObject) {
+    return routeModule.default;
+  }
+}
+function shouldHydrateRouteLoader(route, routeModule, isSpaMode) {
+  return isSpaMode && route.id !== "root" || routeModule.clientLoader != null && (routeModule.clientLoader.hydrate === true || route.hasLoader !== true);
+}
+
+// lib/dom/ssr/fog-of-war.ts
+var nextPaths = /* @__PURE__ */ new Set();
+var discoveredPathsMaxSize = 1e3;
+var discoveredPaths = /* @__PURE__ */ new Set();
+var URL_LIMIT = 7680;
+function isFogOfWarEnabled(isSpaMode) {
+  return !isSpaMode;
+}
+function getPartialManifest(manifest, router) {
+  let routeIds = new Set(router.state.matches.map((m) => m.route.id));
+  let segments = router.state.location.pathname.split("/").filter(Boolean);
+  let paths = ["/"];
+  segments.pop();
+  while (segments.length > 0) {
+    paths.push(`/${segments.join("/")}`);
+    segments.pop();
+  }
+  paths.forEach((path) => {
+    let matches = matchRoutes(router.routes, path, router.basename);
+    if (matches) {
+      matches.forEach((m) => routeIds.add(m.route.id));
+    }
+  });
+  let initialRoutes = [...routeIds].reduce(
+    (acc, id) => Object.assign(acc, { [id]: manifest.routes[id] }),
+    {}
+  );
+  return {
+    ...manifest,
+    routes: initialRoutes
+  };
+}
+function getPatchRoutesOnNavigationFunction(manifest, routeModules, isSpaMode, basename) {
+  if (!isFogOfWarEnabled(isSpaMode)) {
+    return void 0;
+  }
+  return async ({ path, patch }) => {
+    if (discoveredPaths.has(path)) {
+      return;
+    }
+    await fetchAndApplyManifestPatches(
+      [path],
+      manifest,
+      routeModules,
+      isSpaMode,
+      basename,
+      patch
+    );
+  };
+}
+function useFogOFWarDiscovery(router, manifest, routeModules, isSpaMode) {
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (!isFogOfWarEnabled(isSpaMode) || navigator.connection?.saveData === true) {
+      return;
+    }
+    function registerElement(el) {
+      let path = el.tagName === "FORM" ? el.getAttribute("action") : el.getAttribute("href");
+      if (!path) {
+        return;
+      }
+      let url = new URL(path, window.location.origin);
+      if (!discoveredPaths.has(url.pathname)) {
+        nextPaths.add(url.pathname);
+      }
+    }
+    async function fetchPatches() {
+      let lazyPaths = Array.from(nextPaths.keys()).filter((path) => {
+        if (discoveredPaths.has(path)) {
+          nextPaths.delete(path);
+          return false;
+        }
+        return true;
+      });
+      if (lazyPaths.length === 0) {
+        return;
+      }
+      try {
+        await fetchAndApplyManifestPatches(
+          lazyPaths,
+          manifest,
+          routeModules,
+          isSpaMode,
+          router.basename,
+          router.patchRoutes
+        );
+      } catch (e) {
+        console.error("Failed to fetch manifest patches", e);
+      }
+    }
+    document.body.querySelectorAll("a[data-discover], form[data-discover]").forEach((el) => registerElement(el));
+    fetchPatches();
+    let debouncedFetchPatches = debounce(fetchPatches, 100);
+    function isElement(node) {
+      return node.nodeType === Node.ELEMENT_NODE;
+    }
+    let observer = new MutationObserver((records) => {
+      let elements = /* @__PURE__ */ new Set();
+      records.forEach((r) => {
+        [r.target, ...r.addedNodes].forEach((node) => {
+          if (!isElement(node)) return;
+          if (node.tagName === "A" && node.getAttribute("data-discover")) {
+            elements.add(node);
+          } else if (node.tagName === "FORM" && node.getAttribute("data-discover")) {
+            elements.add(node);
+          }
+          if (node.tagName !== "A") {
+            node.querySelectorAll("a[data-discover], form[data-discover]").forEach((el) => elements.add(el));
+          }
+        });
+      });
+      elements.forEach((el) => registerElement(el));
+      debouncedFetchPatches();
+    });
+    observer.observe(document.documentElement, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["data-discover", "href", "action"]
+    });
+    return () => observer.disconnect();
+  }, [isSpaMode, manifest, routeModules, router]);
+}
+async function fetchAndApplyManifestPatches(paths, manifest, routeModules, isSpaMode, basename, patchRoutes) {
+  let manifestPath = `${basename != null ? basename : "/"}/__manifest`.replace(
+    /\/+/g,
+    "/"
+  );
+  let url = new URL(manifestPath, window.location.origin);
+  paths.sort().forEach((path) => url.searchParams.append("p", path));
+  url.searchParams.set("version", manifest.version);
+  if (url.toString().length > URL_LIMIT) {
+    nextPaths.clear();
+    return;
+  }
+  let res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`${res.status} ${res.statusText}`);
+  } else if (res.status >= 400) {
+    throw new Error(await res.text());
+  }
+  let serverPatches = await res.json();
+  let knownRoutes = new Set(Object.keys(manifest.routes));
+  let patches = Object.values(serverPatches).reduce((acc, route) => {
+    if (route && !knownRoutes.has(route.id)) {
+      acc[route.id] = route;
+    }
+    return acc;
+  }, {});
+  Object.assign(manifest.routes, patches);
+  paths.forEach((p) => addToFifoQueue(p, discoveredPaths));
+  let parentIds = /* @__PURE__ */ new Set();
+  Object.values(patches).forEach((patch) => {
+    if (patch && (!patch.parentId || !patches[patch.parentId])) {
+      parentIds.add(patch.parentId);
+    }
+  });
+  parentIds.forEach(
+    (parentId) => patchRoutes(
+      parentId || null,
+      createClientRoutes(patches, routeModules, null, isSpaMode, parentId)
+    )
+  );
+}
+function addToFifoQueue(path, queue) {
+  if (queue.size >= discoveredPathsMaxSize) {
+    let first = queue.values().next().value;
+    queue.delete(first);
+  }
+  queue.add(path);
+}
+function debounce(callback, wait) {
+  let timeoutId;
+  return (...args) => {
+    window.clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => callback(...args), wait);
+  };
+}
+
+// lib/dom/ssr/components.tsx
+function useDataRouterContext2() {
+  let context = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterContext);
+  invariant2(
+    context,
+    "You must render this element inside a <DataRouterContext.Provider> element"
+  );
+  return context;
+}
+function useDataRouterStateContext() {
+  let context = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterStateContext);
+  invariant2(
+    context,
+    "You must render this element inside a <DataRouterStateContext.Provider> element"
+  );
+  return context;
+}
+var FrameworkContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(void 0);
+FrameworkContext.displayName = "FrameworkContext";
+function useFrameworkContext() {
+  let context = react__WEBPACK_IMPORTED_MODULE_0__.useContext(FrameworkContext);
+  invariant2(
+    context,
+    "You must render this element inside a <HydratedRouter> element"
+  );
+  return context;
+}
+function usePrefetchBehavior(prefetch, theirElementProps) {
+  let frameworkContext = react__WEBPACK_IMPORTED_MODULE_0__.useContext(FrameworkContext);
+  let [maybePrefetch, setMaybePrefetch] = react__WEBPACK_IMPORTED_MODULE_0__.useState(false);
+  let [shouldPrefetch, setShouldPrefetch] = react__WEBPACK_IMPORTED_MODULE_0__.useState(false);
+  let { onFocus, onBlur, onMouseEnter, onMouseLeave, onTouchStart } = theirElementProps;
+  let ref = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (prefetch === "render") {
+      setShouldPrefetch(true);
+    }
+    if (prefetch === "viewport") {
+      let callback = (entries) => {
+        entries.forEach((entry) => {
+          setShouldPrefetch(entry.isIntersecting);
+        });
+      };
+      let observer = new IntersectionObserver(callback, { threshold: 0.5 });
+      if (ref.current) observer.observe(ref.current);
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, [prefetch]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (maybePrefetch) {
+      let id = setTimeout(() => {
+        setShouldPrefetch(true);
+      }, 100);
+      return () => {
+        clearTimeout(id);
+      };
+    }
+  }, [maybePrefetch]);
+  let setIntent = () => {
+    setMaybePrefetch(true);
+  };
+  let cancelIntent = () => {
+    setMaybePrefetch(false);
+    setShouldPrefetch(false);
+  };
+  if (!frameworkContext) {
+    return [false, ref, {}];
+  }
+  if (prefetch !== "intent") {
+    return [shouldPrefetch, ref, {}];
+  }
+  return [
+    shouldPrefetch,
+    ref,
+    {
+      onFocus: composeEventHandlers(onFocus, setIntent),
+      onBlur: composeEventHandlers(onBlur, cancelIntent),
+      onMouseEnter: composeEventHandlers(onMouseEnter, setIntent),
+      onMouseLeave: composeEventHandlers(onMouseLeave, cancelIntent),
+      onTouchStart: composeEventHandlers(onTouchStart, setIntent)
+    }
+  ];
+}
+function composeEventHandlers(theirHandler, ourHandler) {
+  return (event) => {
+    theirHandler && theirHandler(event);
+    if (!event.defaultPrevented) {
+      ourHandler(event);
+    }
+  };
+}
+function getActiveMatches(matches, errors, isSpaMode) {
+  if (isSpaMode && !isHydrated) {
+    return [matches[0]];
+  }
+  if (errors) {
+    let errorIdx = matches.findIndex((m) => errors[m.route.id] !== void 0);
+    return matches.slice(0, errorIdx + 1);
+  }
+  return matches;
+}
+function Links() {
+  let { isSpaMode, manifest, routeModules, criticalCss } = useFrameworkContext();
+  let { errors, matches: routerMatches } = useDataRouterStateContext();
+  let matches = getActiveMatches(routerMatches, errors, isSpaMode);
+  let keyedLinks = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => getKeyedLinksForMatches(matches, routeModules, manifest),
+    [matches, routeModules, manifest]
+  );
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, criticalCss ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("style", { dangerouslySetInnerHTML: { __html: criticalCss } }) : null, keyedLinks.map(
+    ({ key, link }) => isPageLinkDescriptor(link) ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(PrefetchPageLinks, { key, ...link }) : /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("link", { key, ...link })
+  ));
+}
+function PrefetchPageLinks({
+  page,
+  ...dataLinkProps
+}) {
+  let { router } = useDataRouterContext2();
+  let matches = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => matchRoutes(router.routes, page, router.basename),
+    [router.routes, page, router.basename]
+  );
+  if (!matches) {
+    return null;
+  }
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(PrefetchPageLinksImpl, { page, matches, ...dataLinkProps });
+}
+function useKeyedPrefetchLinks(matches) {
+  let { manifest, routeModules } = useFrameworkContext();
+  let [keyedPrefetchLinks, setKeyedPrefetchLinks] = react__WEBPACK_IMPORTED_MODULE_0__.useState([]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    let interrupted = false;
+    void getKeyedPrefetchLinks(matches, manifest, routeModules).then(
+      (links) => {
+        if (!interrupted) {
+          setKeyedPrefetchLinks(links);
+        }
+      }
+    );
+    return () => {
+      interrupted = true;
+    };
+  }, [matches, manifest, routeModules]);
+  return keyedPrefetchLinks;
+}
+function PrefetchPageLinksImpl({
+  page,
+  matches: nextMatches,
+  ...linkProps
+}) {
+  let location = useLocation();
+  let { manifest, routeModules } = useFrameworkContext();
+  let { loaderData, matches } = useDataRouterStateContext();
+  let newMatchesForData = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => getNewMatchesForLinks(
+      page,
+      nextMatches,
+      matches,
+      manifest,
+      location,
+      "data"
+    ),
+    [page, nextMatches, matches, manifest, location]
+  );
+  let newMatchesForAssets = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => getNewMatchesForLinks(
+      page,
+      nextMatches,
+      matches,
+      manifest,
+      location,
+      "assets"
+    ),
+    [page, nextMatches, matches, manifest, location]
+  );
+  let dataHrefs = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
+    if (page === location.pathname + location.search + location.hash) {
+      return [];
+    }
+    let routesParams = /* @__PURE__ */ new Set();
+    let foundOptOutRoute = false;
+    nextMatches.forEach((m) => {
+      let manifestRoute = manifest.routes[m.route.id];
+      if (!manifestRoute || !manifestRoute.hasLoader) {
+        return;
+      }
+      if (!newMatchesForData.some((m2) => m2.route.id === m.route.id) && m.route.id in loaderData && routeModules[m.route.id]?.shouldRevalidate) {
+        foundOptOutRoute = true;
+      } else if (manifestRoute.hasClientLoader) {
+        foundOptOutRoute = true;
+      } else {
+        routesParams.add(m.route.id);
+      }
+    });
+    if (routesParams.size === 0) {
+      return [];
+    }
+    let url = singleFetchUrl(page);
+    if (foundOptOutRoute && routesParams.size > 0) {
+      url.searchParams.set(
+        "_routes",
+        nextMatches.filter((m) => routesParams.has(m.route.id)).map((m) => m.route.id).join(",")
+      );
+    }
+    return [url.pathname + url.search];
+  }, [
+    loaderData,
+    location,
+    manifest,
+    newMatchesForData,
+    nextMatches,
+    page,
+    routeModules
+  ]);
+  let moduleHrefs = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => getModuleLinkHrefs(newMatchesForAssets, manifest),
+    [newMatchesForAssets, manifest]
+  );
+  let keyedPrefetchLinks = useKeyedPrefetchLinks(newMatchesForAssets);
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("link", { key: href, rel: "prefetch", as: "fetch", href, ...linkProps })), moduleHrefs.map((href) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("link", { key: href, rel: "modulepreload", href, ...linkProps })), keyedPrefetchLinks.map(({ key, link }) => (
+    // these don't spread `linkProps` because they are full link descriptors
+    // already with their own props
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("link", { key, ...link })
+  )));
+}
+function Meta() {
+  let { isSpaMode, routeModules } = useFrameworkContext();
+  let {
+    errors,
+    matches: routerMatches,
+    loaderData
+  } = useDataRouterStateContext();
+  let location = useLocation();
+  let _matches = getActiveMatches(routerMatches, errors, isSpaMode);
+  let error = null;
+  if (errors) {
+    error = errors[_matches[_matches.length - 1].route.id];
+  }
+  let meta = [];
+  let leafMeta = null;
+  let matches = [];
+  for (let i = 0; i < _matches.length; i++) {
+    let _match = _matches[i];
+    let routeId = _match.route.id;
+    let data2 = loaderData[routeId];
+    let params = _match.params;
+    let routeModule = routeModules[routeId];
+    let routeMeta = [];
+    let match = {
+      id: routeId,
+      data: data2,
+      meta: [],
+      params: _match.params,
+      pathname: _match.pathname,
+      handle: _match.route.handle,
+      error
+    };
+    matches[i] = match;
+    if (routeModule?.meta) {
+      routeMeta = typeof routeModule.meta === "function" ? routeModule.meta({
+        data: data2,
+        params,
+        location,
+        matches,
+        error
+      }) : Array.isArray(routeModule.meta) ? [...routeModule.meta] : routeModule.meta;
+    } else if (leafMeta) {
+      routeMeta = [...leafMeta];
+    }
+    routeMeta = routeMeta || [];
+    if (!Array.isArray(routeMeta)) {
+      throw new Error(
+        "The route at " + _match.route.path + " returns an invalid value. All route meta functions must return an array of meta objects.\n\nTo reference the meta function API, see https://remix.run/route/meta"
+      );
+    }
+    match.meta = routeMeta;
+    matches[i] = match;
+    meta = [...routeMeta];
+    leafMeta = meta;
+  }
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, meta.flat().map((metaProps) => {
+    if (!metaProps) {
+      return null;
+    }
+    if ("tagName" in metaProps) {
+      let { tagName, ...rest } = metaProps;
+      if (!isValidMetaTag(tagName)) {
+        console.warn(
+          `A meta object uses an invalid tagName: ${tagName}. Expected either 'link' or 'meta'`
+        );
+        return null;
+      }
+      let Comp = tagName;
+      return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(Comp, { key: JSON.stringify(rest), ...rest });
+    }
+    if ("title" in metaProps) {
+      return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", { key: "title" }, String(metaProps.title));
+    }
+    if ("charset" in metaProps) {
+      metaProps.charSet ?? (metaProps.charSet = metaProps.charset);
+      delete metaProps.charset;
+    }
+    if ("charSet" in metaProps && metaProps.charSet != null) {
+      return typeof metaProps.charSet === "string" ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("meta", { key: "charSet", charSet: metaProps.charSet }) : null;
+    }
+    if ("script:ld+json" in metaProps) {
+      try {
+        let json = JSON.stringify(metaProps["script:ld+json"]);
+        return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+          "script",
+          {
+            key: `script:ld+json:${json}`,
+            type: "application/ld+json",
+            dangerouslySetInnerHTML: { __html: json }
+          }
+        );
+      } catch (err) {
+        return null;
+      }
+    }
+    return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement("meta", { key: JSON.stringify(metaProps), ...metaProps });
+  }));
+}
+function isValidMetaTag(tagName) {
+  return typeof tagName === "string" && /^(meta|link)$/.test(tagName);
+}
+var isHydrated = false;
+function Scripts(props) {
+  let { manifest, serverHandoffString, isSpaMode, renderMeta } = useFrameworkContext();
+  let { router, static: isStatic, staticContext } = useDataRouterContext2();
+  let { matches: routerMatches } = useDataRouterStateContext();
+  let enableFogOfWar = isFogOfWarEnabled(isSpaMode);
+  if (renderMeta) {
+    renderMeta.didRenderScripts = true;
+  }
+  let matches = getActiveMatches(routerMatches, null, isSpaMode);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    isHydrated = true;
+  }, []);
+  let initialScripts = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
+    let streamScript = "window.__reactRouterContext.stream = new ReadableStream({start(controller){window.__reactRouterContext.streamController = controller;}}).pipeThrough(new TextEncoderStream());";
+    let contextScript = staticContext ? `window.__reactRouterContext = ${serverHandoffString};${streamScript}` : " ";
+    let routeModulesScript = !isStatic ? " " : `${manifest.hmr?.runtime ? `import ${JSON.stringify(manifest.hmr.runtime)};` : ""}${!enableFogOfWar ? `import ${JSON.stringify(manifest.url)}` : ""};
+${matches.map(
+      (match, index) => `import * as route${index} from ${JSON.stringify(
+        manifest.routes[match.route.id].module
+      )};`
+    ).join("\n")}
+  ${enableFogOfWar ? (
+      // Inline a minimal manifest with the SSR matches
+      `window.__reactRouterManifest = ${JSON.stringify(
+        getPartialManifest(manifest, router),
+        null,
+        2
+      )};`
+    ) : ""}
+  window.__reactRouterRouteModules = {${matches.map((match, index) => `${JSON.stringify(match.route.id)}:route${index}`).join(",")}};
+
+import(${JSON.stringify(manifest.entry.module)});`;
+    return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "script",
+      {
+        ...props,
+        suppressHydrationWarning: true,
+        dangerouslySetInnerHTML: createHtml(contextScript),
+        type: void 0
+      }
+    ), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "script",
+      {
+        ...props,
+        suppressHydrationWarning: true,
+        dangerouslySetInnerHTML: createHtml(routeModulesScript),
+        type: "module",
+        async: true
+      }
+    ));
+  }, []);
+  let routePreloads = matches.map((match) => {
+    let route = manifest.routes[match.route.id];
+    return route ? (route.imports || []).concat([route.module]) : [];
+  }).flat(1);
+  let preloads = isHydrated ? [] : manifest.entry.imports.concat(routePreloads);
+  return isHydrated ? null : /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, !enableFogOfWar ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    "link",
+    {
+      rel: "modulepreload",
+      href: manifest.url,
+      crossOrigin: props.crossOrigin
+    }
+  ) : null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    "link",
+    {
+      rel: "modulepreload",
+      href: manifest.entry.module,
+      crossOrigin: props.crossOrigin
+    }
+  ), dedupe(preloads).map((path) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    "link",
+    {
+      key: path,
+      rel: "modulepreload",
+      href: path,
+      crossOrigin: props.crossOrigin
+    }
+  )), initialScripts);
+}
+function dedupe(array) {
+  return [...new Set(array)];
+}
+function mergeRefs(...refs) {
+  return (value) => {
+    refs.forEach((ref) => {
+      if (typeof ref === "function") {
+        ref(value);
+      } else if (ref != null) {
+        ref.current = value;
+      }
+    });
+  };
+}
+
+// lib/dom/lib.tsx
+var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
+try {
+  if (isBrowser) {
+    window.__reactRouterVersion = "7.1.1";
+  }
+} catch (e) {
+}
+function createBrowserRouter(routes, opts) {
+  return createRouter({
+    basename: opts?.basename,
+    future: opts?.future,
+    history: createBrowserHistory({ window: opts?.window }),
+    hydrationData: opts?.hydrationData || parseHydrationData(),
+    routes,
+    mapRouteProperties,
+    dataStrategy: opts?.dataStrategy,
+    patchRoutesOnNavigation: opts?.patchRoutesOnNavigation,
+    window: opts?.window
+  }).initialize();
+}
+function createHashRouter(routes, opts) {
+  return createRouter({
+    basename: opts?.basename,
+    future: opts?.future,
+    history: createHashHistory({ window: opts?.window }),
+    hydrationData: opts?.hydrationData || parseHydrationData(),
+    routes,
+    mapRouteProperties,
+    dataStrategy: opts?.dataStrategy,
+    patchRoutesOnNavigation: opts?.patchRoutesOnNavigation,
+    window: opts?.window
+  }).initialize();
+}
+function parseHydrationData() {
+  let state = window?.__staticRouterHydrationData;
+  if (state && state.errors) {
+    state = {
+      ...state,
+      errors: deserializeErrors(state.errors)
+    };
+  }
+  return state;
+}
+function deserializeErrors(errors) {
+  if (!errors) return null;
+  let entries = Object.entries(errors);
+  let serialized = {};
+  for (let [key, val] of entries) {
+    if (val && val.__type === "RouteErrorResponse") {
+      serialized[key] = new ErrorResponseImpl(
+        val.status,
+        val.statusText,
+        val.data,
+        val.internal === true
+      );
+    } else if (val && val.__type === "Error") {
+      if (val.__subType) {
+        let ErrorConstructor = window[val.__subType];
+        if (typeof ErrorConstructor === "function") {
+          try {
+            let error = new ErrorConstructor(val.message);
+            error.stack = "";
+            serialized[key] = error;
+          } catch (e) {
+          }
+        }
+      }
+      if (serialized[key] == null) {
+        let error = new Error(val.message);
+        error.stack = "";
+        serialized[key] = error;
+      }
+    } else {
+      serialized[key] = val;
+    }
+  }
+  return serialized;
+}
+function BrowserRouter({
+  basename,
+  children,
+  window: window2
+}) {
+  let historyRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+  if (historyRef.current == null) {
+    historyRef.current = createBrowserHistory({ window: window2, v5Compat: true });
+  }
+  let history = historyRef.current;
+  let [state, setStateImpl] = react__WEBPACK_IMPORTED_MODULE_0__.useState({
+    action: history.action,
+    location: history.location
+  });
+  let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    (newState) => {
+      react__WEBPACK_IMPORTED_MODULE_0__.startTransition(() => setStateImpl(newState));
+    },
+    [setStateImpl]
+  );
+  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    Router,
+    {
+      basename,
+      children,
+      location: state.location,
+      navigationType: state.action,
+      navigator: history
+    }
+  );
+}
+function HashRouter({ basename, children, window: window2 }) {
+  let historyRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+  if (historyRef.current == null) {
+    historyRef.current = createHashHistory({ window: window2, v5Compat: true });
+  }
+  let history = historyRef.current;
+  let [state, setStateImpl] = react__WEBPACK_IMPORTED_MODULE_0__.useState({
+    action: history.action,
+    location: history.location
+  });
+  let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    (newState) => {
+      react__WEBPACK_IMPORTED_MODULE_0__.startTransition(() => setStateImpl(newState));
+    },
+    [setStateImpl]
+  );
+  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    Router,
+    {
+      basename,
+      children,
+      location: state.location,
+      navigationType: state.action,
+      navigator: history
+    }
+  );
+}
+function HistoryRouter({
+  basename,
+  children,
+  history
+}) {
+  let [state, setStateImpl] = react__WEBPACK_IMPORTED_MODULE_0__.useState({
+    action: history.action,
+    location: history.location
+  });
+  let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    (newState) => {
+      react__WEBPACK_IMPORTED_MODULE_0__.startTransition(() => setStateImpl(newState));
+    },
+    [setStateImpl]
+  );
+  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    Router,
+    {
+      basename,
+      children,
+      location: state.location,
+      navigationType: state.action,
+      navigator: history
+    }
+  );
+}
+HistoryRouter.displayName = "unstable_HistoryRouter";
+var ABSOLUTE_URL_REGEX2 = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
+var Link = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+  function LinkWithRef({
+    onClick,
+    discover = "render",
+    prefetch = "none",
+    relative,
+    reloadDocument,
+    replace: replace2,
+    state,
+    target,
+    to,
+    preventScrollReset,
+    viewTransition,
+    ...rest
+  }, forwardedRef) {
+    let { basename } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
+    let isAbsolute = typeof to === "string" && ABSOLUTE_URL_REGEX2.test(to);
+    let absoluteHref;
+    let isExternal = false;
+    if (typeof to === "string" && isAbsolute) {
+      absoluteHref = to;
+      if (isBrowser) {
+        try {
+          let currentUrl = new URL(window.location.href);
+          let targetUrl = to.startsWith("//") ? new URL(currentUrl.protocol + to) : new URL(to);
+          let path = stripBasename(targetUrl.pathname, basename);
+          if (targetUrl.origin === currentUrl.origin && path != null) {
+            to = path + targetUrl.search + targetUrl.hash;
+          } else {
+            isExternal = true;
+          }
+        } catch (e) {
+          warning(
+            false,
+            `<Link to="${to}"> contains an invalid URL which will probably break when clicked - please update to a valid URL path.`
+          );
+        }
+      }
+    }
+    let href = useHref(to, { relative });
+    let [shouldPrefetch, prefetchRef, prefetchHandlers] = usePrefetchBehavior(
+      prefetch,
+      rest
+    );
+    let internalOnClick = useLinkClickHandler(to, {
+      replace: replace2,
+      state,
+      target,
+      preventScrollReset,
+      relative,
+      viewTransition
+    });
+    function handleClick(event) {
+      if (onClick) onClick(event);
+      if (!event.defaultPrevented) {
+        internalOnClick(event);
+      }
+    }
+    let link = (
+      // eslint-disable-next-line jsx-a11y/anchor-has-content
+      /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+        "a",
+        {
+          ...rest,
+          ...prefetchHandlers,
+          href: absoluteHref || href,
+          onClick: isExternal || reloadDocument ? onClick : handleClick,
+          ref: mergeRefs(forwardedRef, prefetchRef),
+          target,
+          "data-discover": !isAbsolute && discover === "render" ? "true" : void 0
+        }
+      )
+    );
+    return shouldPrefetch && !isAbsolute ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, link, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(PrefetchPageLinks, { page: href })) : link;
+  }
+);
+Link.displayName = "Link";
+var NavLink = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+  function NavLinkWithRef({
+    "aria-current": ariaCurrentProp = "page",
+    caseSensitive = false,
+    className: classNameProp = "",
+    end = false,
+    style: styleProp,
+    to,
+    viewTransition,
+    children,
+    ...rest
+  }, ref) {
+    let path = useResolvedPath(to, { relative: rest.relative });
+    let location = useLocation();
+    let routerState = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterStateContext);
+    let { navigator: navigator2, basename } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
+    let isTransitioning = routerState != null && // Conditional usage is OK here because the usage of a data router is static
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useViewTransitionState(path) && viewTransition === true;
+    let toPathname = navigator2.encodeLocation ? navigator2.encodeLocation(path).pathname : path.pathname;
+    let locationPathname = location.pathname;
+    let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
+    if (!caseSensitive) {
+      locationPathname = locationPathname.toLowerCase();
+      nextLocationPathname = nextLocationPathname ? nextLocationPathname.toLowerCase() : null;
+      toPathname = toPathname.toLowerCase();
+    }
+    if (nextLocationPathname && basename) {
+      nextLocationPathname = stripBasename(nextLocationPathname, basename) || nextLocationPathname;
+    }
+    const endSlashPosition = toPathname !== "/" && toPathname.endsWith("/") ? toPathname.length - 1 : toPathname.length;
+    let isActive = locationPathname === toPathname || !end && locationPathname.startsWith(toPathname) && locationPathname.charAt(endSlashPosition) === "/";
+    let isPending = nextLocationPathname != null && (nextLocationPathname === toPathname || !end && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(toPathname.length) === "/");
+    let renderProps = {
+      isActive,
+      isPending,
+      isTransitioning
+    };
+    let ariaCurrent = isActive ? ariaCurrentProp : void 0;
+    let className;
+    if (typeof classNameProp === "function") {
+      className = classNameProp(renderProps);
+    } else {
+      className = [
+        classNameProp,
+        isActive ? "active" : null,
+        isPending ? "pending" : null,
+        isTransitioning ? "transitioning" : null
+      ].filter(Boolean).join(" ");
+    }
+    let style = typeof styleProp === "function" ? styleProp(renderProps) : styleProp;
+    return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      Link,
+      {
+        ...rest,
+        "aria-current": ariaCurrent,
+        className,
+        ref,
+        style,
+        to,
+        viewTransition
+      },
+      typeof children === "function" ? children(renderProps) : children
+    );
+  }
+);
+NavLink.displayName = "NavLink";
+var Form = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+  ({
+    discover = "render",
+    fetcherKey,
+    navigate,
+    reloadDocument,
+    replace: replace2,
+    state,
+    method = defaultMethod,
+    action,
+    onSubmit,
+    relative,
+    preventScrollReset,
+    viewTransition,
+    ...props
+  }, forwardedRef) => {
+    let submit = useSubmit();
+    let formAction = useFormAction(action, { relative });
+    let formMethod = method.toLowerCase() === "get" ? "get" : "post";
+    let isAbsolute = typeof action === "string" && ABSOLUTE_URL_REGEX2.test(action);
+    let submitHandler = (event) => {
+      onSubmit && onSubmit(event);
+      if (event.defaultPrevented) return;
+      event.preventDefault();
+      let submitter = event.nativeEvent.submitter;
+      let submitMethod = submitter?.getAttribute("formmethod") || method;
+      submit(submitter || event.currentTarget, {
+        fetcherKey,
+        method: submitMethod,
+        navigate,
+        replace: replace2,
+        state,
+        relative,
+        preventScrollReset,
+        viewTransition
+      });
+    };
+    return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      "form",
+      {
+        ref: forwardedRef,
+        method: formMethod,
+        action: formAction,
+        onSubmit: reloadDocument ? onSubmit : submitHandler,
+        ...props,
+        "data-discover": !isAbsolute && discover === "render" ? "true" : void 0
+      }
+    );
+  }
+);
+Form.displayName = "Form";
+function ScrollRestoration({
+  getKey,
+  storageKey,
+  ...props
+}) {
+  let remixContext = react__WEBPACK_IMPORTED_MODULE_0__.useContext(FrameworkContext);
+  let { basename } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
+  let location = useLocation();
+  let matches = useMatches();
+  useScrollRestoration({ getKey, storageKey });
+  let ssrKey = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => {
+      if (!remixContext || !getKey) return null;
+      let userKey = getScrollRestorationKey(
+        location,
+        matches,
+        basename,
+        getKey
+      );
+      return userKey !== location.key ? userKey : null;
+    },
+    // Nah, we only need this the first time for the SSR render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+  if (!remixContext || remixContext.isSpaMode) {
+    return null;
+  }
+  let restoreScroll = ((storageKey2, restoreKey) => {
+    if (!window.history.state || !window.history.state.key) {
+      let key = Math.random().toString(32).slice(2);
+      window.history.replaceState({ key }, "");
+    }
+    try {
+      let positions = JSON.parse(sessionStorage.getItem(storageKey2) || "{}");
+      let storedY = positions[restoreKey || window.history.state.key];
+      if (typeof storedY === "number") {
+        window.scrollTo(0, storedY);
+      }
+    } catch (error) {
+      console.error(error);
+      sessionStorage.removeItem(storageKey2);
+    }
+  }).toString();
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    "script",
+    {
+      ...props,
+      suppressHydrationWarning: true,
+      dangerouslySetInnerHTML: {
+        __html: `(${restoreScroll})(${JSON.stringify(
+          storageKey || SCROLL_RESTORATION_STORAGE_KEY
+        )}, ${JSON.stringify(ssrKey)})`
+      }
+    }
+  );
+}
+ScrollRestoration.displayName = "ScrollRestoration";
+function getDataRouterConsoleError2(hookName) {
+  return `${hookName} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`;
+}
+function useDataRouterContext3(hookName) {
+  let ctx = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterContext);
+  invariant(ctx, getDataRouterConsoleError2(hookName));
+  return ctx;
+}
+function useDataRouterState2(hookName) {
+  let state = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterStateContext);
+  invariant(state, getDataRouterConsoleError2(hookName));
+  return state;
+}
+function useLinkClickHandler(to, {
+  target,
+  replace: replaceProp,
+  state,
+  preventScrollReset,
+  relative,
+  viewTransition
+} = {}) {
+  let navigate = useNavigate();
+  let location = useLocation();
+  let path = useResolvedPath(to, { relative });
+  return react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    (event) => {
+      if (shouldProcessLinkClick(event, target)) {
+        event.preventDefault();
+        let replace2 = replaceProp !== void 0 ? replaceProp : createPath(location) === createPath(path);
+        navigate(to, {
+          replace: replace2,
+          state,
+          preventScrollReset,
+          relative,
+          viewTransition
+        });
+      }
+    },
+    [
+      location,
+      navigate,
+      path,
+      replaceProp,
+      state,
+      target,
+      to,
+      preventScrollReset,
+      relative,
+      viewTransition
+    ]
+  );
+}
+function useSearchParams(defaultInit) {
+  warning(
+    typeof URLSearchParams !== "undefined",
+    `You cannot use the \`useSearchParams\` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params.`
+  );
+  let defaultSearchParamsRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(createSearchParams(defaultInit));
+  let hasSetSearchParamsRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
+  let location = useLocation();
+  let searchParams = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => (
+      // Only merge in the defaults if we haven't yet called setSearchParams.
+      // Once we call that we want those to take precedence, otherwise you can't
+      // remove a param with setSearchParams({}) if it has an initial value
+      getSearchParamsForLocation(
+        location.search,
+        hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current
+      )
+    ),
+    [location.search]
+  );
+  let navigate = useNavigate();
+  let setSearchParams = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    (nextInit, navigateOptions) => {
+      const newSearchParams = createSearchParams(
+        typeof nextInit === "function" ? nextInit(searchParams) : nextInit
+      );
+      hasSetSearchParamsRef.current = true;
+      navigate("?" + newSearchParams, navigateOptions);
+    },
+    [navigate, searchParams]
+  );
+  return [searchParams, setSearchParams];
+}
+var fetcherId = 0;
+var getUniqueFetcherId = () => `__${String(++fetcherId)}__`;
+function useSubmit() {
+  let { router } = useDataRouterContext3("useSubmit" /* UseSubmit */);
+  let { basename } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
+  let currentRouteId = useRouteId();
+  return react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    async (target, options = {}) => {
+      let { action, method, encType, formData, body } = getFormSubmissionInfo(
+        target,
+        basename
+      );
+      if (options.navigate === false) {
+        let key = options.fetcherKey || getUniqueFetcherId();
+        await router.fetch(key, currentRouteId, options.action || action, {
+          preventScrollReset: options.preventScrollReset,
+          formData,
+          body,
+          formMethod: options.method || method,
+          formEncType: options.encType || encType,
+          flushSync: options.flushSync
+        });
+      } else {
+        await router.navigate(options.action || action, {
+          preventScrollReset: options.preventScrollReset,
+          formData,
+          body,
+          formMethod: options.method || method,
+          formEncType: options.encType || encType,
+          replace: options.replace,
+          state: options.state,
+          fromRouteId: currentRouteId,
+          flushSync: options.flushSync,
+          viewTransition: options.viewTransition
+        });
+      }
+    },
+    [router, basename, currentRouteId]
+  );
+}
+function useFormAction(action, { relative } = {}) {
+  let { basename } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
+  let routeContext = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
+  invariant(routeContext, "useFormAction must be used inside a RouteContext");
+  let [match] = routeContext.matches.slice(-1);
+  let path = { ...useResolvedPath(action ? action : ".", { relative }) };
+  let location = useLocation();
+  if (action == null) {
+    path.search = location.search;
+    let params = new URLSearchParams(path.search);
+    let indexValues = params.getAll("index");
+    let hasNakedIndexParam = indexValues.some((v) => v === "");
+    if (hasNakedIndexParam) {
+      params.delete("index");
+      indexValues.filter((v) => v).forEach((v) => params.append("index", v));
+      let qs = params.toString();
+      path.search = qs ? `?${qs}` : "";
+    }
+  }
+  if ((!action || action === ".") && match.route.index) {
+    path.search = path.search ? path.search.replace(/^\?/, "?index&") : "?index";
+  }
+  if (basename !== "/") {
+    path.pathname = path.pathname === "/" ? basename : joinPaths([basename, path.pathname]);
+  }
+  return createPath(path);
+}
+function useFetcher({
+  key
+} = {}) {
+  let { router } = useDataRouterContext3("useFetcher" /* UseFetcher */);
+  let state = useDataRouterState2("useFetcher" /* UseFetcher */);
+  let fetcherData = react__WEBPACK_IMPORTED_MODULE_0__.useContext(FetchersContext);
+  let route = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
+  let routeId = route.matches[route.matches.length - 1]?.route.id;
+  invariant(fetcherData, `useFetcher must be used inside a FetchersContext`);
+  invariant(route, `useFetcher must be used inside a RouteContext`);
+  invariant(
+    routeId != null,
+    `useFetcher can only be used on routes that contain a unique "id"`
+  );
+  let defaultKey = react__WEBPACK_IMPORTED_MODULE_0__.useId();
+  let [fetcherKey, setFetcherKey] = react__WEBPACK_IMPORTED_MODULE_0__.useState(key || defaultKey);
+  if (key && key !== fetcherKey) {
+    setFetcherKey(key);
+  }
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    router.getFetcher(fetcherKey);
+    return () => router.deleteFetcher(fetcherKey);
+  }, [router, fetcherKey]);
+  let load = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    async (href, opts) => {
+      invariant(routeId, "No routeId available for fetcher.load()");
+      await router.fetch(fetcherKey, routeId, href, opts);
+    },
+    [fetcherKey, routeId, router]
+  );
+  let submitImpl = useSubmit();
+  let submit = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(
+    async (target, opts) => {
+      await submitImpl(target, {
+        ...opts,
+        navigate: false,
+        fetcherKey
+      });
+    },
+    [fetcherKey, submitImpl]
+  );
+  let FetcherForm = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
+    let FetcherForm2 = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+      (props, ref) => {
+        return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(Form, { ...props, navigate: false, fetcherKey, ref });
+      }
+    );
+    FetcherForm2.displayName = "fetcher.Form";
+    return FetcherForm2;
+  }, [fetcherKey]);
+  let fetcher = state.fetchers.get(fetcherKey) || IDLE_FETCHER;
+  let data2 = fetcherData.get(fetcherKey);
+  let fetcherWithComponents = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(
+    () => ({
+      Form: FetcherForm,
+      submit,
+      load,
+      ...fetcher,
+      data: data2
+    }),
+    [FetcherForm, submit, load, fetcher, data2]
+  );
+  return fetcherWithComponents;
+}
+function useFetchers() {
+  let state = useDataRouterState2("useFetchers" /* UseFetchers */);
+  return Array.from(state.fetchers.entries()).map(([key, fetcher]) => ({
+    ...fetcher,
+    key
+  }));
+}
+var SCROLL_RESTORATION_STORAGE_KEY = "react-router-scroll-positions";
+var savedScrollPositions = {};
+function getScrollRestorationKey(location, matches, basename, getKey) {
+  let key = null;
+  if (getKey) {
+    if (basename !== "/") {
+      key = getKey(
+        {
+          ...location,
+          pathname: stripBasename(location.pathname, basename) || location.pathname
+        },
+        matches
+      );
+    } else {
+      key = getKey(location, matches);
+    }
+  }
+  if (key == null) {
+    key = location.key;
+  }
+  return key;
+}
+function useScrollRestoration({
+  getKey,
+  storageKey
+} = {}) {
+  let { router } = useDataRouterContext3("useScrollRestoration" /* UseScrollRestoration */);
+  let { restoreScrollPosition, preventScrollReset } = useDataRouterState2(
+    "useScrollRestoration" /* UseScrollRestoration */
+  );
+  let { basename } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
+  let location = useLocation();
+  let matches = useMatches();
+  let navigation = useNavigation();
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    window.history.scrollRestoration = "manual";
+    return () => {
+      window.history.scrollRestoration = "auto";
+    };
+  }, []);
+  usePageHide(
+    react__WEBPACK_IMPORTED_MODULE_0__.useCallback(() => {
+      if (navigation.state === "idle") {
+        let key = getScrollRestorationKey(location, matches, basename, getKey);
+        savedScrollPositions[key] = window.scrollY;
+      }
+      try {
+        sessionStorage.setItem(
+          storageKey || SCROLL_RESTORATION_STORAGE_KEY,
+          JSON.stringify(savedScrollPositions)
+        );
+      } catch (error) {
+        warning(
+          false,
+          `Failed to save scroll positions in sessionStorage, <ScrollRestoration /> will not work properly (${error}).`
+        );
+      }
+      window.history.scrollRestoration = "auto";
+    }, [navigation.state, getKey, basename, location, matches, storageKey])
+  );
+  if (typeof document !== "undefined") {
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => {
+      try {
+        let sessionPositions = sessionStorage.getItem(
+          storageKey || SCROLL_RESTORATION_STORAGE_KEY
+        );
+        if (sessionPositions) {
+          savedScrollPositions = JSON.parse(sessionPositions);
+        }
+      } catch (e) {
+      }
+    }, [storageKey]);
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => {
+      let disableScrollRestoration = router?.enableScrollRestoration(
+        savedScrollPositions,
+        () => window.scrollY,
+        getKey ? (location2, matches2) => getScrollRestorationKey(location2, matches2, basename, getKey) : void 0
+      );
+      return () => disableScrollRestoration && disableScrollRestoration();
+    }, [router, basename, getKey]);
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => {
+      if (restoreScrollPosition === false) {
+        return;
+      }
+      if (typeof restoreScrollPosition === "number") {
+        window.scrollTo(0, restoreScrollPosition);
+        return;
+      }
+      if (location.hash) {
+        let el = document.getElementById(
+          decodeURIComponent(location.hash.slice(1))
+        );
+        if (el) {
+          el.scrollIntoView();
+          return;
+        }
+      }
+      if (preventScrollReset === true) {
+        return;
+      }
+      window.scrollTo(0, 0);
+    }, [location, restoreScrollPosition, preventScrollReset]);
+  }
+}
+function useBeforeUnload(callback, options) {
+  let { capture } = options || {};
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    let opts = capture != null ? { capture } : void 0;
+    window.addEventListener("beforeunload", callback, opts);
+    return () => {
+      window.removeEventListener("beforeunload", callback, opts);
+    };
+  }, [callback, capture]);
+}
+function usePageHide(callback, options) {
+  let { capture } = options || {};
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    let opts = capture != null ? { capture } : void 0;
+    window.addEventListener("pagehide", callback, opts);
+    return () => {
+      window.removeEventListener("pagehide", callback, opts);
+    };
+  }, [callback, capture]);
+}
+function usePrompt({
+  when,
+  message
+}) {
+  let blocker = useBlocker(when);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (blocker.state === "blocked") {
+      let proceed = window.confirm(message);
+      if (proceed) {
+        setTimeout(blocker.proceed, 0);
+      } else {
+        blocker.reset();
+      }
+    }
+  }, [blocker, message]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (blocker.state === "blocked" && !when) {
+      blocker.reset();
+    }
+  }, [blocker, when]);
+}
+function useViewTransitionState(to, opts = {}) {
+  let vtContext = react__WEBPACK_IMPORTED_MODULE_0__.useContext(ViewTransitionContext);
+  invariant(
+    vtContext != null,
+    "`useViewTransitionState` must be used within `react-router-dom`'s `RouterProvider`.  Did you accidentally import `RouterProvider` from `react-router`?"
+  );
+  let { basename } = useDataRouterContext3(
+    "useViewTransitionState" /* useViewTransitionState */
+  );
+  let path = useResolvedPath(to, { relative: opts.relative });
+  if (!vtContext.isTransitioning) {
+    return false;
+  }
+  let currentPath = stripBasename(vtContext.currentLocation.pathname, basename) || vtContext.currentLocation.pathname;
+  let nextPath = stripBasename(vtContext.nextLocation.pathname, basename) || vtContext.nextLocation.pathname;
+  return matchPath(path.pathname, nextPath) != null || matchPath(path.pathname, currentPath) != null;
+}
+
+// lib/dom/server.tsx
+
+function StaticRouter({
+  basename,
+  children,
+  location: locationProp = "/"
+}) {
+  if (typeof locationProp === "string") {
+    locationProp = parsePath(locationProp);
+  }
+  let action = "POP" /* Pop */;
+  let location = {
+    pathname: locationProp.pathname || "/",
+    search: locationProp.search || "",
+    hash: locationProp.hash || "",
+    state: locationProp.state != null ? locationProp.state : null,
+    key: locationProp.key || "default"
+  };
+  let staticNavigator = getStatelessNavigator();
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    Router,
+    {
+      basename,
+      children,
+      location,
+      navigationType: action,
+      navigator: staticNavigator,
+      static: true
+    }
+  );
+}
+function StaticRouterProvider({
+  context,
+  router,
+  hydrate = true,
+  nonce
+}) {
+  invariant(
+    router && context,
+    "You must provide `router` and `context` to <StaticRouterProvider>"
+  );
+  let dataRouterContext = {
+    router,
+    navigator: getStatelessNavigator(),
+    static: true,
+    staticContext: context,
+    basename: context.basename || "/"
+  };
+  let fetchersContext = /* @__PURE__ */ new Map();
+  let hydrateScript = "";
+  if (hydrate !== false) {
+    let data2 = {
+      loaderData: context.loaderData,
+      actionData: context.actionData,
+      errors: serializeErrors(context.errors)
+    };
+    let json = htmlEscape(JSON.stringify(JSON.stringify(data2)));
+    hydrateScript = `window.__staticRouterHydrationData = JSON.parse(${json});`;
+  }
+  let { state } = dataRouterContext.router;
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(DataRouterContext.Provider, { value: dataRouterContext }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(DataRouterStateContext.Provider, { value: state }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(FetchersContext.Provider, { value: fetchersContext }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(ViewTransitionContext.Provider, { value: { isTransitioning: false } }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    Router,
+    {
+      basename: dataRouterContext.basename,
+      location: state.location,
+      navigationType: state.historyAction,
+      navigator: dataRouterContext.navigator,
+      static: dataRouterContext.static
+    },
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      DataRoutes2,
+      {
+        routes: router.routes,
+        future: router.future,
+        state
+      }
+    )
+  ))))), hydrateScript ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    "script",
+    {
+      suppressHydrationWarning: true,
+      nonce,
+      dangerouslySetInnerHTML: { __html: hydrateScript }
+    }
+  ) : null);
+}
+function DataRoutes2({
+  routes,
+  future,
+  state
+}) {
+  return useRoutesImpl(routes, void 0, state, future);
+}
+function serializeErrors(errors) {
+  if (!errors) return null;
+  let entries = Object.entries(errors);
+  let serialized = {};
+  for (let [key, val] of entries) {
+    if (isRouteErrorResponse(val)) {
+      serialized[key] = { ...val, __type: "RouteErrorResponse" };
+    } else if (val instanceof Error) {
+      serialized[key] = {
+        message: val.message,
+        __type: "Error",
+        // If this is a subclass (i.e., ReferenceError), send up the type so we
+        // can re-create the same type during hydration.
+        ...val.name !== "Error" ? {
+          __subType: val.name
+        } : {}
+      };
+    } else {
+      serialized[key] = val;
+    }
+  }
+  return serialized;
+}
+function getStatelessNavigator() {
+  return {
+    createHref,
+    encodeLocation,
+    push(to) {
+      throw new Error(
+        `You cannot use navigator.push() on the server because it is a stateless environment. This error was probably triggered when you did a \`navigate(${JSON.stringify(to)})\` somewhere in your app.`
+      );
+    },
+    replace(to) {
+      throw new Error(
+        `You cannot use navigator.replace() on the server because it is a stateless environment. This error was probably triggered when you did a \`navigate(${JSON.stringify(to)}, { replace: true })\` somewhere in your app.`
+      );
+    },
+    go(delta) {
+      throw new Error(
+        `You cannot use navigator.go() on the server because it is a stateless environment. This error was probably triggered when you did a \`navigate(${delta})\` somewhere in your app.`
+      );
+    },
+    back() {
+      throw new Error(
+        `You cannot use navigator.back() on the server because it is a stateless environment.`
+      );
+    },
+    forward() {
+      throw new Error(
+        `You cannot use navigator.forward() on the server because it is a stateless environment.`
+      );
+    }
+  };
+}
+function createStaticHandler2(routes, opts) {
+  return createStaticHandler(routes, {
+    ...opts,
+    mapRouteProperties
+  });
+}
+function createStaticRouter(routes, context, opts = {}) {
+  let manifest = {};
+  let dataRoutes = convertRoutesToDataRoutes(
+    routes,
+    mapRouteProperties,
+    void 0,
+    manifest
+  );
+  let matches = context.matches.map((match) => {
+    let route = manifest[match.route.id] || match.route;
+    return {
+      ...match,
+      route
+    };
+  });
+  let msg = (method) => `You cannot use router.${method}() on the server because it is a stateless environment`;
+  return {
+    get basename() {
+      return context.basename;
+    },
+    get future() {
+      return {
+        ...opts?.future
+      };
+    },
+    get state() {
+      return {
+        historyAction: "POP" /* Pop */,
+        location: context.location,
+        matches,
+        loaderData: context.loaderData,
+        actionData: context.actionData,
+        errors: context.errors,
+        initialized: true,
+        navigation: IDLE_NAVIGATION,
+        restoreScrollPosition: null,
+        preventScrollReset: false,
+        revalidation: "idle",
+        fetchers: /* @__PURE__ */ new Map(),
+        blockers: /* @__PURE__ */ new Map()
+      };
+    },
+    get routes() {
+      return dataRoutes;
+    },
+    get window() {
+      return void 0;
+    },
+    initialize() {
+      throw msg("initialize");
+    },
+    subscribe() {
+      throw msg("subscribe");
+    },
+    enableScrollRestoration() {
+      throw msg("enableScrollRestoration");
+    },
+    navigate() {
+      throw msg("navigate");
+    },
+    fetch() {
+      throw msg("fetch");
+    },
+    revalidate() {
+      throw msg("revalidate");
+    },
+    createHref,
+    encodeLocation,
+    getFetcher() {
+      return IDLE_FETCHER;
+    },
+    deleteFetcher() {
+      throw msg("deleteFetcher");
+    },
+    dispose() {
+      throw msg("dispose");
+    },
+    getBlocker() {
+      return IDLE_BLOCKER;
+    },
+    deleteBlocker() {
+      throw msg("deleteBlocker");
+    },
+    patchRoutes() {
+      throw msg("patchRoutes");
+    },
+    _internalFetchControllers: /* @__PURE__ */ new Map(),
+    _internalSetRoutes() {
+      throw msg("_internalSetRoutes");
+    }
+  };
+}
+function createHref(to) {
+  return typeof to === "string" ? to : createPath(to);
+}
+function encodeLocation(to) {
+  let href = typeof to === "string" ? to : createPath(to);
+  href = href.replace(/ $/, "%20");
+  let encoded = ABSOLUTE_URL_REGEX3.test(href) ? new URL(href) : new URL(href, "http://localhost");
+  return {
+    pathname: encoded.pathname,
+    search: encoded.search,
+    hash: encoded.hash
+  };
+}
+var ABSOLUTE_URL_REGEX3 = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
+var ESCAPE_LOOKUP2 = {
+  "&": "\\u0026",
+  ">": "\\u003e",
+  "<": "\\u003c",
+  "\u2028": "\\u2028",
+  "\u2029": "\\u2029"
+};
+var ESCAPE_REGEX2 = /[&><\u2028\u2029]/g;
+function htmlEscape(str) {
+  return str.replace(ESCAPE_REGEX2, (match) => ESCAPE_LOOKUP2[match]);
+}
+
+// lib/dom/ssr/server.tsx
+
+function ServerRouter({
+  context,
+  url,
+  nonce
+}) {
+  if (typeof url === "string") {
+    url = new URL(url);
+  }
+  let { manifest, routeModules, criticalCss, serverHandoffString } = context;
+  let routes = createServerRoutes(
+    manifest.routes,
+    routeModules,
+    context.future,
+    context.isSpaMode
+  );
+  context.staticHandlerContext.loaderData = {
+    ...context.staticHandlerContext.loaderData
+  };
+  for (let match of context.staticHandlerContext.matches) {
+    let routeId = match.route.id;
+    let route = routeModules[routeId];
+    let manifestRoute = context.manifest.routes[routeId];
+    if (route && manifestRoute && shouldHydrateRouteLoader(manifestRoute, route, context.isSpaMode) && (route.HydrateFallback || !manifestRoute.hasLoader)) {
+      delete context.staticHandlerContext.loaderData[routeId];
+    }
+  }
+  let router = createStaticRouter(routes, context.staticHandlerContext);
+  return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    FrameworkContext.Provider,
+    {
+      value: {
+        manifest,
+        routeModules,
+        criticalCss,
+        serverHandoffString,
+        future: context.future,
+        isSpaMode: context.isSpaMode,
+        serializeError: context.serializeError,
+        renderMeta: context.renderMeta
+      }
+    },
+    /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(RemixErrorBoundary, { location: router.state.location }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+      StaticRouterProvider,
+      {
+        router,
+        context: context.staticHandlerContext,
+        hydrate: false
+      }
+    ))
+  ), context.serverHandoffStream ? /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, null, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(
+    StreamTransfer,
+    {
+      context,
+      identifier: 0,
+      reader: context.serverHandoffStream.getReader(),
+      textDecoder: new TextDecoder(),
+      nonce
+    }
+  )) : null);
+}
+
+// lib/dom/ssr/routes-test-stub.tsx
+
+function createRoutesStub(routes, context = {}) {
+  return function RoutesTestStub({
+    initialEntries,
+    initialIndex,
+    hydrationData,
+    future
+  }) {
+    let routerRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    let remixContextRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
+    if (routerRef.current == null) {
+      remixContextRef.current = {
+        future: {},
+        manifest: {
+          routes: {},
+          entry: { imports: [], module: "" },
+          url: "",
+          version: ""
+        },
+        routeModules: {},
+        isSpaMode: false
+      };
+      let patched = processRoutes(
+        // @ts-expect-error loader/action context types don't match :/
+        convertRoutesToDataRoutes(routes, (r) => r),
+        context,
+        remixContextRef.current.manifest,
+        remixContextRef.current.routeModules
+      );
+      routerRef.current = createMemoryRouter(patched, {
+        initialEntries,
+        initialIndex,
+        hydrationData
+      });
+    }
+    return /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(FrameworkContext.Provider, { value: remixContextRef.current }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(RouterProvider, { router: routerRef.current }));
+  };
+}
+function processRoutes(routes, context, manifest, routeModules, parentId) {
+  return routes.map((route) => {
+    if (!route.id) {
+      throw new Error(
+        "Expected a route.id in @remix-run/testing processRoutes() function"
+      );
+    }
+    let { loader, action } = route;
+    let newRoute = {
+      id: route.id,
+      path: route.path,
+      index: route.index,
+      Component: route.Component,
+      HydrateFallback: route.HydrateFallback,
+      ErrorBoundary: route.ErrorBoundary,
+      action: action ? (args) => action({ ...args, context }) : void 0,
+      loader: loader ? (args) => loader({ ...args, context }) : void 0,
+      handle: route.handle,
+      shouldRevalidate: route.shouldRevalidate
+    };
+    let entryRoute = {
+      id: route.id,
+      path: route.path,
+      index: route.index,
+      parentId,
+      hasAction: route.action != null,
+      hasLoader: route.loader != null,
+      // When testing routes, you should just be stubbing loader/action, not
+      // trying to re-implement the full loader/clientLoader/SSR/hydration flow.
+      // That is better tested via E2E tests.
+      hasClientAction: false,
+      hasClientLoader: false,
+      hasErrorBoundary: route.ErrorBoundary != null,
+      module: "build/stub-path-to-module.js"
+      // any need for this?
+    };
+    manifest.routes[newRoute.id] = entryRoute;
+    routeModules[route.id] = {
+      default: route.Component || Outlet,
+      ErrorBoundary: route.ErrorBoundary || void 0,
+      handle: route.handle,
+      links: route.links,
+      meta: route.meta,
+      shouldRevalidate: route.shouldRevalidate
+    };
+    if (route.children) {
+      newRoute.children = processRoutes(
+        route.children,
+        context,
+        manifest,
+        routeModules,
+        newRoute.id
+      );
+    }
+    return newRoute;
+  });
+}
+
+// lib/server-runtime/cookies.ts
+
+
+// lib/server-runtime/crypto.ts
+var encoder = new TextEncoder();
+var sign = async (value, secret) => {
+  let data2 = encoder.encode(value);
+  let key = await createKey2(secret, ["sign"]);
+  let signature = await crypto.subtle.sign("HMAC", key, data2);
+  let hash = btoa(String.fromCharCode(...new Uint8Array(signature))).replace(
+    /=+$/,
+    ""
+  );
+  return value + "." + hash;
+};
+var unsign = async (cookie, secret) => {
+  let index = cookie.lastIndexOf(".");
+  let value = cookie.slice(0, index);
+  let hash = cookie.slice(index + 1);
+  let data2 = encoder.encode(value);
+  let key = await createKey2(secret, ["verify"]);
+  let signature = byteStringToUint8Array(atob(hash));
+  let valid = await crypto.subtle.verify("HMAC", key, signature, data2);
+  return valid ? value : false;
+};
+var createKey2 = async (secret, usages) => crypto.subtle.importKey(
+  "raw",
+  encoder.encode(secret),
+  { name: "HMAC", hash: "SHA-256" },
+  false,
+  usages
+);
+function byteStringToUint8Array(byteString) {
+  let array = new Uint8Array(byteString.length);
+  for (let i = 0; i < byteString.length; i++) {
+    array[i] = byteString.charCodeAt(i);
+  }
+  return array;
+}
+
+// lib/server-runtime/cookies.ts
+var createCookie = (name, cookieOptions = {}) => {
+  let { secrets = [], ...options } = {
+    path: "/",
+    sameSite: "lax",
+    ...cookieOptions
+  };
+  warnOnceAboutExpiresCookie(name, options.expires);
+  return {
+    get name() {
+      return name;
+    },
+    get isSigned() {
+      return secrets.length > 0;
+    },
+    get expires() {
+      return typeof options.maxAge !== "undefined" ? new Date(Date.now() + options.maxAge * 1e3) : options.expires;
+    },
+    async parse(cookieHeader, parseOptions) {
+      if (!cookieHeader) return null;
+      let cookies = (0,cookie__WEBPACK_IMPORTED_MODULE_2__.parse)(cookieHeader, { ...options, ...parseOptions });
+      if (name in cookies) {
+        let value = cookies[name];
+        if (typeof value === "string" && value !== "") {
+          let decoded = await decodeCookieValue(value, secrets);
+          return decoded;
+        } else {
+          return "";
+        }
+      } else {
+        return null;
+      }
+    },
+    async serialize(value, serializeOptions) {
+      return (0,cookie__WEBPACK_IMPORTED_MODULE_2__.serialize)(
+        name,
+        value === "" ? "" : await encodeCookieValue(value, secrets),
+        {
+          ...options,
+          ...serializeOptions
+        }
+      );
+    }
+  };
+};
+var isCookie = (object) => {
+  return object != null && typeof object.name === "string" && typeof object.isSigned === "boolean" && typeof object.parse === "function" && typeof object.serialize === "function";
+};
+async function encodeCookieValue(value, secrets) {
+  let encoded = encodeData(value);
+  if (secrets.length > 0) {
+    encoded = await sign(encoded, secrets[0]);
+  }
+  return encoded;
+}
+async function decodeCookieValue(value, secrets) {
+  if (secrets.length > 0) {
+    for (let secret of secrets) {
+      let unsignedValue = await unsign(value, secret);
+      if (unsignedValue !== false) {
+        return decodeData(unsignedValue);
+      }
+    }
+    return null;
+  }
+  return decodeData(value);
+}
+function encodeData(value) {
+  return btoa(myUnescape(encodeURIComponent(JSON.stringify(value))));
+}
+function decodeData(value) {
+  try {
+    return JSON.parse(decodeURIComponent(myEscape(atob(value))));
+  } catch (error) {
+    return {};
+  }
+}
+function myEscape(value) {
+  let str = value.toString();
+  let result = "";
+  let index = 0;
+  let chr, code;
+  while (index < str.length) {
+    chr = str.charAt(index++);
+    if (/[\w*+\-./@]/.exec(chr)) {
+      result += chr;
+    } else {
+      code = chr.charCodeAt(0);
+      if (code < 256) {
+        result += "%" + hex(code, 2);
+      } else {
+        result += "%u" + hex(code, 4).toUpperCase();
+      }
+    }
+  }
+  return result;
+}
+function hex(code, length) {
+  let result = code.toString(16);
+  while (result.length < length) result = "0" + result;
+  return result;
+}
+function myUnescape(value) {
+  let str = value.toString();
+  let result = "";
+  let index = 0;
+  let chr, part;
+  while (index < str.length) {
+    chr = str.charAt(index++);
+    if (chr === "%") {
+      if (str.charAt(index) === "u") {
+        part = str.slice(index + 1, index + 5);
+        if (/^[\da-f]{4}$/i.exec(part)) {
+          result += String.fromCharCode(parseInt(part, 16));
+          index += 5;
+          continue;
+        }
+      } else {
+        part = str.slice(index, index + 2);
+        if (/^[\da-f]{2}$/i.exec(part)) {
+          result += String.fromCharCode(parseInt(part, 16));
+          index += 2;
+          continue;
+        }
+      }
+    }
+    result += chr;
+  }
+  return result;
+}
+function warnOnceAboutExpiresCookie(name, expires) {
+  warnOnce(
+    !expires,
+    `The "${name}" cookie has an "expires" property set. This will cause the expires value to not be updated when the session is committed. Instead, you should set the expires value when serializing the cookie. You can use \`commitSession(session, { expires })\` if using a session storage object, or \`cookie.serialize("value", { expires })\` if you're using the cookie directly.`
+  );
+}
+
+// lib/server-runtime/entry.ts
+function createEntryRouteModules(manifest) {
+  return Object.keys(manifest).reduce((memo2, routeId) => {
+    let route = manifest[routeId];
+    if (route) {
+      memo2[routeId] = route.module;
+    }
+    return memo2;
+  }, {});
+}
+
+// lib/server-runtime/mode.ts
+var ServerMode = /* @__PURE__ */ ((ServerMode2) => {
+  ServerMode2["Development"] = "development";
+  ServerMode2["Production"] = "production";
+  ServerMode2["Test"] = "test";
+  return ServerMode2;
+})(ServerMode || {});
+function isServerMode(value) {
+  return value === "development" /* Development */ || value === "production" /* Production */ || value === "test" /* Test */;
+}
+
+// lib/server-runtime/errors.ts
+function sanitizeError(error, serverMode) {
+  if (error instanceof Error && serverMode !== "development" /* Development */) {
+    let sanitized = new Error("Unexpected Server Error");
+    sanitized.stack = void 0;
+    return sanitized;
+  }
+  return error;
+}
+function sanitizeErrors(errors, serverMode) {
+  return Object.entries(errors).reduce((acc, [routeId, error]) => {
+    return Object.assign(acc, { [routeId]: sanitizeError(error, serverMode) });
+  }, {});
+}
+function serializeError(error, serverMode) {
+  let sanitized = sanitizeError(error, serverMode);
+  return {
+    message: sanitized.message,
+    stack: sanitized.stack
+  };
+}
+function serializeErrors2(errors, serverMode) {
+  if (!errors) return null;
+  let entries = Object.entries(errors);
+  let serialized = {};
+  for (let [key, val] of entries) {
+    if (isRouteErrorResponse(val)) {
+      serialized[key] = { ...val, __type: "RouteErrorResponse" };
+    } else if (val instanceof Error) {
+      let sanitized = sanitizeError(val, serverMode);
+      serialized[key] = {
+        message: sanitized.message,
+        stack: sanitized.stack,
+        __type: "Error",
+        // If this is a subclass (i.e., ReferenceError), send up the type so we
+        // can re-create the same type during hydration.  This will only apply
+        // in dev mode since all production errors are sanitized to normal
+        // Error instances
+        ...sanitized.name !== "Error" ? {
+          __subType: sanitized.name
+        } : {}
+      };
+    } else {
+      serialized[key] = val;
+    }
+  }
+  return serialized;
+}
+
+// lib/server-runtime/routeMatching.ts
+function matchServerRoutes(routes, pathname, basename) {
+  let matches = matchRoutes(
+    routes,
+    pathname,
+    basename
+  );
+  if (!matches) return null;
+  return matches.map((match) => ({
+    params: match.params,
+    pathname: match.pathname,
+    route: match.route
+  }));
+}
+
+// lib/server-runtime/data.ts
+async function callRouteHandler(handler, args) {
+  let result = await handler({
+    request: stripRoutesParam(stripIndexParam2(args.request)),
+    params: args.params,
+    context: args.context
+  });
+  if (isDataWithResponseInit(result) && result.init && result.init.status && isRedirectStatusCode(result.init.status)) {
+    throw new Response(null, result.init);
+  }
+  return result;
+}
+function stripIndexParam2(request) {
+  let url = new URL(request.url);
+  let indexValues = url.searchParams.getAll("index");
+  url.searchParams.delete("index");
+  let indexValuesToKeep = [];
+  for (let indexValue of indexValues) {
+    if (indexValue) {
+      indexValuesToKeep.push(indexValue);
+    }
+  }
+  for (let toKeep of indexValuesToKeep) {
+    url.searchParams.append("index", toKeep);
+  }
+  let init = {
+    method: request.method,
+    body: request.body,
+    headers: request.headers,
+    signal: request.signal
+  };
+  if (init.body) {
+    init.duplex = "half";
+  }
+  return new Request(url.href, init);
+}
+function stripRoutesParam(request) {
+  let url = new URL(request.url);
+  url.searchParams.delete("_routes");
+  let init = {
+    method: request.method,
+    body: request.body,
+    headers: request.headers,
+    signal: request.signal
+  };
+  if (init.body) {
+    init.duplex = "half";
+  }
+  return new Request(url.href, init);
+}
+
+// lib/server-runtime/invariant.ts
+function invariant3(value, message) {
+  if (value === false || value === null || typeof value === "undefined") {
+    console.error(
+      "The following error is a bug in React Router; please open an issue! https://github.com/remix-run/react-router/issues/new/choose"
+    );
+    throw new Error(message);
+  }
+}
+
+// lib/server-runtime/routes.ts
+function groupRoutesByParentId2(manifest) {
+  let routes = {};
+  Object.values(manifest).forEach((route) => {
+    if (route) {
+      let parentId = route.parentId || "";
+      if (!routes[parentId]) {
+        routes[parentId] = [];
+      }
+      routes[parentId].push(route);
+    }
+  });
+  return routes;
+}
+function createRoutes(manifest, parentId = "", routesByParentId = groupRoutesByParentId2(manifest)) {
+  return (routesByParentId[parentId] || []).map((route) => ({
+    ...route,
+    children: createRoutes(manifest, route.id, routesByParentId)
+  }));
+}
+function createStaticHandlerDataRoutes(manifest, future, parentId = "", routesByParentId = groupRoutesByParentId2(manifest)) {
+  return (routesByParentId[parentId] || []).map((route) => {
+    let commonRoute = {
+      // Always include root due to default boundaries
+      hasErrorBoundary: route.id === "root" || route.module.ErrorBoundary != null,
+      id: route.id,
+      path: route.path,
+      // Need to use RR's version in the param typed here to permit the optional
+      // context even though we know it'll always be provided in remix
+      loader: route.module.loader ? async (args) => {
+        if (args.request.headers.has("X-React-Router-Prerender-Data")) {
+          const preRenderedData = args.request.headers.get(
+            "X-React-Router-Prerender-Data"
+          );
+          let encoded = preRenderedData ? decodeURI(preRenderedData) : preRenderedData;
+          invariant3(encoded, "Missing prerendered data for route");
+          let uint8array = new TextEncoder().encode(encoded);
+          let stream = new ReadableStream({
+            start(controller) {
+              controller.enqueue(uint8array);
+              controller.close();
+            }
+          });
+          let decoded = await decodeViaTurboStream(stream, global);
+          let data2 = decoded.value;
+          invariant3(
+            data2 && route.id in data2,
+            "Unable to decode prerendered data"
+          );
+          let result = data2[route.id];
+          invariant3("data" in result, "Unable to process prerendered data");
+          return result.data;
+        }
+        let val = await callRouteHandler(route.module.loader, args);
+        return val;
+      } : void 0,
+      action: route.module.action ? (args) => callRouteHandler(route.module.action, args) : void 0,
+      handle: route.module.handle
+    };
+    return route.index ? {
+      index: true,
+      ...commonRoute
+    } : {
+      caseSensitive: route.caseSensitive,
+      children: createStaticHandlerDataRoutes(
+        manifest,
+        future,
+        route.id,
+        routesByParentId
+      ),
+      ...commonRoute
+    };
+  });
+}
+
+// lib/server-runtime/markup.ts
+var ESCAPE_LOOKUP3 = {
+  "&": "\\u0026",
+  ">": "\\u003e",
+  "<": "\\u003c",
+  "\u2028": "\\u2028",
+  "\u2029": "\\u2029"
+};
+var ESCAPE_REGEX3 = /[&><\u2028\u2029]/g;
+function escapeHtml2(html) {
+  return html.replace(ESCAPE_REGEX3, (match) => ESCAPE_LOOKUP3[match]);
+}
+
+// lib/server-runtime/serverHandoff.ts
+function createServerHandoffString(serverHandoff) {
+  return escapeHtml2(JSON.stringify(serverHandoff));
+}
+
+// lib/server-runtime/dev.ts
+var globalDevServerHooksKey = "__reactRouterDevServerHooks";
+function setDevServerHooks(devServerHooks) {
+  globalThis[globalDevServerHooksKey] = devServerHooks;
+}
+function getDevServerHooks() {
+  return globalThis[globalDevServerHooksKey];
+}
+
+// lib/server-runtime/single-fetch.ts
+
+
+// lib/server-runtime/headers.ts
+
+function getDocumentHeaders(build, context) {
+  let boundaryIdx = context.errors ? context.matches.findIndex((m) => context.errors[m.route.id]) : -1;
+  let matches = boundaryIdx >= 0 ? context.matches.slice(0, boundaryIdx + 1) : context.matches;
+  let errorHeaders;
+  if (boundaryIdx >= 0) {
+    let { actionHeaders, actionData, loaderHeaders, loaderData } = context;
+    context.matches.slice(boundaryIdx).some((match) => {
+      let id = match.route.id;
+      if (actionHeaders[id] && (!actionData || !actionData.hasOwnProperty(id))) {
+        errorHeaders = actionHeaders[id];
+      } else if (loaderHeaders[id] && !loaderData.hasOwnProperty(id)) {
+        errorHeaders = loaderHeaders[id];
+      }
+      return errorHeaders != null;
+    });
+  }
+  return matches.reduce((parentHeaders, match, idx) => {
+    let { id } = match.route;
+    let route = build.routes[id];
+    invariant3(route, `Route with id "${id}" not found in build`);
+    let routeModule = route.module;
+    let loaderHeaders = context.loaderHeaders[id] || new Headers();
+    let actionHeaders = context.actionHeaders[id] || new Headers();
+    let includeErrorHeaders = errorHeaders != null && idx === matches.length - 1;
+    let includeErrorCookies = includeErrorHeaders && errorHeaders !== loaderHeaders && errorHeaders !== actionHeaders;
+    if (routeModule.headers == null) {
+      let headers2 = new Headers(parentHeaders);
+      if (includeErrorCookies) {
+        prependCookies(errorHeaders, headers2);
+      }
+      prependCookies(actionHeaders, headers2);
+      prependCookies(loaderHeaders, headers2);
+      return headers2;
+    }
+    let headers = new Headers(
+      routeModule.headers ? typeof routeModule.headers === "function" ? routeModule.headers({
+        loaderHeaders,
+        parentHeaders,
+        actionHeaders,
+        errorHeaders: includeErrorHeaders ? errorHeaders : void 0
+      }) : routeModule.headers : void 0
+    );
+    if (includeErrorCookies) {
+      prependCookies(errorHeaders, headers);
+    }
+    prependCookies(actionHeaders, headers);
+    prependCookies(loaderHeaders, headers);
+    prependCookies(parentHeaders, headers);
+    return headers;
+  }, new Headers());
+}
+function prependCookies(parentHeaders, childHeaders) {
+  let parentSetCookieString = parentHeaders.get("Set-Cookie");
+  if (parentSetCookieString) {
+    let cookies = (0,set_cookie_parser__WEBPACK_IMPORTED_MODULE_3__.splitCookiesString)(parentSetCookieString);
+    cookies.forEach((cookie) => {
+      childHeaders.append("Set-Cookie", cookie);
+    });
+  }
+}
+
+// lib/server-runtime/single-fetch.ts
+var SINGLE_FETCH_REDIRECT_STATUS = 202;
+function getSingleFetchDataStrategy2({
+  isActionDataRequest,
+  loadRouteIds
+} = {}) {
+  return async ({ request, matches }) => {
+    if (isActionDataRequest && request.method === "GET") {
+      return {};
+    }
+    let matchesToLoad = loadRouteIds ? matches.filter((m) => loadRouteIds.includes(m.route.id)) : matches;
+    let results = await Promise.all(
+      matchesToLoad.map((match) => match.resolve())
+    );
+    return results.reduce(
+      (acc, result, i) => Object.assign(acc, { [matchesToLoad[i].route.id]: result }),
+      {}
+    );
+  };
+}
+async function singleFetchAction(build, serverMode, staticHandler, request, handlerUrl, loadContext, handleError) {
+  try {
+    let handlerRequest = new Request(handlerUrl, {
+      method: request.method,
+      body: request.body,
+      headers: request.headers,
+      signal: request.signal,
+      ...request.body ? { duplex: "half" } : void 0
+    });
+    let result = await staticHandler.query(handlerRequest, {
+      requestContext: loadContext,
+      skipLoaderErrorBubbling: true,
+      dataStrategy: getSingleFetchDataStrategy2({
+        isActionDataRequest: true
+      })
+    });
+    if (isResponse(result)) {
+      return {
+        result: getSingleFetchRedirect(
+          result.status,
+          result.headers,
+          build.basename
+        ),
+        headers: result.headers,
+        status: SINGLE_FETCH_REDIRECT_STATUS
+      };
+    }
+    let context = result;
+    let headers = getDocumentHeaders(build, context);
+    if (isRedirectStatusCode(context.statusCode) && headers.has("Location")) {
+      return {
+        result: getSingleFetchRedirect(
+          context.statusCode,
+          headers,
+          build.basename
+        ),
+        headers,
+        status: SINGLE_FETCH_REDIRECT_STATUS
+      };
+    }
+    if (context.errors) {
+      Object.values(context.errors).forEach((err) => {
+        if (!isRouteErrorResponse(err) || err.error) {
+          handleError(err);
+        }
+      });
+      context.errors = sanitizeErrors(context.errors, serverMode);
+    }
+    let singleFetchResult;
+    if (context.errors) {
+      singleFetchResult = { error: Object.values(context.errors)[0] };
+    } else {
+      singleFetchResult = { data: Object.values(context.actionData || {})[0] };
+    }
+    return {
+      result: singleFetchResult,
+      headers,
+      status: context.statusCode
+    };
+  } catch (error) {
+    handleError(error);
+    return {
+      result: { error },
+      headers: new Headers(),
+      status: 500
+    };
+  }
+}
+async function singleFetchLoaders(build, serverMode, staticHandler, request, handlerUrl, loadContext, handleError) {
+  try {
+    let handlerRequest = new Request(handlerUrl, {
+      headers: request.headers,
+      signal: request.signal
+    });
+    let loadRouteIds = new URL(request.url).searchParams.get("_routes")?.split(",") || void 0;
+    let result = await staticHandler.query(handlerRequest, {
+      requestContext: loadContext,
+      skipLoaderErrorBubbling: true,
+      dataStrategy: getSingleFetchDataStrategy2({
+        loadRouteIds
+      })
+    });
+    if (isResponse(result)) {
+      return {
+        result: {
+          [SingleFetchRedirectSymbol]: getSingleFetchRedirect(
+            result.status,
+            result.headers,
+            build.basename
+          )
+        },
+        headers: result.headers,
+        status: SINGLE_FETCH_REDIRECT_STATUS
+      };
+    }
+    let context = result;
+    let headers = getDocumentHeaders(build, context);
+    if (isRedirectStatusCode(context.statusCode) && headers.has("Location")) {
+      return {
+        result: {
+          [SingleFetchRedirectSymbol]: getSingleFetchRedirect(
+            context.statusCode,
+            headers,
+            build.basename
+          )
+        },
+        headers,
+        status: SINGLE_FETCH_REDIRECT_STATUS
+      };
+    }
+    if (context.errors) {
+      Object.values(context.errors).forEach((err) => {
+        if (!isRouteErrorResponse(err) || err.error) {
+          handleError(err);
+        }
+      });
+      context.errors = sanitizeErrors(context.errors, serverMode);
+    }
+    let results = {};
+    let loadedMatches = loadRouteIds ? context.matches.filter(
+      (m) => m.route.loader && loadRouteIds.includes(m.route.id)
+    ) : context.matches;
+    loadedMatches.forEach((m) => {
+      let { id } = m.route;
+      if (context.errors && context.errors.hasOwnProperty(id)) {
+        results[id] = { error: context.errors[id] };
+      } else if (context.loaderData.hasOwnProperty(id)) {
+        results[id] = { data: context.loaderData[id] };
+      }
+    });
+    return {
+      result: results,
+      headers,
+      status: context.statusCode
+    };
+  } catch (error) {
+    handleError(error);
+    return {
+      result: { root: { error } },
+      headers: new Headers(),
+      status: 500
+    };
+  }
+}
+function getSingleFetchRedirect(status, headers, basename) {
+  let redirect2 = headers.get("Location");
+  if (basename) {
+    redirect2 = stripBasename(redirect2, basename) || redirect2;
+  }
+  return {
+    redirect: redirect2,
+    status,
+    revalidate: (
+      // Technically X-Remix-Revalidate isn't needed here - that was an implementation
+      // detail of ?_data requests as our way to tell the front end to revalidate when
+      // we didn't have a response body to include that information in.
+      // With single fetch, we tell the front end via this revalidate boolean field.
+      // However, we're respecting it for now because it may be something folks have
+      // used in their own responses
+      // TODO(v3): Consider removing or making this official public API
+      headers.has("X-Remix-Revalidate") || headers.has("Set-Cookie")
+    ),
+    reload: headers.has("X-Remix-Reload-Document"),
+    replace: headers.has("X-Remix-Replace")
+  };
+}
+function encodeViaTurboStream(data2, requestSignal, streamTimeout, serverMode) {
+  let controller = new AbortController();
+  let timeoutId = setTimeout(
+    () => controller.abort(new Error("Server Timeout")),
+    typeof streamTimeout === "number" ? streamTimeout : 4950
+  );
+  requestSignal.addEventListener("abort", () => clearTimeout(timeoutId));
+  return (0,turbo_stream__WEBPACK_IMPORTED_MODULE_1__.encode)(data2, {
+    signal: controller.signal,
+    plugins: [
+      (value) => {
+        if (value instanceof Error) {
+          let { name, message, stack } = serverMode === "production" /* Production */ ? sanitizeError(value, serverMode) : value;
+          return ["SanitizedError", name, message, stack];
+        }
+        if (value instanceof ErrorResponseImpl) {
+          let { data: data3, status, statusText } = value;
+          return ["ErrorResponse", data3, status, statusText];
+        }
+        if (value && typeof value === "object" && SingleFetchRedirectSymbol in value) {
+          return ["SingleFetchRedirect", value[SingleFetchRedirectSymbol]];
+        }
+      }
+    ],
+    postPlugins: [
+      (value) => {
+        if (!value) return;
+        if (typeof value !== "object") return;
+        return [
+          "SingleFetchClassInstance",
+          Object.fromEntries(Object.entries(value))
+        ];
+      },
+      () => ["SingleFetchFallback"]
+    ]
+  });
+}
+
+// lib/server-runtime/server.ts
+function derive(build, mode) {
+  let routes = createRoutes(build.routes);
+  let dataRoutes = createStaticHandlerDataRoutes(build.routes, build.future);
+  let serverMode = isServerMode(mode) ? mode : "production" /* Production */;
+  let staticHandler = createStaticHandler(dataRoutes, {
+    basename: build.basename
+  });
+  let errorHandler = build.entry.module.handleError || ((error, { request }) => {
+    if (serverMode !== "test" /* Test */ && !request.signal.aborted) {
+      console.error(
+        // @ts-expect-error This is "private" from users but intended for internal use
+        isRouteErrorResponse(error) && error.error ? error.error : error
+      );
+    }
+  });
+  return {
+    routes,
+    dataRoutes,
+    serverMode,
+    staticHandler,
+    errorHandler
+  };
+}
+var createRequestHandler = (build, mode) => {
+  let _build;
+  let routes;
+  let serverMode;
+  let staticHandler;
+  let errorHandler;
+  return async function requestHandler(request, loadContext = {}) {
+    _build = typeof build === "function" ? await build() : build;
+    if (typeof build === "function") {
+      let derived = derive(_build, mode);
+      routes = derived.routes;
+      serverMode = derived.serverMode;
+      staticHandler = derived.staticHandler;
+      errorHandler = derived.errorHandler;
+    } else if (!routes || !serverMode || !staticHandler || !errorHandler) {
+      let derived = derive(_build, mode);
+      routes = derived.routes;
+      serverMode = derived.serverMode;
+      staticHandler = derived.staticHandler;
+      errorHandler = derived.errorHandler;
+    }
+    let url = new URL(request.url);
+    let params = {};
+    let handleError = (error) => {
+      if (mode === "development" /* Development */) {
+        getDevServerHooks()?.processRequestError?.(error);
+      }
+      errorHandler(error, {
+        context: loadContext,
+        params,
+        request
+      });
+    };
+    let manifestUrl = `${_build.basename ?? "/"}/__manifest`.replace(
+      /\/+/g,
+      "/"
+    );
+    if (url.pathname === manifestUrl) {
+      try {
+        let res = await handleManifestRequest(_build, routes, url);
+        return res;
+      } catch (e) {
+        handleError(e);
+        return new Response("Unknown Server Error", { status: 500 });
+      }
+    }
+    let matches = matchServerRoutes(routes, url.pathname, _build.basename);
+    if (matches && matches.length > 0) {
+      Object.assign(params, matches[0].params);
+    }
+    let response;
+    if (url.pathname.endsWith(".data")) {
+      let handlerUrl = new URL(request.url);
+      handlerUrl.pathname = handlerUrl.pathname.replace(/\.data$/, "").replace(/^\/_root$/, "/");
+      let singleFetchMatches = matchServerRoutes(
+        routes,
+        handlerUrl.pathname,
+        _build.basename
+      );
+      response = await handleSingleFetchRequest(
+        serverMode,
+        _build,
+        staticHandler,
+        request,
+        handlerUrl,
+        loadContext,
+        handleError
+      );
+      if (_build.entry.module.handleDataRequest) {
+        response = await _build.entry.module.handleDataRequest(response, {
+          context: loadContext,
+          params: singleFetchMatches ? singleFetchMatches[0].params : {},
+          request
+        });
+        if (isRedirectResponse(response)) {
+          let result = getSingleFetchRedirect(
+            response.status,
+            response.headers,
+            _build.basename
+          );
+          if (request.method === "GET") {
+            result = {
+              [SingleFetchRedirectSymbol]: result
+            };
+          }
+          let headers = new Headers(response.headers);
+          headers.set("Content-Type", "text/x-script");
+          return new Response(
+            encodeViaTurboStream(
+              result,
+              request.signal,
+              _build.entry.module.streamTimeout,
+              serverMode
+            ),
+            {
+              status: SINGLE_FETCH_REDIRECT_STATUS,
+              headers
+            }
+          );
+        }
+      }
+    } else if (matches && matches[matches.length - 1].route.module.default == null && matches[matches.length - 1].route.module.ErrorBoundary == null) {
+      response = await handleResourceRequest(
+        serverMode,
+        staticHandler,
+        matches.slice(-1)[0].route.id,
+        request,
+        loadContext,
+        handleError
+      );
+    } else {
+      let criticalCss = mode === "development" /* Development */ ? await getDevServerHooks()?.getCriticalCss?.(_build, url.pathname) : void 0;
+      response = await handleDocumentRequest(
+        serverMode,
+        _build,
+        staticHandler,
+        request,
+        loadContext,
+        handleError,
+        criticalCss
+      );
+    }
+    if (request.method === "HEAD") {
+      return new Response(null, {
+        headers: response.headers,
+        status: response.status,
+        statusText: response.statusText
+      });
+    }
+    return response;
+  };
+};
+async function handleManifestRequest(build, routes, url) {
+  let patches = {};
+  if (url.searchParams.has("p")) {
+    for (let path of url.searchParams.getAll("p")) {
+      let matches = matchServerRoutes(routes, path, build.basename);
+      if (matches) {
+        for (let match of matches) {
+          let routeId = match.route.id;
+          let route = build.assets.routes[routeId];
+          if (route) {
+            patches[routeId] = route;
+          }
+        }
+      }
+    }
+    return Response.json(patches, {
+      headers: {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    });
+  }
+  return new Response("Invalid Request", { status: 400 });
+}
+async function handleSingleFetchRequest(serverMode, build, staticHandler, request, handlerUrl, loadContext, handleError) {
+  let { result, headers, status } = request.method !== "GET" ? await singleFetchAction(
+    build,
+    serverMode,
+    staticHandler,
+    request,
+    handlerUrl,
+    loadContext,
+    handleError
+  ) : await singleFetchLoaders(
+    build,
+    serverMode,
+    staticHandler,
+    request,
+    handlerUrl,
+    loadContext,
+    handleError
+  );
+  let resultHeaders = new Headers(headers);
+  resultHeaders.set("X-Remix-Response", "yes");
+  if (status === 304) {
+    return new Response(null, { status: 304, headers: resultHeaders });
+  }
+  resultHeaders.set("Content-Type", "text/x-script");
+  return new Response(
+    encodeViaTurboStream(
+      result,
+      request.signal,
+      build.entry.module.streamTimeout,
+      serverMode
+    ),
+    {
+      status: status || 200,
+      headers: resultHeaders
+    }
+  );
+}
+async function handleDocumentRequest(serverMode, build, staticHandler, request, loadContext, handleError, criticalCss) {
+  let context;
+  try {
+    context = await staticHandler.query(request, {
+      requestContext: loadContext
+    });
+  } catch (error) {
+    handleError(error);
+    return new Response(null, { status: 500 });
+  }
+  if (isResponse(context)) {
+    return context;
+  }
+  let headers = getDocumentHeaders(build, context);
+  if (context.statusCode === 304) {
+    return new Response(null, { status: 304, headers });
+  }
+  if (context.errors) {
+    Object.values(context.errors).forEach((err) => {
+      if (!isRouteErrorResponse(err) || err.error) {
+        handleError(err);
+      }
+    });
+    context.errors = sanitizeErrors(context.errors, serverMode);
+  }
+  let state = {
+    loaderData: context.loaderData,
+    actionData: context.actionData,
+    errors: serializeErrors2(context.errors, serverMode)
+  };
+  let entryContext = {
+    manifest: build.assets,
+    routeModules: createEntryRouteModules(build.routes),
+    staticHandlerContext: context,
+    criticalCss,
+    serverHandoffString: createServerHandoffString({
+      basename: build.basename,
+      criticalCss,
+      future: build.future,
+      isSpaMode: build.isSpaMode
+    }),
+    serverHandoffStream: encodeViaTurboStream(
+      state,
+      request.signal,
+      build.entry.module.streamTimeout,
+      serverMode
+    ),
+    renderMeta: {},
+    future: build.future,
+    isSpaMode: build.isSpaMode,
+    serializeError: (err) => serializeError(err, serverMode)
+  };
+  let handleDocumentRequestFunction = build.entry.module.default;
+  try {
+    return await handleDocumentRequestFunction(
+      request,
+      context.statusCode,
+      headers,
+      entryContext,
+      loadContext
+    );
+  } catch (error) {
+    handleError(error);
+    let errorForSecondRender = error;
+    if (isResponse(error)) {
+      try {
+        let data2 = await unwrapResponse(error);
+        errorForSecondRender = new ErrorResponseImpl(
+          error.status,
+          error.statusText,
+          data2
+        );
+      } catch (e) {
+      }
+    }
+    context = getStaticContextFromError(
+      staticHandler.dataRoutes,
+      context,
+      errorForSecondRender
+    );
+    if (context.errors) {
+      context.errors = sanitizeErrors(context.errors, serverMode);
+    }
+    let state2 = {
+      loaderData: context.loaderData,
+      actionData: context.actionData,
+      errors: serializeErrors2(context.errors, serverMode)
+    };
+    entryContext = {
+      ...entryContext,
+      staticHandlerContext: context,
+      serverHandoffString: createServerHandoffString({
+        basename: build.basename,
+        future: build.future,
+        isSpaMode: build.isSpaMode
+      }),
+      serverHandoffStream: encodeViaTurboStream(
+        state2,
+        request.signal,
+        build.entry.module.streamTimeout,
+        serverMode
+      ),
+      renderMeta: {}
+    };
+    try {
+      return await handleDocumentRequestFunction(
+        request,
+        context.statusCode,
+        headers,
+        entryContext,
+        loadContext
+      );
+    } catch (error2) {
+      handleError(error2);
+      return returnLastResortErrorResponse(error2, serverMode);
+    }
+  }
+}
+async function handleResourceRequest(serverMode, staticHandler, routeId, request, loadContext, handleError) {
+  try {
+    let response = await staticHandler.queryRoute(request, {
+      routeId,
+      requestContext: loadContext
+    });
+    invariant3(
+      isResponse(response),
+      "Expected a Response to be returned from resource route handler"
+    );
+    return response;
+  } catch (error) {
+    if (isResponse(error)) {
+      error.headers.set("X-Remix-Catch", "yes");
+      return error;
+    }
+    if (isRouteErrorResponse(error)) {
+      if (error) {
+        handleError(error);
+      }
+      return errorResponseToJson(error, serverMode);
+    }
+    handleError(error);
+    return returnLastResortErrorResponse(error, serverMode);
+  }
+}
+function errorResponseToJson(errorResponse, serverMode) {
+  return Response.json(
+    serializeError(
+      // @ts-expect-error This is "private" from users but intended for internal use
+      errorResponse.error || new Error("Unexpected Server Error"),
+      serverMode
+    ),
+    {
+      status: errorResponse.status,
+      statusText: errorResponse.statusText,
+      headers: {
+        "X-Remix-Error": "yes"
+      }
+    }
+  );
+}
+function returnLastResortErrorResponse(error, serverMode) {
+  let message = "Unexpected Server Error";
+  if (serverMode !== "production" /* Production */) {
+    message += `
+
+${String(error)}`;
+  }
+  return new Response(message, {
+    status: 500,
+    headers: {
+      "Content-Type": "text/plain"
+    }
+  });
+}
+function unwrapResponse(response) {
+  let contentType = response.headers.get("Content-Type");
+  return contentType && /\bapplication\/json\b/.test(contentType) ? response.body == null ? null : response.json() : response.text();
+}
+
+// lib/server-runtime/sessions.ts
+function flash(name) {
+  return `__flash_${name}__`;
+}
+var createSession = (initialData = {}, id = "") => {
+  let map = new Map(Object.entries(initialData));
+  return {
+    get id() {
+      return id;
+    },
+    get data() {
+      return Object.fromEntries(map);
+    },
+    has(name) {
+      return map.has(name) || map.has(flash(name));
+    },
+    get(name) {
+      if (map.has(name)) return map.get(name);
+      let flashName = flash(name);
+      if (map.has(flashName)) {
+        let value = map.get(flashName);
+        map.delete(flashName);
+        return value;
+      }
+      return void 0;
+    },
+    set(name, value) {
+      map.set(name, value);
+    },
+    flash(name, value) {
+      map.set(flash(name), value);
+    },
+    unset(name) {
+      map.delete(name);
+    }
+  };
+};
+var isSession = (object) => {
+  return object != null && typeof object.id === "string" && typeof object.data !== "undefined" && typeof object.has === "function" && typeof object.get === "function" && typeof object.set === "function" && typeof object.flash === "function" && typeof object.unset === "function";
+};
+function createSessionStorage({
+  cookie: cookieArg,
+  createData,
+  readData,
+  updateData,
+  deleteData
+}) {
+  let cookie = isCookie(cookieArg) ? cookieArg : createCookie(cookieArg?.name || "__session", cookieArg);
+  warnOnceAboutSigningSessionCookie(cookie);
+  return {
+    async getSession(cookieHeader, options) {
+      let id = cookieHeader && await cookie.parse(cookieHeader, options);
+      let data2 = id && await readData(id);
+      return createSession(data2 || {}, id || "");
+    },
+    async commitSession(session, options) {
+      let { id, data: data2 } = session;
+      let expires = options?.maxAge != null ? new Date(Date.now() + options.maxAge * 1e3) : options?.expires != null ? options.expires : cookie.expires;
+      if (id) {
+        await updateData(id, data2, expires);
+      } else {
+        id = await createData(data2, expires);
+      }
+      return cookie.serialize(id, options);
+    },
+    async destroySession(session, options) {
+      await deleteData(session.id);
+      return cookie.serialize("", {
+        ...options,
+        maxAge: void 0,
+        expires: /* @__PURE__ */ new Date(0)
+      });
+    }
+  };
+}
+function warnOnceAboutSigningSessionCookie(cookie) {
+  warnOnce(
+    cookie.isSigned,
+    `The "${cookie.name}" cookie is not signed, but session cookies should be signed to prevent tampering on the client before they are sent back to the server. See https://remix.run/utils/cookies#signing-cookies for more information.`
+  );
+}
+
+// lib/server-runtime/sessions/cookieStorage.ts
+function createCookieSessionStorage({ cookie: cookieArg } = {}) {
+  let cookie = isCookie(cookieArg) ? cookieArg : createCookie(cookieArg?.name || "__session", cookieArg);
+  warnOnceAboutSigningSessionCookie(cookie);
+  return {
+    async getSession(cookieHeader, options) {
+      return createSession(
+        cookieHeader && await cookie.parse(cookieHeader, options) || {}
+      );
+    },
+    async commitSession(session, options) {
+      let serializedCookie = await cookie.serialize(session.data, options);
+      if (serializedCookie.length > 4096) {
+        throw new Error(
+          "Cookie length will exceed browser maximum. Length: " + serializedCookie.length
+        );
+      }
+      return serializedCookie;
+    },
+    async destroySession(_session, options) {
+      return cookie.serialize("", {
+        ...options,
+        maxAge: void 0,
+        expires: /* @__PURE__ */ new Date(0)
+      });
+    }
+  };
+}
+
+// lib/server-runtime/sessions/memoryStorage.ts
+function createMemorySessionStorage({ cookie } = {}) {
+  let map = /* @__PURE__ */ new Map();
+  return createSessionStorage({
+    cookie,
+    async createData(data2, expires) {
+      let id = Math.random().toString(36).substring(2, 10);
+      map.set(id, { data: data2, expires });
+      return id;
+    },
+    async readData(id) {
+      if (map.has(id)) {
+        let { data: data2, expires } = map.get(id);
+        if (!expires || expires > /* @__PURE__ */ new Date()) {
+          return data2;
+        }
+        if (expires) map.delete(id);
+      }
+      return null;
+    },
+    async updateData(id, data2, expires) {
+      map.set(id, { data: data2, expires });
+    },
+    async deleteData(id) {
+      map.delete(id);
+    }
+  });
+}
+
+// lib/dom/ssr/errors.ts
+function deserializeErrors2(errors) {
+  if (!errors) return null;
+  let entries = Object.entries(errors);
+  let serialized = {};
+  for (let [key, val] of entries) {
+    if (val && val.__type === "RouteErrorResponse") {
+      serialized[key] = new ErrorResponseImpl(
+        val.status,
+        val.statusText,
+        val.data,
+        val.internal === true
+      );
+    } else if (val && val.__type === "Error") {
+      if (val.__subType) {
+        let ErrorConstructor = window[val.__subType];
+        if (typeof ErrorConstructor === "function") {
+          try {
+            let error = new ErrorConstructor(val.message);
+            error.stack = val.stack;
+            serialized[key] = error;
+          } catch (e) {
+          }
+        }
+      }
+      if (serialized[key] == null) {
+        let error = new Error(val.message);
+        error.stack = val.stack;
+        serialized[key] = error;
+      }
+    } else {
+      serialized[key] = val;
+    }
+  }
+  return serialized;
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/turbo-stream/dist/turbo-stream.mjs":
+/*!*********************************************************!*\
+  !*** ./node_modules/turbo-stream/dist/turbo-stream.mjs ***!
+  \*********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   decode: () => (/* binding */ decode),
+/* harmony export */   encode: () => (/* binding */ encode)
+/* harmony export */ });
+// src/utils.ts
+var HOLE = -1;
+var NAN = -2;
+var NEGATIVE_INFINITY = -3;
+var NEGATIVE_ZERO = -4;
+var NULL = -5;
+var POSITIVE_INFINITY = -6;
+var UNDEFINED = -7;
+var TYPE_BIGINT = "B";
+var TYPE_DATE = "D";
+var TYPE_ERROR = "E";
+var TYPE_MAP = "M";
+var TYPE_NULL_OBJECT = "N";
+var TYPE_PROMISE = "P";
+var TYPE_REGEXP = "R";
+var TYPE_SET = "S";
+var TYPE_SYMBOL = "Y";
+var TYPE_URL = "U";
+var TYPE_PREVIOUS_RESOLVED = "Z";
+var Deferred = class {
+  promise;
+  resolve;
+  reject;
+  constructor() {
+    this.promise = new Promise((resolve, reject) => {
+      this.resolve = resolve;
+      this.reject = reject;
+    });
+  }
+};
+function createLineSplittingTransform() {
+  const decoder = new TextDecoder();
+  let leftover = "";
+  return new TransformStream({
+    transform(chunk, controller) {
+      const str = decoder.decode(chunk, { stream: true });
+      const parts = (leftover + str).split("\n");
+      leftover = parts.pop() || "";
+      for (const part of parts) {
+        controller.enqueue(part);
+      }
+    },
+    flush(controller) {
+      if (leftover) {
+        controller.enqueue(leftover);
+      }
+    }
+  });
+}
+
+// src/flatten.ts
+function flatten(input) {
+  const { indices } = this;
+  const existing = indices.get(input);
+  if (existing)
+    return [existing];
+  if (input === void 0)
+    return UNDEFINED;
+  if (input === null)
+    return NULL;
+  if (Number.isNaN(input))
+    return NAN;
+  if (input === Number.POSITIVE_INFINITY)
+    return POSITIVE_INFINITY;
+  if (input === Number.NEGATIVE_INFINITY)
+    return NEGATIVE_INFINITY;
+  if (input === 0 && 1 / input < 0)
+    return NEGATIVE_ZERO;
+  const index = this.index++;
+  indices.set(input, index);
+  stringify.call(this, input, index);
+  return index;
+}
+function stringify(input, index) {
+  const { deferred, plugins, postPlugins } = this;
+  const str = this.stringified;
+  const stack = [[input, index]];
+  while (stack.length > 0) {
+    const [input2, index2] = stack.pop();
+    const partsForObj = (obj) => Object.keys(obj).map((k) => `"_${flatten.call(this, k)}":${flatten.call(this, obj[k])}`).join(",");
+    let error = null;
+    switch (typeof input2) {
+      case "boolean":
+      case "number":
+      case "string":
+        str[index2] = JSON.stringify(input2);
+        break;
+      case "bigint":
+        str[index2] = `["${TYPE_BIGINT}","${input2}"]`;
+        break;
+      case "symbol": {
+        const keyFor = Symbol.keyFor(input2);
+        if (!keyFor) {
+          error = new Error(
+            "Cannot encode symbol unless created with Symbol.for()"
+          );
+        } else {
+          str[index2] = `["${TYPE_SYMBOL}",${JSON.stringify(keyFor)}]`;
+        }
+        break;
+      }
+      case "object": {
+        if (!input2) {
+          str[index2] = `${NULL}`;
+          break;
+        }
+        const isArray = Array.isArray(input2);
+        let pluginHandled = false;
+        if (!isArray && plugins) {
+          for (const plugin of plugins) {
+            const pluginResult = plugin(input2);
+            if (Array.isArray(pluginResult)) {
+              pluginHandled = true;
+              const [pluginIdentifier, ...rest] = pluginResult;
+              str[index2] = `[${JSON.stringify(pluginIdentifier)}`;
+              if (rest.length > 0) {
+                str[index2] += `,${rest.map((v) => flatten.call(this, v)).join(",")}`;
+              }
+              str[index2] += "]";
+              break;
+            }
+          }
+        }
+        if (!pluginHandled) {
+          let result = isArray ? "[" : "{";
+          if (isArray) {
+            for (let i = 0; i < input2.length; i++)
+              result += (i ? "," : "") + (i in input2 ? flatten.call(this, input2[i]) : HOLE);
+            str[index2] = `${result}]`;
+          } else if (input2 instanceof Date) {
+            str[index2] = `["${TYPE_DATE}",${input2.getTime()}]`;
+          } else if (input2 instanceof URL) {
+            str[index2] = `["${TYPE_URL}",${JSON.stringify(input2.href)}]`;
+          } else if (input2 instanceof RegExp) {
+            str[index2] = `["${TYPE_REGEXP}",${JSON.stringify(
+              input2.source
+            )},${JSON.stringify(input2.flags)}]`;
+          } else if (input2 instanceof Set) {
+            if (input2.size > 0) {
+              str[index2] = `["${TYPE_SET}",${[...input2].map((val) => flatten.call(this, val)).join(",")}]`;
+            } else {
+              str[index2] = `["${TYPE_SET}"]`;
+            }
+          } else if (input2 instanceof Map) {
+            if (input2.size > 0) {
+              str[index2] = `["${TYPE_MAP}",${[...input2].flatMap(([k, v]) => [
+                flatten.call(this, k),
+                flatten.call(this, v)
+              ]).join(",")}]`;
+            } else {
+              str[index2] = `["${TYPE_MAP}"]`;
+            }
+          } else if (input2 instanceof Promise) {
+            str[index2] = `["${TYPE_PROMISE}",${index2}]`;
+            deferred[index2] = input2;
+          } else if (input2 instanceof Error) {
+            str[index2] = `["${TYPE_ERROR}",${JSON.stringify(input2.message)}`;
+            if (input2.name !== "Error") {
+              str[index2] += `,${JSON.stringify(input2.name)}`;
+            }
+            str[index2] += "]";
+          } else if (Object.getPrototypeOf(input2) === null) {
+            str[index2] = `["${TYPE_NULL_OBJECT}",{${partsForObj(input2)}}]`;
+          } else if (isPlainObject(input2)) {
+            str[index2] = `{${partsForObj(input2)}}`;
+          } else {
+            error = new Error("Cannot encode object with prototype");
+          }
+        }
+        break;
+      }
+      default: {
+        const isArray = Array.isArray(input2);
+        let pluginHandled = false;
+        if (!isArray && plugins) {
+          for (const plugin of plugins) {
+            const pluginResult = plugin(input2);
+            if (Array.isArray(pluginResult)) {
+              pluginHandled = true;
+              const [pluginIdentifier, ...rest] = pluginResult;
+              str[index2] = `[${JSON.stringify(pluginIdentifier)}`;
+              if (rest.length > 0) {
+                str[index2] += `,${rest.map((v) => flatten.call(this, v)).join(",")}`;
+              }
+              str[index2] += "]";
+              break;
+            }
+          }
+        }
+        if (!pluginHandled) {
+          error = new Error("Cannot encode function or unexpected type");
+        }
+      }
+    }
+    if (error) {
+      let pluginHandled = false;
+      if (postPlugins) {
+        for (const plugin of postPlugins) {
+          const pluginResult = plugin(input2);
+          if (Array.isArray(pluginResult)) {
+            pluginHandled = true;
+            const [pluginIdentifier, ...rest] = pluginResult;
+            str[index2] = `[${JSON.stringify(pluginIdentifier)}`;
+            if (rest.length > 0) {
+              str[index2] += `,${rest.map((v) => flatten.call(this, v)).join(",")}`;
+            }
+            str[index2] += "]";
+            break;
+          }
+        }
+      }
+      if (!pluginHandled) {
+        throw error;
+      }
+    }
+  }
+}
+var objectProtoNames = Object.getOwnPropertyNames(Object.prototype).sort().join("\0");
+function isPlainObject(thing) {
+  const proto = Object.getPrototypeOf(thing);
+  return proto === Object.prototype || proto === null || Object.getOwnPropertyNames(proto).sort().join("\0") === objectProtoNames;
+}
+
+// src/unflatten.ts
+var globalObj = typeof window !== "undefined" ? window : typeof globalThis !== "undefined" ? globalThis : void 0;
+function unflatten(parsed) {
+  const { hydrated, values } = this;
+  if (typeof parsed === "number")
+    return hydrate.call(this, parsed);
+  if (!Array.isArray(parsed) || !parsed.length)
+    throw new SyntaxError();
+  const startIndex = values.length;
+  for (const value of parsed) {
+    values.push(value);
+  }
+  hydrated.length = values.length;
+  return hydrate.call(this, startIndex);
+}
+function hydrate(index) {
+  const { hydrated, values, deferred, plugins } = this;
+  let result;
+  const stack = [
+    [
+      index,
+      (v) => {
+        result = v;
+      }
+    ]
+  ];
+  let postRun = [];
+  while (stack.length > 0) {
+    const [index2, set] = stack.pop();
+    switch (index2) {
+      case UNDEFINED:
+        set(void 0);
+        continue;
+      case NULL:
+        set(null);
+        continue;
+      case NAN:
+        set(NaN);
+        continue;
+      case POSITIVE_INFINITY:
+        set(Infinity);
+        continue;
+      case NEGATIVE_INFINITY:
+        set(-Infinity);
+        continue;
+      case NEGATIVE_ZERO:
+        set(-0);
+        continue;
+    }
+    if (hydrated[index2]) {
+      set(hydrated[index2]);
+      continue;
+    }
+    const value = values[index2];
+    if (!value || typeof value !== "object") {
+      hydrated[index2] = value;
+      set(value);
+      continue;
+    }
+    if (Array.isArray(value)) {
+      if (typeof value[0] === "string") {
+        const [type, b, c] = value;
+        switch (type) {
+          case TYPE_DATE:
+            set(hydrated[index2] = new Date(b));
+            continue;
+          case TYPE_URL:
+            set(hydrated[index2] = new URL(b));
+            continue;
+          case TYPE_BIGINT:
+            set(hydrated[index2] = BigInt(b));
+            continue;
+          case TYPE_REGEXP:
+            set(hydrated[index2] = new RegExp(b, c));
+            continue;
+          case TYPE_SYMBOL:
+            set(hydrated[index2] = Symbol.for(b));
+            continue;
+          case TYPE_SET:
+            const newSet = /* @__PURE__ */ new Set();
+            hydrated[index2] = newSet;
+            for (let i = 1; i < value.length; i++)
+              stack.push([
+                value[i],
+                (v) => {
+                  newSet.add(v);
+                }
+              ]);
+            set(newSet);
+            continue;
+          case TYPE_MAP:
+            const map = /* @__PURE__ */ new Map();
+            hydrated[index2] = map;
+            for (let i = 1; i < value.length; i += 2) {
+              const r = [];
+              stack.push([
+                value[i + 1],
+                (v) => {
+                  r[1] = v;
+                }
+              ]);
+              stack.push([
+                value[i],
+                (k) => {
+                  r[0] = k;
+                }
+              ]);
+              postRun.push(() => {
+                map.set(r[0], r[1]);
+              });
+            }
+            set(map);
+            continue;
+          case TYPE_NULL_OBJECT:
+            const obj = /* @__PURE__ */ Object.create(null);
+            hydrated[index2] = obj;
+            for (const key of Object.keys(b).reverse()) {
+              const r = [];
+              stack.push([
+                b[key],
+                (v) => {
+                  r[1] = v;
+                }
+              ]);
+              stack.push([
+                Number(key.slice(1)),
+                (k) => {
+                  r[0] = k;
+                }
+              ]);
+              postRun.push(() => {
+                obj[r[0]] = r[1];
+              });
+            }
+            set(obj);
+            continue;
+          case TYPE_PROMISE:
+            if (hydrated[b]) {
+              set(hydrated[index2] = hydrated[b]);
+            } else {
+              const d = new Deferred();
+              deferred[b] = d;
+              set(hydrated[index2] = d.promise);
+            }
+            continue;
+          case TYPE_ERROR:
+            const [, message, errorType] = value;
+            let error = errorType && globalObj && globalObj[errorType] ? new globalObj[errorType](message) : new Error(message);
+            hydrated[index2] = error;
+            set(error);
+            continue;
+          case TYPE_PREVIOUS_RESOLVED:
+            set(hydrated[index2] = hydrated[b]);
+            continue;
+          default:
+            if (Array.isArray(plugins)) {
+              const r = [];
+              const vals = value.slice(1);
+              for (let i = 0; i < vals.length; i++) {
+                const v = vals[i];
+                stack.push([
+                  v,
+                  (v2) => {
+                    r[i] = v2;
+                  }
+                ]);
+              }
+              postRun.push(() => {
+                for (const plugin of plugins) {
+                  const result2 = plugin(value[0], ...r);
+                  if (result2) {
+                    set(hydrated[index2] = result2.value);
+                    return;
+                  }
+                }
+                throw new SyntaxError();
+              });
+              continue;
+            }
+            throw new SyntaxError();
+        }
+      } else {
+        const array = [];
+        hydrated[index2] = array;
+        for (let i = 0; i < value.length; i++) {
+          const n = value[i];
+          if (n !== HOLE) {
+            stack.push([
+              n,
+              (v) => {
+                array[i] = v;
+              }
+            ]);
+          }
+        }
+        set(array);
+        continue;
+      }
+    } else {
+      const object = {};
+      hydrated[index2] = object;
+      for (const key of Object.keys(value).reverse()) {
+        const r = [];
+        stack.push([
+          value[key],
+          (v) => {
+            r[1] = v;
+          }
+        ]);
+        stack.push([
+          Number(key.slice(1)),
+          (k) => {
+            r[0] = k;
+          }
+        ]);
+        postRun.push(() => {
+          object[r[0]] = r[1];
+        });
+      }
+      set(object);
+      continue;
+    }
+  }
+  while (postRun.length > 0) {
+    postRun.pop()();
+  }
+  return result;
+}
+
+// src/turbo-stream.ts
+async function decode(readable, options) {
+  const { plugins } = options ?? {};
+  const done = new Deferred();
+  const reader = readable.pipeThrough(createLineSplittingTransform()).getReader();
+  const decoder = {
+    values: [],
+    hydrated: [],
+    deferred: {},
+    plugins
+  };
+  const decoded = await decodeInitial.call(decoder, reader);
+  let donePromise = done.promise;
+  if (decoded.done) {
+    done.resolve();
+  } else {
+    donePromise = decodeDeferred.call(decoder, reader).then(done.resolve).catch((reason) => {
+      for (const deferred of Object.values(decoder.deferred)) {
+        deferred.reject(reason);
+      }
+      done.reject(reason);
+    });
+  }
+  return {
+    done: donePromise.then(() => reader.closed),
+    value: decoded.value
+  };
+}
+async function decodeInitial(reader) {
+  const read = await reader.read();
+  if (!read.value) {
+    throw new SyntaxError();
+  }
+  let line;
+  try {
+    line = JSON.parse(read.value);
+  } catch (reason) {
+    throw new SyntaxError();
+  }
+  return {
+    done: read.done,
+    value: unflatten.call(this, line)
+  };
+}
+async function decodeDeferred(reader) {
+  let read = await reader.read();
+  while (!read.done) {
+    if (!read.value)
+      continue;
+    const line = read.value;
+    switch (line[0]) {
+      case TYPE_PROMISE: {
+        const colonIndex = line.indexOf(":");
+        const deferredId = Number(line.slice(1, colonIndex));
+        const deferred = this.deferred[deferredId];
+        if (!deferred) {
+          throw new Error(`Deferred ID ${deferredId} not found in stream`);
+        }
+        const lineData = line.slice(colonIndex + 1);
+        let jsonLine;
+        try {
+          jsonLine = JSON.parse(lineData);
+        } catch (reason) {
+          throw new SyntaxError();
+        }
+        const value = unflatten.call(this, jsonLine);
+        deferred.resolve(value);
+        break;
+      }
+      case TYPE_ERROR: {
+        const colonIndex = line.indexOf(":");
+        const deferredId = Number(line.slice(1, colonIndex));
+        const deferred = this.deferred[deferredId];
+        if (!deferred) {
+          throw new Error(`Deferred ID ${deferredId} not found in stream`);
+        }
+        const lineData = line.slice(colonIndex + 1);
+        let jsonLine;
+        try {
+          jsonLine = JSON.parse(lineData);
+        } catch (reason) {
+          throw new SyntaxError();
+        }
+        const value = unflatten.call(this, jsonLine);
+        deferred.reject(value);
+        break;
+      }
+      default:
+        throw new SyntaxError();
+    }
+    read = await reader.read();
+  }
+}
+function encode(input, options) {
+  const { plugins, postPlugins, signal } = options ?? {};
+  const encoder = {
+    deferred: {},
+    index: 0,
+    indices: /* @__PURE__ */ new Map(),
+    stringified: [],
+    plugins,
+    postPlugins,
+    signal
+  };
+  const textEncoder = new TextEncoder();
+  let lastSentIndex = 0;
+  const readable = new ReadableStream({
+    async start(controller) {
+      const id = flatten.call(encoder, input);
+      if (Array.isArray(id)) {
+        throw new Error("This should never happen");
+      }
+      if (id < 0) {
+        controller.enqueue(textEncoder.encode(`${id}
+`));
+      } else {
+        controller.enqueue(
+          textEncoder.encode(`[${encoder.stringified.join(",")}]
+`)
+        );
+        lastSentIndex = encoder.stringified.length - 1;
+      }
+      const seenPromises = /* @__PURE__ */ new WeakSet();
+      while (Object.keys(encoder.deferred).length > 0) {
+        for (const [deferredId, deferred] of Object.entries(encoder.deferred)) {
+          if (seenPromises.has(deferred))
+            continue;
+          seenPromises.add(
+            encoder.deferred[Number(deferredId)] = raceSignal(
+              deferred,
+              encoder.signal
+            ).then(
+              (resolved) => {
+                const id2 = flatten.call(encoder, resolved);
+                if (Array.isArray(id2)) {
+                  controller.enqueue(
+                    textEncoder.encode(
+                      `${TYPE_PROMISE}${deferredId}:[["${TYPE_PREVIOUS_RESOLVED}",${id2[0]}]]
+`
+                    )
+                  );
+                  encoder.index++;
+                  lastSentIndex++;
+                } else if (id2 < 0) {
+                  controller.enqueue(
+                    textEncoder.encode(`${TYPE_PROMISE}${deferredId}:${id2}
+`)
+                  );
+                } else {
+                  const values = encoder.stringified.slice(lastSentIndex + 1).join(",");
+                  controller.enqueue(
+                    textEncoder.encode(
+                      `${TYPE_PROMISE}${deferredId}:[${values}]
+`
+                    )
+                  );
+                  lastSentIndex = encoder.stringified.length - 1;
+                }
+              },
+              (reason) => {
+                if (!reason || typeof reason !== "object" || !(reason instanceof Error)) {
+                  reason = new Error("An unknown error occurred");
+                }
+                const id2 = flatten.call(encoder, reason);
+                if (Array.isArray(id2)) {
+                  controller.enqueue(
+                    textEncoder.encode(
+                      `${TYPE_ERROR}${deferredId}:[["${TYPE_PREVIOUS_RESOLVED}",${id2[0]}]]
+`
+                    )
+                  );
+                  encoder.index++;
+                  lastSentIndex++;
+                } else if (id2 < 0) {
+                  controller.enqueue(
+                    textEncoder.encode(`${TYPE_ERROR}${deferredId}:${id2}
+`)
+                  );
+                } else {
+                  const values = encoder.stringified.slice(lastSentIndex + 1).join(",");
+                  controller.enqueue(
+                    textEncoder.encode(
+                      `${TYPE_ERROR}${deferredId}:[${values}]
+`
+                    )
+                  );
+                  lastSentIndex = encoder.stringified.length - 1;
+                }
+              }
+            ).finally(() => {
+              delete encoder.deferred[Number(deferredId)];
+            })
+          );
+        }
+        await Promise.race(Object.values(encoder.deferred));
+      }
+      await Promise.all(Object.values(encoder.deferred));
+      controller.close();
+    }
+  });
+  return readable;
+}
+function raceSignal(promise, signal) {
+  if (!signal)
+    return promise;
+  if (signal.aborted)
+    return Promise.reject(signal.reason || new Error("Signal was aborted."));
+  const abort = new Promise((resolve, reject) => {
+    signal.addEventListener("abort", (event) => {
+      reject(signal.reason || new Error("Signal was aborted."));
+    });
+    promise.then(resolve).catch(reject);
+  });
+  abort.catch(() => {
+  });
+  return Promise.race([abort, promise]);
+}
+
+
+
 /***/ })
 
 /******/ 	});
@@ -48316,6 +62919,11 @@ if (false) {} else {
 /******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
 /******/ 	})();
 /******/ 	
 /************************************************************************/

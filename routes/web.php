@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,6 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->name('login')->m
 Route::post('login', [LoginController::class, 'login'])->middleware('guest');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home'); // Vista de inicio para usuarios ya loggeados
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
+Route::middleware('auth')->get('/get-nickname', [AuthController::class, 'getNickname']);
+Route::middleware('auth')->get('/check-auth', [AuthController::class, 'checkAuth']);

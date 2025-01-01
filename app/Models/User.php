@@ -13,15 +13,20 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id_user';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    // Definir la estructura de la tabla "users"
-    protected $primaryKey = 'id_user';
     protected $fillable = [
-        'first_name', 'last_name', 'birth_date', 'email', 'password', 'role'
-    ];    
+        'first_name', 'last_name', 'birth_date', 'email', 'password', 'role', 'nickname',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.

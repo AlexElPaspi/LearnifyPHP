@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 body{
-    font-family: "Poppins", serif;
+    font-family: "Poppins", sans-serif;
 }
 
 nav, .welcome-card-button{
@@ -24,4 +24,33 @@ nav, .welcome-card-button{
 
 .welcome-paragraph{
     line-height: 2;
+}
+
+.login, .register{
+    background: url('/images/bg-learnify.png');
+    background-size: cover;
+    background-position: center;
+}
+
+#login-body nav, #register-body nav{
+    justify-content: end;
+    background: url('/images/bg-learnify.png');
+    background-size: cover;
+}
+
+#login-body nav .navbar-home, #register-body nav .navbar-home{
+    display: none;
+}
+
+.form-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.form-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }
