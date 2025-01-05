@@ -2,7 +2,7 @@
 
 @section('content')
 
-<body>
+<body id="profile-body">
     <div id="app">
         <!-- Aquí React montará el componente específico -->
     </div>

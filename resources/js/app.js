@@ -1,5 +1,5 @@
 require('./bootstrap');
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -11,6 +11,9 @@ import LoginComponent from './components/LoginComponent.js';
 import RegisterComponent from './components/RegisterComponent.js';
 import Footer from './components/Footer.js';
 import axios from 'axios';
+import ProfileComponent from './components/ProfileComponent.js';
+import CreateCourseComponent from './components/CreateCourseComponent.js';
+import CreatedCoursesComponent from './components/CreatedCoursesComponent.js';
 
 // Configurar Axios para enviar cookies de sesión y CSRF token con las solicitudes API
 axios.defaults.withCredentials = true;
@@ -30,26 +33,29 @@ axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[nam
 
 function App() {
     return (
-        <AuthProvider>
-            <Router>
-                <YourAppContent />
-            </Router>
-        </AuthProvider>
+        <Router>
+            <AuthProvider>
+                <AppContent />
+            </AuthProvider>
+        </Router>
     );
 }
 
-const YourAppContent = () => {
+const AppContent = () => {
     const { isAuthenticated } = useAuth();
     const location = useLocation();
 
     // Páginas donde se debe cargar `LoggedNav`
-    const loggedInRoutes = ['/home'];
+    const loggedInRoutes = ['/home', '/profile', '/create-course', '/created-courses'];
 
     return (
         <div>
             {/* Condicional para mostrar LoggedNav o NavBar según la ruta */}
             {loggedInRoutes.includes(location.pathname) ? <LoggedNav /> : <NavBar />}
             <Routes>
+                <Route path='/created-courses' element={<CreatedCoursesComponent />} />
+                <Route path='/create-course' element={<CreateCourseComponent />} />
+                <Route path="/profile" element={<ProfileComponent />} />
                 <Route path="/home" element={<HomeComponent />} />
                 <Route path="/login" element={<LoginComponent />} />
                 <Route path="/register" element={<RegisterComponent />} />

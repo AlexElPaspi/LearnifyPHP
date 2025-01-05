@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Laravel\Sanctum\HasApiTokens;
 
 class RegisterController extends Controller
 {
@@ -27,8 +28,11 @@ class RegisterController extends Controller
 
             // Autenticar al usuario una vez registrado
             auth()->login($user);
-
             Log::info('Usuario autenticado:', ['user_id' => $user->id]);
+
+            // Crear un token para el usuario registrado
+            $token = $user->createToken('auth_token')->plainTextToken;
+            $request->session()->put('api_token', $token);
 
             return redirect()->route('home');
         } catch (\Exception $e) {
@@ -65,6 +69,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'role' => 'user', // Asigna el rol "user" automáticamente
             'nickname' => $nickname, // Asigna el nickname generado automáticamente
+            'photo' => 'profile-photo.png', // Asigna esta foto de perfil por defecto
         ]);
     }
 }

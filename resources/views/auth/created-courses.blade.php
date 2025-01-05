@@ -2,11 +2,10 @@
 
 @section('content')
 
-<body>
+<body id="created-courses-body">
     <div id="app">
         <!-- Aquí React montará el componente específico -->
     </div>
-    <script src="{{ mix('js/app.js') }}"></script>
 </body>
 
 @endsection
