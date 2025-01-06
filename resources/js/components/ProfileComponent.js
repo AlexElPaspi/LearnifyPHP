@@ -60,7 +60,7 @@ const ProfileComponent = () => {
                         <div className='profile-photo'>
                             {currentPhoto && (
                                 <div>
-                                    <DropZone className='absolute' onFileSelect={setNewPhoto} />
+                                    <DropZone className='absolute' dropzoneClass='absolute xl:w-32 xl:h-32 flex items-center justify-center opacity-0 hover:opacity-100 hover:bg-black hover:text-white border xl:border-2 border-white border-dashed xl:text-xs text-center transition-all cursor-pointer rounded-full' previewClass='w-full rounded-full' onFileSelect={setNewPhoto} />
                                     <img src={`/storage/images/${currentPhoto}`} alt="Current Photo" className="xl:w-32 xl:h-w-32 rounded-full" />
                                 </div>
                             )}

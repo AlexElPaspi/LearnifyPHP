@@ -19,7 +19,7 @@ const LoggedNav = () => {
             <div className="loggednavdown w-full bg-blue-200">
                 <ul className="flex text-center text-gray-500 xl:text-base xl:py-3">
                     <li><a href="/home" className="border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4">Inicio</a></li>
-                    <li><a href="/aboutus" className="border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4">Cursos</a></li>
+                    <li><a href="/courses" className="border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4">Cursos</a></li>
                     <li><a href="/contact" className="border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4">Categorías</a></li>
                     <li><a href="/register" className="border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4">Cursos Comprados</a></li>
                     <li><a href="/created-courses" className="border-r-2 border-gray-500 transition-all hover:transition-all hover:text-black xl:px-4">Cursos Creados</a></li>

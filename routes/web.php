@@ -67,3 +67,18 @@ Route::middleware('auth')->post('/create-course', [CourseController::class, 'sto
 
 // Ruta para obtener y mostrar los cursos creados por el usuario activo
 Route::middleware('auth')->get('/created-courses', [CourseController::class, 'createdCourses'])->name('created-courses');
+
+// Ruta para mostrar el formulario de edición de cursos
+Route::middleware('auth')->get('/edit-course/{id}', [CourseController::class, 'edit'])->name('edit-course');
+
+// Ruta para enviar y procesar la edición de cursos
+Route::middleware('auth')->post('/update-course/{id}', [CourseController::class, 'update']);
+
+// Ruta para mostrar todos los cursos
+Route::middleware('auth')->get('/courses', [CourseController::class, 'showAllCourses'])->name('courses');
+
+// Ruta para obtener todos los cursos
+Route::middleware('auth')->get('/api/courses', [CourseController::class, 'getAllCourses']);
+
+// Ruta para obtener la vista de un curso en específico
+Route::middleware('auth')->get('/courses/{id}', [CourseController::class, 'showCourse'])->name('course.show');

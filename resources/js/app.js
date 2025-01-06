@@ -1,7 +1,7 @@
 require('./bootstrap');
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import NavBar from './components/NavBar.js';
 import LoggedNav from './components/LoggedNav.js';
@@ -10,10 +10,13 @@ import WelcomeComponent from './components/WelcomeComponent.js';
 import LoginComponent from './components/LoginComponent.js';
 import RegisterComponent from './components/RegisterComponent.js';
 import Footer from './components/Footer.js';
-import axios from 'axios';
 import ProfileComponent from './components/ProfileComponent.js';
 import CreateCourseComponent from './components/CreateCourseComponent.js';
 import CreatedCoursesComponent from './components/CreatedCoursesComponent.js';
+import EditCourseComponent from './components/EditCourseComponent.js';
+import axios from 'axios';
+import CoursesComponent from './components/CoursesComponent.js';
+import CourseDetailComponent from './components/CourseDetailComponent.js';
 
 // Configurar Axios para enviar cookies de sesión y CSRF token con las solicitudes API
 axios.defaults.withCredentials = true;
@@ -42,24 +45,33 @@ function App() {
 }
 
 const AppContent = () => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, loading } = useAuth();
     const location = useLocation();
 
+    if (loading) {
+        return <div>Loading...</div>; // Puedes personalizar el componente de carga según tus necesidades
+    }
+
     // Páginas donde se debe cargar `LoggedNav`
-    const loggedInRoutes = ['/home', '/profile', '/create-course', '/created-courses'];
+    const loggedInRoutes = ['/home', '/profile', '/courses', '/create-course', '/created-courses', '/edit-course/:id'];
+
+    // Verificar si la ruta actual coincide con alguna de las rutas que requieren LoggedNav
+    const showLoggedNav = loggedInRoutes.some(route => new RegExp(route.replace(':id', '\\d+')).test(location.pathname));
 
     return (
         <div>
-            {/* Condicional para mostrar LoggedNav o NavBar según la ruta */}
-            {loggedInRoutes.includes(location.pathname) ? <LoggedNav /> : <NavBar />}
+            {showLoggedNav ? <LoggedNav /> : <NavBar />}
             <Routes>
-                <Route path='/created-courses' element={<CreatedCoursesComponent />} />
-                <Route path='/create-course' element={<CreateCourseComponent />} />
-                <Route path="/profile" element={<ProfileComponent />} />
-                <Route path="/home" element={<HomeComponent />} />
-                <Route path="/login" element={<LoginComponent />} />
-                <Route path="/register" element={<RegisterComponent />} />
                 <Route path="/" element={<WelcomeComponent />} />
+                <Route path="/register" element={<RegisterComponent />} />
+                <Route path="/login" element={<LoginComponent />} />
+                <Route path="/home" element={isAuthenticated ? <HomeComponent /> : <Navigate to="/login" />} />
+                <Route path="/profile" element={isAuthenticated ? <ProfileComponent /> : <Navigate to="/login" />} />
+                <Route path="/courses" element={isAuthenticated ? <CoursesComponent /> : <Navigate to="/login" />} />
+                <Route path="/courses/:id" element={isAuthenticated ? <CourseDetailComponent /> : <Navigate to="/login" />} />
+                <Route path="/create-course" element={isAuthenticated ? <CreateCourseComponent /> : <Navigate to="/login" />} />
+                <Route path="/created-courses" element={isAuthenticated ? <CreatedCoursesComponent /> : <Navigate to="/login" />} />
+                <Route path="/edit-course/:id" element={isAuthenticated ? <EditCourseComponent /> : <Navigate to="/login" />} />
             </Routes>
             <Footer />
         </div>

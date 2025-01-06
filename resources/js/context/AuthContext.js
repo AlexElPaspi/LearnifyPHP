@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
     const [photo, setPhoto] = useState('');
     const [email, setEmail] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const logout = async () => {
         try {
@@ -60,6 +61,8 @@ export const AuthProvider = ({ children }) => {
                 setNickname('');
                 setPhoto('');
                 setEmail('');
+            } finally {
+                setLoading(false); // Marcar como terminado el proceso de verificación
             }
         };
 
@@ -67,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, first_name, last_name, birth_date, nickname, photo, email, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, loading, first_name, last_name, birth_date, nickname, photo, email, logout }}>
             {children}
         </AuthContext.Provider>
     );

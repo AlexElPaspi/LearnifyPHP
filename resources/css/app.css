@@ -7,7 +7,7 @@ body{
     font-family: "Poppins", sans-serif;
 }
 
-nav, .welcome-card-button{
+nav, .courses-title, .welcome-card-button{
     background: rgb(52,173,218);
     background: linear-gradient(90deg, rgba(52,173,218,1) 0%, rgba(30,136,198,1) 30%, rgba(14,68,114,1) 100%);
 }

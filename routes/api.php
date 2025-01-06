@@ -23,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->get('/check-auth', [AuthController::class, 'checkAuth']);
 
 Route::middleware('auth:sanctum')->get('/created-courses', [CourseController::class, 'getCreatedCourses']);
+
+Route::middleware('auth:sanctum')->get('/courses/{id}', [CourseController::class, 'getCourse']);
