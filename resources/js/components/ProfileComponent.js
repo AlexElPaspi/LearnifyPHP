@@ -4,17 +4,18 @@ import { useAuth } from '../context/AuthContext';
 import DropZone from './DropZone';
 
 const ProfileComponent = () => {
-    const { first_name, last_name, birth_date, nickname, email: currentEmail, photo: currentPhoto, logout } = useAuth(); // Obtener nombre(s), apellidos, fecha de nacimiento, email, nickname, foto actual y logout desde el contexto
+    const { first_name, last_name, birth_date, bio: currentBio, nickname, email: currentEmail, photo: currentPhoto, logout } = useAuth(); // Obtener la biografía actual desde el contexto
     const [email, setEmail] = useState(currentEmail);
+    const [bio, setBio] = useState(currentBio); // Establecer el estado inicial de la biografía
     const [newPhoto, setNewPhoto] = useState(null);
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
     useEffect(() => {
-        // Obtener los datos del usuario
         const fetchUserData = async () => {
             try {
                 const response = await axios.get('/get-user');
+                setBio(response.data.bio); // Asegurarse de establecer la biografía
                 setEmail(response.data.email);
                 setNewPhoto(response.data.photo);
             } catch (error) {
@@ -29,6 +30,7 @@ const ProfileComponent = () => {
         event.preventDefault();
         const formData = new FormData();
         formData.append('email', email);
+        formData.append('bio', bio); // Asegurarse de que la biografía se envíe en el formulario
         if (newPhoto && typeof newPhoto !== 'string') {
             formData.append('photo', newPhoto);
         }
@@ -116,6 +118,17 @@ const ProfileComponent = () => {
                                     className='text-black xl:p-3 xl:text-sm xl:shadow-lg shadow-black'
                                     onChange={(e) => setPasswordConfirmation(e.target.value)}
                                     placeholder="Dejar en blanco para mantener la contraseña actual"
+                                />
+                            </div>
+                        </div>
+                        <div className="flex w-full justify-between">    
+                            <div className='flex flex-col w-5/12'>
+                                <label className='xl:text-base'>Mi Biografía</label>
+                                <textarea
+                                    value={bio}
+                                    className='text-black xl:p-3 xl:text-sm xl:shadow-lg shadow-black'
+                                    onChange={(e) => setBio(e.target.value)}
+                                    placeholder="Cuéntanos sobre tí"
                                 />
                             </div>
                         </div>

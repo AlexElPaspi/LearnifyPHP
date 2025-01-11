@@ -37,48 +37,55 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->name('login')->m
 Route::post('login', [LoginController::class, 'login'])->middleware('guest');
 
 // Ruta para procesar el cierre de sesión
-// Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
-// Ruta para mostrar la vista principal del usuario loggeado
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
-
-// Ruta para mostrar la vista del perfil del usuario
-Route::middleware('auth')->get('/profile', function(){
-    return view('auth.profile');
-});
-
-// Ruta para obtener los datos del usuario activo
-Route::middleware('auth')->get('/get-user', [AuthController::class, 'getUser']);
-
-// Ruta para verificar el estado de autenticación del usuario activo
-Route::middleware('auth')->get('/check-auth', [AuthController::class, 'checkAuth']);
-
-// Ruta para actualizar los datos de los usuarios desde la vista del perfil del usuario
-Route::middleware('auth')->post('/update-user', [UserController::class, 'update']);
-
-// Ruta para procesar el cierre de sesión
 Route::middleware('auth')->post('/logout', [AuthController::class, 'logout']);
 
-// Ruta para mostrar la vista de creación de cursos
-Route::middleware('auth')->get('/create-course', [CourseController::class, 'create'])->name('create-course');
+// Rutas autenticadas...
+Route::middleware('auth')->group(function () {
+    // Ruta para mostrar la vista principal del usuario loggeado
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// Ruta para procesar los datos ingresados en el formulario de creación de cursos
-Route::middleware('auth')->post('/create-course', [CourseController::class, 'store']);
+    // Ruta para mostrar la vista del perfil del usuario
+    Route::get('/profile', function () {
+        return view('auth.profile');
+    });
 
-// Ruta para obtener y mostrar los cursos creados por el usuario activo
-Route::middleware('auth')->get('/created-courses', [CourseController::class, 'createdCourses'])->name('created-courses');
+    // Ruta para obtener los datos del usuario activo
+    Route::get('/get-user', [AuthController::class, 'getUser']);
 
-// Ruta para mostrar el formulario de edición de cursos
-Route::middleware('auth')->get('/edit-course/{id}', [CourseController::class, 'edit'])->name('edit-course');
+    // Ruta para verificar el estado de autenticación del usuario activo
+    Route::get('/check-auth', [AuthController::class, 'checkAuth']);
 
-// Ruta para enviar y procesar la edición de cursos
-Route::middleware('auth')->post('/update-course/{id}', [CourseController::class, 'update']);
+    // Ruta para actualizar los datos de los usuarios desde la vista del perfil del usuario
+    Route::post('/update-user', [UserController::class, 'update']);
 
-// Ruta para mostrar todos los cursos
-Route::middleware('auth')->get('/courses', [CourseController::class, 'showAllCourses'])->name('courses');
+    // Ruta para crear cursos
+    Route::get('/create-course', [CourseController::class, 'create'])->name('create-course');
+    Route::post('/create-course', [CourseController::class, 'store']);
 
-// Ruta para obtener todos los cursos
-Route::middleware('auth')->get('/api/courses', [CourseController::class, 'getAllCourses']);
+    // Ruta para mostrar los cursos creados por el usuario
+    Route::get('/created-courses', [CourseController::class, 'createdCourses'])->name('created-courses');
 
-// Ruta para obtener la vista de un curso en específico
-Route::middleware('auth')->get('/courses/{id}', [CourseController::class, 'showCourse'])->name('course.show');
+    // Ruta para editar cursos
+    Route::get('/edit-course/{id}', [CourseController::class, 'edit'])->name('edit-course');
+    Route::post('/update-course/{id}', [CourseController::class, 'update']);
+
+    // Ruta para mostrar todos los cursos
+    Route::get('/courses', [CourseController::class, 'showAllCourses'])->name('courses');
+
+    // Ruta para obtener todos los cursos
+    Route::get('/api/courses', [CourseController::class, 'getAllCourses']);
+
+    // Ruta para obtener la vista informativa de un curso en específico
+    Route::get('/courses/{id}', [CourseController::class, 'showCourse'])->name('course.show');
+
+    // Ruta para obtener los cursos comprados por el usuario
+    Route::get('/purchased-courses', [CourseController::class, 'purchasedCourses'])->name('purchased-courses');
+
+    // Ruta para obtener la vista completa de un curso comprado por el usuario
+    Route::get('/purchased-courses/{id}', [CourseController::class, 'showPurchasedCourseView'])->name('show-purchased-course');
+
+    // Ruta para añadir contenido a un curso
+    Route::get('/add-content/{id}', [CourseController::class, 'addContentView'])->name('add-content');
+
+    Route::get('/courses/{id}', [CourseController::class, 'showCourse'])->name('show_course');
+});

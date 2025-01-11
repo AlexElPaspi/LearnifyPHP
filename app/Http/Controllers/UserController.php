@@ -20,6 +20,7 @@ class UserController extends Controller
 
         $user = Auth::user();
         $user->email = $request->input('email');
+        $user->bio = $request->input('bio');
 
         // Manejar la subida de la foto de perfil
         if ($request->hasFile('photo')) {

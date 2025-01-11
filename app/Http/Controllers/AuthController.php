@@ -25,8 +25,10 @@ class AuthController extends Controller
             'nickname' => $user ? $user->nickname : null,
             'photo' => $user ? $user->photo : null,
             'email' => $user ? $user->email : null,
+            'bio' => $user ? $user->bio : null, // Asegúrate de incluir la biografía
         ]);
     }
+
 
     public function checkAuth()
     {

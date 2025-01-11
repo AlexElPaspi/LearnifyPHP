@@ -15,7 +15,7 @@ const WelcomeComponent = () => {
                     <div className='w-5/12 flex flex-col justify-center items-center text-center bg-gray-200 xl:py-6 xl:rounded-2xl shadow-md shadow-gray-300 xl:space-y-6'>
                         <h3 className='xl:text-2xl xl:w-8/12'>¡Inscríbete ahora y descubre nuevas oportunidades!</h3>
                         <img src="/images/welcome-card-1.png" alt="welcome-card" className='xl:w-40' />
-                        <a href="/register" className="welcome-card-button relative text-white xl:text-xl xl:py-1 xl:px-5 rounded-xl overflow-hidden group">
+                        <a href="/register" className="bg-learnify relative text-white xl:text-xl xl:py-1 xl:px-5 rounded-xl overflow-hidden group">
                             <span className="relative z-10 xl:text-xl">¡Empieza ahora!</span>
                             <div className="absolute inset-0 bg-black opacity-0 transition-all duration-300 transform -translate-x-full group-hover:translate-x-0 group-hover:opacity-100"></div>
                         </a>                    
@@ -23,7 +23,7 @@ const WelcomeComponent = () => {
                     <div className='w-5/12 flex flex-col justify-center items-center text-center bg-gray-200 xl:py-6 xl:rounded-2xl shadow-md shadow-gray-300 xl:space-y-6'>
                         <h3 className='xl:text-2xl xl:w-8/12'>Reanuda tu viaje de aprendizaje.</h3>
                         <img src="/images/welcome-card-2.png" alt="welcome-card" className='xl:w-36' />
-                        <a href="/login" className="welcome-card-button relative text-white xl:text-xl xl:py-1 xl:px-5 rounded-xl overflow-hidden group">
+                        <a href="/login" className="bg-learnify relative text-white xl:text-xl xl:py-1 xl:px-5 rounded-xl overflow-hidden group">
                             <span className="relative z-10 xl:text-xl">¡Entra ya!</span>
                             <div className="absolute inset-0 bg-black opacity-0 transition-all duration-300 transform -translate-x-full group-hover:translate-x-0 group-hover:opacity-100"></div>
                         </a>

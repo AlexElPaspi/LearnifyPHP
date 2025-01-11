@@ -20,8 +20,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:api')->get('/check-auth', [AuthController::class, 'checkAuth']);
+Route::middleware('auth:sanctum')->get('/check-auth', [AuthController::class, 'checkAuth']);
 
 Route::middleware('auth:sanctum')->get('/created-courses', [CourseController::class, 'getCreatedCourses']);
 
 Route::middleware('auth:sanctum')->get('/courses/{id}', [CourseController::class, 'getCourse']);
+
+// Ruta para inscribirse a un curso
+Route::post('/courses/{id}/subscribe', [CourseController::class, 'subscribe']);
+
+Route::middleware('auth:sanctum')->get('/purchased-courses', [CourseController::class, 'getPurchasedCourses']);
+
+Route::middleware('auth:sanctum')->get('/purchased-courses/{id}', [CourseController::class, 'showPurchasedCourse']);
+
+// Ruta para añadir contenido a un curso
+Route::middleware('auth:sanctum')->post('/courses/{id}/contents', [CourseController::class, 'createContent'])->name('create_content');

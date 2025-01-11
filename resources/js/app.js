@@ -17,6 +17,9 @@ import EditCourseComponent from './components/EditCourseComponent.js';
 import axios from 'axios';
 import CoursesComponent from './components/CoursesComponent.js';
 import CourseDetailComponent from './components/CourseDetailComponent.js';
+import PurchasedCoursesComponent from './components/PurchasedCoursesComponent.js';
+import PurchasedCourseDetailComponent from './components/PurchasedCourseDetailComponent.js';
+import AddCourseContentComponent from './components/AddCourseContentComponent.js';
 
 // Configurar Axios para enviar cookies de sesión y CSRF token con las solicitudes API
 axios.defaults.withCredentials = true;
@@ -53,7 +56,7 @@ const AppContent = () => {
     }
 
     // Páginas donde se debe cargar `LoggedNav`
-    const loggedInRoutes = ['/home', '/profile', '/courses', '/create-course', '/created-courses', '/edit-course/:id'];
+    const loggedInRoutes = ['/home', '/profile', '/courses', '/create-course', '/created-courses', '/edit-course/:id', '/purchased-courses', '/add-content'];
 
     // Verificar si la ruta actual coincide con alguna de las rutas que requieren LoggedNav
     const showLoggedNav = loggedInRoutes.some(route => new RegExp(route.replace(':id', '\\d+')).test(location.pathname));
@@ -65,13 +68,16 @@ const AppContent = () => {
                 <Route path="/" element={<WelcomeComponent />} />
                 <Route path="/register" element={<RegisterComponent />} />
                 <Route path="/login" element={<LoginComponent />} />
-                <Route path="/home" element={isAuthenticated ? <HomeComponent /> : <Navigate to="/login" />} />
-                <Route path="/profile" element={isAuthenticated ? <ProfileComponent /> : <Navigate to="/login" />} />
-                <Route path="/courses" element={isAuthenticated ? <CoursesComponent /> : <Navigate to="/login" />} />
-                <Route path="/courses/:id" element={isAuthenticated ? <CourseDetailComponent /> : <Navigate to="/login" />} />
-                <Route path="/create-course" element={isAuthenticated ? <CreateCourseComponent /> : <Navigate to="/login" />} />
-                <Route path="/created-courses" element={isAuthenticated ? <CreatedCoursesComponent /> : <Navigate to="/login" />} />
-                <Route path="/edit-course/:id" element={isAuthenticated ? <EditCourseComponent /> : <Navigate to="/login" />} />
+                <Route path="/home" element={<HomeComponent />} />
+                <Route path="/profile" element={<ProfileComponent />} />
+                <Route path="/courses" element={<CoursesComponent />} />
+                <Route path="/courses/:id" element={<CourseDetailComponent />} />
+                <Route path="/create-course" element={<CreateCourseComponent />} />
+                <Route path="/created-courses" element={<CreatedCoursesComponent />} />
+                <Route path="/add-content/:id" element={<AddCourseContentComponent />} />
+                <Route path="/edit-course/:id" element={<EditCourseComponent />} />
+                <Route path="/purchased-courses" element={<PurchasedCoursesComponent />} />
+                <Route path="/purchased-courses/:id" element={<PurchasedCourseDetailComponent />} />
             </Routes>
             <Footer />
         </div>

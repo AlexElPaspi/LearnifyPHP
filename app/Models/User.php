@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name', 'last_name', 'birth_date', 'email', 'password', 'role', 'nickname', 'photo',
+        'first_name', 'last_name', 'birth_date', 'email', 'password', 'role', 'nickname', 'photo', 'bio',
     ];
 
     /**
@@ -46,4 +46,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'course_student', 'id_user', 'id_course')
+                    ->withPivot('id_course')
+                    ->withTimestamps(); // Especificar la columna de la tabla pivot para desambiguar
+    }
+
 }

@@ -49,7 +49,7 @@ const EditCourseComponent = () => {
             });
             console.log(response.data);
             alert('El curso se ha actualizado satisfactoriamente.');
-            navigate('/created-courses');
+            window.location.reload();
         } catch (error) {
             console.error('Error updating course', error);
             alert('Se ha producido un error al actualizar el curso.');

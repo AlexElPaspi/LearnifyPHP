@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
     const [nickname, setNickname] = useState('');
     const [photo, setPhoto] = useState('');
     const [email, setEmail] = useState('');
+    const [bio, setBio] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
 
@@ -40,6 +41,7 @@ export const AuthProvider = ({ children }) => {
                         setFirstName(userResponse.data.first_name);
                         setLastName(userResponse.data.last_name);
                         setBirthDate(userResponse.data.birth_date);
+                        setBio(userResponse.data.bio);
                         setNickname(userResponse.data.nickname); // Establecer el nickname
                         setPhoto(userResponse.data.photo); // Establecer la foto de perfil
                         setEmail(userResponse.data.email); // Establecer el correo electrónico
@@ -52,6 +54,7 @@ export const AuthProvider = ({ children }) => {
                     setNickname('');
                     setPhoto('');
                     setEmail('');
+                    setBio('');
                 }
             } catch (error) {
                 setIsAuthenticated(false);
@@ -61,6 +64,7 @@ export const AuthProvider = ({ children }) => {
                 setNickname('');
                 setPhoto('');
                 setEmail('');
+                setBio('');
             } finally {
                 setLoading(false); // Marcar como terminado el proceso de verificación
             }
@@ -70,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, loading, first_name, last_name, birth_date, nickname, photo, email, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, loading, first_name, last_name, birth_date, nickname, photo, email, bio, logout }}>
             {children}
         </AuthContext.Provider>
     );
