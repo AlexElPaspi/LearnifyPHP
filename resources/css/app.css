@@ -26,7 +26,7 @@ nav, .bg-learnify, .hover-learnify:hover{
     line-height: 2;
 }
 
-.login, .register{
+.bg-img-learnify, .login, .register{
     background: url('/images/bg-learnify.png');
     background-size: cover;
     background-position: center;
@@ -52,5 +52,18 @@ nav, .bg-learnify, .hover-learnify:hover{
 }
 
 .form-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.scroll-container::-webkit-scrollbar {
+    height: 0.5rem;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 0.5rem;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
     background-color: #555;
 }

@@ -85,7 +85,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchased-courses/{id}', [CourseController::class, 'showPurchasedCourseView'])->name('show-purchased-course');
 
     // Ruta para añadir contenido a un curso
-    Route::get('/add-content/{id}', [CourseController::class, 'addContentView'])->name('add-content');
-
+    Route::get('/add-content/{id}', [CourseController::class, 'addContentView'])->name('add_content_view');
+    
     Route::get('/courses/{id}', [CourseController::class, 'showCourse'])->name('show_course');
+
+    // Ruta para mostrar los contenidos creados del curso
+    Route::get('/created-content/{id}', [CourseController::class, 'showCreatedContent'])->name('created_content');
+
+    // Ruta para editar el contenido del curso
+    Route::get('/edit-content/{id}', [CourseController::class, 'editContent'])->name('edit_content');
+
+    // Ruta para actualizar el contenido del curso
+    Route::post('/update-content/{id}', [CourseController::class, 'updateCourseContent'])->name('update_course_content');
 });

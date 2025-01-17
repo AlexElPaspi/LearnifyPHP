@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const CourseDetailComponent = () => {
     const { id } = useParams();
     const [course, setCourse] = useState(null);
+    const [contents, setContents] = useState([]); // Estado para los contenidos
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -12,6 +14,7 @@ const CourseDetailComponent = () => {
             try {
                 const response = await axios.get(`/api/courses/${id}`);
                 setCourse(response.data);
+                setContents(response.data.contents || []); // Establecer los contenidos
             } catch (error) {
                 console.error('Error fetching course', error);
             }
@@ -23,16 +26,22 @@ const CourseDetailComponent = () => {
     const handleSubscribe = async () => {
         try {
             const response = await axios.post(`/api/courses/${id}/subscribe`);
-            alert(response.data.message || 'Te has inscrito exitosamente en el curso.');
-            if (response.status === 200) {
-                navigate(`/courses/${id}`);
-            }
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'Te has inscrito exitosamente al curso.',
+            });            
+            navigate(`/purchased-courses/${id}`);
         } catch (error) {
             const message = error.response?.data?.message;
             if (message) {
                 alert(message);
             } else {
-                alert('Se ha producido un error al intentar suscribirse al curso.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Se ha producido un error al intentar suscribirse al curso.',
+            });            
             }
         }
     };
@@ -62,6 +71,22 @@ const CourseDetailComponent = () => {
             </div>
             <div className='bg-learnify xl:p-10 flex flex-col justify-center items-center'>
                 <h2 className='xl:text-3xl text-white self-start'>Clases del curso</h2>
+                <div className='flex overflow-x-auto xl:py-10 xl:mb-10 space-x-10 w-full scroll-container'>
+                    {contents.length === 0 ? (
+                        <p className="xl:text-lg">No hay ninguna clase disponible.</p>
+                    ) : (
+                        contents.map((content, index) => ( 
+                            <div key={content.id_class} className="relative space-y-0 min-w-80 max-w-80 min-h-96 max-h-96 flex flex-col justify-between bg-white shadow-md shadow-black">
+                                <div className='absolute flex self-end translate-x-1/2 -translate-y-1/2 justify-center items-center xl:text-lg bg-blue-200 w-fit xl:p-5 rounded-full'>#{index + 1}</div>
+                                {content.banner && ( <img src={`/storage/${content.banner}`} alt="Course Banner" className='w-full' /> )}
+                                <div className='w-full h-1/2 flex flex-col items-start xl:p-5 xl:space-y-1 overflow-hidden'>
+                                    <h3 className="xl:text-xl self-start">{content.title}</h3>
+                                    <p className="xl:text-base xl:text-justify self-start w-full overflow-hidden">{content.description}</p>
+                                </div>
+                            </div> 
+                        ))
+                    )}
+                </div>
                 <button onClick={handleSubscribe} className='hover-learnify shadow-md shadow-black xl:text-3xl bg-white xl:p-3 hover:text-white xl:rounded-xl'>¡Compra el curso ahora mismo!</button>
             </div>
             <div className='xl:p-10 bg-blue-200 flex flex-col justify-center'>

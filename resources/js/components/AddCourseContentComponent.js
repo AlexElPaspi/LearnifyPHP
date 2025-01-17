@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const AddCourseContentComponent = () => {
     const { id } = useParams();
@@ -9,6 +10,7 @@ const AddCourseContentComponent = () => {
     const [contentDescription, setContentDescription] = useState('');
     const [videoUrl, setVideoUrl] = useState('');
     const [pdfFile, setPdfFile] = useState(null);
+    const [bannerFile, setBannerFile] = useState(null); // Añadir estado para el banner
 
     const handleAddContent = async (event) => {
         event.preventDefault();
@@ -17,6 +19,7 @@ const AddCourseContentComponent = () => {
         formData.append('description', contentDescription);
         formData.append('video_url', videoUrl);
         if (pdfFile) formData.append('pdf_path', pdfFile);
+        if (bannerFile) formData.append('banner', bannerFile); // Añadir el archivo de banner
     
         try {
             await axios.post(`/api/courses/${id}/contents`, formData, {
@@ -25,16 +28,25 @@ const AddCourseContentComponent = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            alert('Contenido del curso añadido satisfactoriamente.');
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'Contenido añadido exitosamente.'
+            });            
             setContentTitle('');
             setContentDescription('');
             setVideoUrl('');
             setPdfFile(null);
-            navigate(`/purchased-courses/${id}`);
+            setBannerFile(null); // Resetear el archivo de banner
+            navigate(`/created-content/${id}`);
         } catch (error) {
             console.error('Error adding course content', error);
-            alert('Se ha producido un error al añadir el contenido del curso.');
-            console.error('Detalles del error:', error.response.data); // Añadir detalles del error
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Se ha producido un error al añadir el contenido.',
+            });
+            console.error('Detalles del error:', error.response?.data);
         }
     };    
 
@@ -87,6 +99,16 @@ const AddCourseContentComponent = () => {
                             id="pdfPath"
                             className="form-control"
                             onChange={(e) => setPdfFile(e.target.files[0])}
+                        />
+                    </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="banner" className="form-label">Banner (imagen tipo logo):</label>
+                        <input
+                            type="file"
+                            name="banner"
+                            id="banner"
+                            className="form-control"
+                            onChange={(e) => setBannerFile(e.target.files[0])} // Añadir manejador de cambio para el banner
                         />
                     </div>
                     <button type="submit" className="btn btn-primary">Añadir Contenido</button>

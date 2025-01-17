@@ -19,6 +19,7 @@ class CourseContent extends Model
         'description',
         'video_url',
         'pdf_path',
+        'banner',
     ];
 
     public function course()

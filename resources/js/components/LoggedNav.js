@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 const LoggedNav = () => {
     const { nickname, photo } = useAuth();
 
+    const {user} = useAuth();
+
     return (
         <nav className="bg-learnify text-white flex flex-col justify-between sticky top-0 z-20">
             <div className="loggednavup flex justify-between items-center">

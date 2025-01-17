@@ -11,7 +11,7 @@ const CreatedCoursesComponent = () => {
             try {
                 const response = await axios.get('/api/created-courses', {
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('api_token')}`, // Asegúrate de que el token se envía con la solicitud
+                        'Authorization': `Bearer ${localStorage.getItem('api_token')}`,
                     }
                 });
                 console.log(response.data); // Verificar la respuesta de la API
@@ -32,8 +32,8 @@ const CreatedCoursesComponent = () => {
         navigate(`/edit-course/${id}`);
     }
 
-    const handleAddContent = (id) => {
-        navigate(`/add-content/${id}`);
+    const handleCreatedContent = (id) => {
+        navigate(`/created-content/${id}`);
     }
 
     return (
@@ -56,7 +56,7 @@ const CreatedCoursesComponent = () => {
                                 <h5 className="card-title">{course.title}</h5>
                                 <div className="w-full flex xl:space-x-3">
                                     <button className='xl:text-sm w-1/2 bg-gray-900 text-white hover:bg-gray-500 xl:px-4 py-2' onClick={() => handleEdit(course.id_course)}>Editar Curso</button>
-                                    <button className='xl:text-sm w-1/2 bg-blue-600 text-white hover:bg-blue-700 xl:px-4 py-2' onClick={() => handleAddContent(course.id_course)}>Ver Clases</button>
+                                    <button className='xl:text-sm w-1/2 bg-blue-600 text-white hover:bg-blue-700 xl:px-4 py-2' onClick={() => handleCreatedContent(course.id_course)}>Ver Clases</button>
                                 </div>
                             </div>
                         </div>

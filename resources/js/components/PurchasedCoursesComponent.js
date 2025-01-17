@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const PurchasedCoursesComponent = () => {
     const [courses, setCourses] = useState([]);
@@ -20,11 +21,19 @@ const PurchasedCoursesComponent = () => {
                     setCourses(response.data);
                 } else {
                     console.error('La respuesta no es un array', response.data);
-                    alert('Error al obtener los cursos comprados.');
-                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ha ocurrido un error al obtener los cursos.'
+                });                
+            }
             } catch (error) {
                 console.error('Error fetching purchased courses', error);
-                alert('Error fetching purchased courses');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error fetching purchased courses.'
+                });            
             }
         };
 

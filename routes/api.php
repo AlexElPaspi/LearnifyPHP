@@ -35,3 +35,9 @@ Route::middleware('auth:sanctum')->get('/purchased-courses/{id}', [CourseControl
 
 // Ruta para añadir contenido a un curso
 Route::middleware('auth:sanctum')->post('/courses/{id}/contents', [CourseController::class, 'createContent'])->name('create_content');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/courses/{id}/contents', [CourseController::class, 'getCreatedContents'])->name('get_created_contents');
+    Route::get('/course-contents/{id}', [CourseController::class, 'getCourseContentById'])->name('get_course_content_by_id');
+    Route::put('/course-contents/{id}', [CourseController::class, 'updateCourseContent'])->name('update_course_content');    
+});

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import DropZone from './DropZone';
+import Swal from 'sweetalert2';
 
 const EditCourseComponent = () => {
     const { id } = useParams();
@@ -22,7 +23,7 @@ const EditCourseComponent = () => {
                 const course = response.data;
                 setTitle(course.title);
                 setDescription(course.description);
-                setCurrentLogo(course.logo); // Guardar el logo actual
+                setCurrentLogo(course.logo);
             } catch (error) {
                 console.error('Error fetching course', error);
             }
@@ -48,11 +49,19 @@ const EditCourseComponent = () => {
                 },
             });
             console.log(response.data);
-            alert('El curso se ha actualizado satisfactoriamente.');
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'El curso se ha actualizado satisfactoriamente.',
+            });
             window.location.reload();
         } catch (error) {
             console.error('Error updating course', error);
-            alert('Se ha producido un error al actualizar el curso.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Se ha producido un error al actualizar el curso.',
+            });        
         }
     };
 
@@ -74,8 +83,8 @@ const EditCourseComponent = () => {
                     <div className="flex flex-col">
                         <label htmlFor="logo" className="form-label">Logo del Curso (Opcional):</label>
                         <div className='flex justify-center'>
-                            <DropZone dropzoneClass='absolute xl:w-64 h-64 text-white opacity-0 border border-2 border-dashed border-white border flex justify-center items-center cursor-pointer hover:bg-black hover:opacity-70 xl:text-base overflow-hidden xl:rounded-xl' onFileSelect={handleFileSelect} />
-                            {currentLogo && <img src={`/storage/courses/logos/${currentLogo}`} alt="Current Logo" className="flex justify-center xl:w-64 xl:rounded-xl" />}
+                            <DropZone dropzoneClass='absolute xl:w-64 h-32 text-white opacity-0 border border-2 border-dashed border-white border flex justify-center items-center cursor-pointer hover:bg-black hover:opacity-70 xl:text-base overflow-hidden xl:rounded-xl' onFileSelect={handleFileSelect} />
+                            {currentLogo && <img src={`/storage/courses/logos/${currentLogo}`} alt="Current Logo" className="flex justify-center xl:w-64 h-32 xl:rounded-xl" />}
                         </div>
                     </div>
                     <div className="flex flex-col xl:space-y-3">

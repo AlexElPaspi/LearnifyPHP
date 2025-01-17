@@ -20,6 +20,8 @@ import CourseDetailComponent from './components/CourseDetailComponent.js';
 import PurchasedCoursesComponent from './components/PurchasedCoursesComponent.js';
 import PurchasedCourseDetailComponent from './components/PurchasedCourseDetailComponent.js';
 import AddCourseContentComponent from './components/AddCourseContentComponent.js';
+import ShowContentComponent from './components/CreatedContentComponent.js';
+import EditContentComponent from './components/EditContentComponent.js';
 
 // Configurar Axios para enviar cookies de sesión y CSRF token con las solicitudes API
 axios.defaults.withCredentials = true;
@@ -48,7 +50,7 @@ function App() {
 }
 
 const AppContent = () => {
-    const { isAuthenticated, loading } = useAuth();
+    const { loading } = useAuth();
     const location = useLocation();
 
     if (loading) {
@@ -56,7 +58,7 @@ const AppContent = () => {
     }
 
     // Páginas donde se debe cargar `LoggedNav`
-    const loggedInRoutes = ['/home', '/profile', '/courses', '/create-course', '/created-courses', '/edit-course/:id', '/purchased-courses', '/add-content'];
+    const loggedInRoutes = ['/home', '/profile', '/courses', '/create-course', '/created-courses', '/edit-course/:id', '/purchased-courses', '/add-content', '/created-content', '/edit-content'];
 
     // Verificar si la ruta actual coincide con alguna de las rutas que requieren LoggedNav
     const showLoggedNav = loggedInRoutes.some(route => new RegExp(route.replace(':id', '\\d+')).test(location.pathname));
@@ -75,7 +77,9 @@ const AppContent = () => {
                 <Route path="/create-course" element={<CreateCourseComponent />} />
                 <Route path="/created-courses" element={<CreatedCoursesComponent />} />
                 <Route path="/add-content/:id" element={<AddCourseContentComponent />} />
+                <Route path="/created-content/:id" element={<ShowContentComponent />} />
                 <Route path="/edit-course/:id" element={<EditCourseComponent />} />
+                <Route path="/edit-content/:id" element={<EditContentComponent />} />
                 <Route path="/purchased-courses" element={<PurchasedCoursesComponent />} />
                 <Route path="/purchased-courses/:id" element={<PurchasedCourseDetailComponent />} />
             </Routes>

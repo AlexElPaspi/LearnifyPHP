@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import DropZone from './DropZone';
+import Swal from 'sweetalert2';
 
 const ProfileComponent = () => {
     const { first_name, last_name, birth_date, bio: currentBio, nickname, email: currentEmail, photo: currentPhoto, logout } = useAuth(); // Obtener la biografía actual desde el contexto
@@ -45,11 +46,19 @@ const ProfileComponent = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            alert('El perfil se ha actualizado satisfactoriamente');
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'El perfil se ha actualizado satisfactoriamente.'
+            });           
             window.location.reload();
         } catch (error) {
             console.error('Error updating user data', error);
-            alert('Se ha producido un error');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ha ocurrido un error al actualizar el perfil.'
+            });        
         }
     };
 
@@ -63,7 +72,7 @@ const ProfileComponent = () => {
                             {currentPhoto && (
                                 <div>
                                     <DropZone className='absolute' dropzoneClass='absolute xl:w-32 xl:h-32 flex items-center justify-center opacity-0 hover:opacity-100 hover:bg-black hover:text-white border xl:border-2 border-white border-dashed xl:text-xs text-center transition-all cursor-pointer rounded-full' previewClass='w-full rounded-full' onFileSelect={setNewPhoto} />
-                                    <img src={`/storage/images/${currentPhoto}`} alt="Current Photo" className="xl:w-32 xl:h-w-32 rounded-full" />
+                                    <img src={`/storage/images/${currentPhoto}`} alt="Current Photo" className="xl:w-32 xl:h-32 rounded-full" />
                                 </div>
                             )}
                         </div>

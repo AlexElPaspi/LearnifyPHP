@@ -16,24 +16,29 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        // Validar los datos
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
         $credentials = $request->only('email', 'password');
-
+    
         if (Auth::attempt($credentials)) {
             // Autenticación exitosa
             $user = Auth::user();
             $token = $user->createToken('auth_token')->plainTextToken;
-
+    
             // Guardar el token en sesión para usarlo en el frontend
             $request->session()->put('api_token', $token);
-
-            return redirect()->intended('home');
+    
+            // Devolver una respuesta JSON para manejar el éxito en frontend
+            return response()->json(['message' => 'Inicio de sesión exitoso', 'redirect' => 'home'], 200);
         }
-
-        // Autenticación fallida
-        return redirect()->back()->withErrors([
-            'email' => 'Las credenciales no coinciden con nuestros registros.',
-        ]);
-    }
+    
+        // Autenticación fallida - devolver una respuesta JSON
+        return response()->json(['message' => 'Las credenciales no coinciden con nuestros registros.'], 401);
+    }    
 
     public function logout(Request $request) 
     { 
